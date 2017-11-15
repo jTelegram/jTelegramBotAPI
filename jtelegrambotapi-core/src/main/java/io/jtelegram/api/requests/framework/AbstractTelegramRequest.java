@@ -23,7 +23,7 @@ public abstract class AbstractTelegramRequest implements TelegramRequest {
         return response == null ? null : response.body().string();
     }
 
-    protected boolean validate(String response) throws IOException {
+    protected JsonObject validate(String response) throws IOException {
         JsonParser parser = new JsonParser();
         JsonElement jsonResponse;
 
@@ -34,7 +34,7 @@ public abstract class AbstractTelegramRequest implements TelegramRequest {
                 errorHandler.accept(new InvalidResponseException());
             }
 
-            return false;
+            return null;
         }
 
         if (jsonResponse.isJsonObject()) {
@@ -43,11 +43,13 @@ public abstract class AbstractTelegramRequest implements TelegramRequest {
             if (!object.get("ok").getAsBoolean()) {
                 // todo convert to good exceptions
                 errorHandler.accept(gson.fromJson(response, TelegramException.class));
-                return false;
+                return null;
             }
+
+            return object.getAsJsonObject("result");
         }
 
-        return true;
+        return null;
     }
 
     @Override

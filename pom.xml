@@ -7,8 +7,7 @@
     <groupId>io.jtelegram</groupId>
     <artifactId>jtelegrambotapi</artifactId>
     <version>0.0</version>
-    <packaging>jar</packaging>
-    <name>jTelegramBotAPI</name>
+    <packaging>pom</packaging>
 
     <inceptionYear>2017</inceptionYear>
 
@@ -16,6 +15,11 @@
         <system>GitHub</system>
         <!--<url></url>-->
     </issueManagement>
+
+    <properties>
+        <main.package>NA</main.package>
+        <main.class>NA</main.class>
+    </properties>
 
     <licenses>
         <license>
@@ -39,7 +43,7 @@
                 <role>owner</role>
                 <role>developer</role>
             </roles>
-            <timezone>-5</timezone>
+            <timezone>EST</timezone>
         </developer>
 
         <developer>
@@ -60,6 +64,13 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
+                <groupId>com.google.code.gson</groupId>
+                <artifactId>gson</artifactId>
+                <version>2.8.2</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <dependency>
                 <groupId>com.squareup.okhttp3</groupId>
                 <artifactId>okhttp</artifactId>
                 <version>3.9.0</version>
@@ -75,34 +86,41 @@
     </dependencyManagement>
 
     <build>
+        <sourceDirectory>${basedir}/src/main/java/</sourceDirectory>
+
         <pluginManagement>
             <plugins>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.6.1</version>
+                    <configuration>
+                        <source>1.8</source>
+                        <target>1.8</target>
+                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-shade-plugin</artifactId>
-                    <version>2.4.3</version>
+                    <version>3.0.0</version>
                     <executions>
                         <execution>
                             <phase>package</phase>
                             <goals>
                                 <goal>shade</goal>
                             </goals>
+                            <configuration>
+                                <outputFile>${basedir}/jar/${project.name}-${project.version}.jar</outputFile>
+                                <transformers>
+                                    <transformer
+                                            implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <mainClass>${main.package}.${main.class}</mainClass>
+                                    </transformer>
+                                </transformers>
+                            </configuration>
                         </execution>
                     </executions>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.3</version>
-                    <configuration>
-                        <source>1.8</source>
-                        <target>1.8</target>
-                        <showWarnings>true</showWarnings>
-                        <showDeprecation>true</showDeprecation>
-                        <annotationProcessors>
-                            <annotationProcessor>lombok.launch.AnnotationProcessorHider$AnnotationProcessor</annotationProcessor>
-                        </annotationProcessors>
-                    </configuration>
                 </plugin>
             </plugins>
         </pluginManagement>

@@ -1,0 +1,13 @@
+package io.jtelegram.api.update.types;
+
+import io.jtelegram.api.chat.Message;
+import io.jtelegram.api.update.Update;
+import lombok.Getter;
+
+/**
+ * When a new message is being received
+ */
+@Getter
+public class MessageUpdate extends Update {
+    private Message message;
+}

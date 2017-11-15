@@ -1,5 +1,6 @@
 package io.jtelegram.api.requests.framework;
 
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import io.jtelegram.api.ex.TelegramException;
 import okhttp3.Response;
@@ -24,7 +25,7 @@ public abstract class QueryTelegramRequest<T> extends AbstractTelegramRequest {
     @Override
     public void handleResponse(Response response) throws IOException {
         String body = getBody(response);
-        JsonObject result;
+        JsonElement result;
 
         if (body != null && (result = validate(body)) != null) {
             callback.accept(gson.fromJson(result.toString(), callbackType));

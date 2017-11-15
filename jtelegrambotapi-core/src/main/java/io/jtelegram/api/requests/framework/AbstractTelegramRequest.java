@@ -16,14 +16,14 @@ import java.util.function.Consumer;
 public abstract class AbstractTelegramRequest implements TelegramRequest {
     // utility field
     protected static Gson gson = TelegramBotRegistry.GSON;
-    private final String endPoint;
-    protected final Consumer<TelegramException> errorHandler;
+    private transient final String endPoint;
+    protected transient final Consumer<TelegramException> errorHandler;
 
     protected String getBody(Response response) throws IOException {
         return response == null ? null : response.body().string();
     }
 
-    protected JsonObject validate(String response) throws IOException {
+    protected JsonElement validate(String response) throws IOException {
         JsonParser parser = new JsonParser();
         JsonElement jsonResponse;
 

@@ -1,5 +1,8 @@
 package io.jtelegram.api.update;
 
-public class Update {
+import lombok.Getter;
 
+@Getter
+public class Update {
+    private int updateId;
 }

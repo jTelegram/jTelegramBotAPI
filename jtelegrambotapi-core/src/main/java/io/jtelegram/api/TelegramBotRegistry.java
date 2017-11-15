@@ -5,11 +5,12 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import io.jtelegram.api.ex.TelegramException;
 import io.jtelegram.api.requests.GetMe;
-import io.jtelegram.api.update.UpdateProvider;
+import io.jtelegram.api.update.*;
 import lombok.Builder;
 import lombok.Getter;
 import okhttp3.OkHttpClient;
 
+import java.lang.reflect.Modifier;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.function.BiConsumer;
@@ -22,6 +23,9 @@ import java.util.function.BiConsumer;
 public class TelegramBotRegistry {
     public static final Gson GSON = new GsonBuilder()
             .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+            .excludeFieldsWithModifiers(Modifier.TRANSIENT)
+            .registerTypeAdapter(UpdateType.class, new UpdateTypeAdapter())
+            .registerTypeAdapter(Update.class, new UpdateDeserializer())
             .create();
     private final UpdateProvider updateProvider;
     private String apiUrl = "https://api.telegram.org/bot";

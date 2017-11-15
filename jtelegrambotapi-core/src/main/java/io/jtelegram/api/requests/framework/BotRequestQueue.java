@@ -10,9 +10,6 @@ import java.io.IOException;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-/**
- * @author Mazen Kotb
- */
 public class BotRequestQueue extends Thread {
     @Getter
     private final Queue<BotRequest> requestQueue = new ConcurrentLinkedQueue<>();

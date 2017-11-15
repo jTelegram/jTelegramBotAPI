@@ -1,4 +1,4 @@
-package io.jtelegram.api.request;
+package io.jtelegram.api.requests.framework;
 
 
 import io.jtelegram.api.TelegramBot;
@@ -6,6 +6,8 @@ import okhttp3.MediaType;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+
+import java.io.IOException;
 
 public interface TelegramRequest {
     MediaType JSON_MEDIA_TYPE = MediaType.parse("application/json; charset=utf-8");
@@ -35,10 +37,10 @@ public interface TelegramRequest {
      * Handle the response from the server, call any
      * relevant callbacks and do error validation
      */
-    void handleResponse(Response response);
+    void handleResponse(Response response) throws IOException;
 
     /**
      * Handle an exception in the case that a network error occured
      */
-    void handleException(Exception ex);
+    void handleException(IOException ex);
 }

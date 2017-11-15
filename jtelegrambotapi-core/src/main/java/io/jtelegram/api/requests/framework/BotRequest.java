@@ -1,4 +1,4 @@
-package io.jtelegram.api.request;
+package io.jtelegram.api.requests.framework;
 
 import io.jtelegram.api.TelegramBot;
 import lombok.AllArgsConstructor;
@@ -6,8 +6,6 @@ import lombok.Getter;
 
 /**
  * Useful pair for when inserted into the request queue
- *
- * @author Mazen Kotb
  */
 @AllArgsConstructor
 @Getter

@@ -1,4 +1,4 @@
-package io.jtelegram.api.request;
+package io.jtelegram.api.requests.framework;
 
 import lombok.Getter;
 import lombok.Setter;

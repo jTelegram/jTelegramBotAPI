@@ -1,5 +1,6 @@
 package io.jtelegram.api;
 
+import io.jtelegram.api.events.EventRegistry;
 import io.jtelegram.api.requests.framework.BotRequest;
 import io.jtelegram.api.requests.framework.BotRequestQueue;
 import io.jtelegram.api.requests.framework.TelegramRequest;
@@ -13,16 +14,18 @@ import lombok.Setter;
 @EqualsAndHashCode(of = {"apiKey", "botInfo"})
 public class TelegramBot {
     private final BotRequestQueue requestQueue;
+    private final EventRegistry eventRegistry;
+
     private TelegramBotRegistry registry;
     private String apiKey;
     @Setter
     private User botInfo;
 
     TelegramBot(TelegramBotRegistry registry, String apiKey) {
+        this.eventRegistry=new EventRegistry(this);
         this.registry = registry;
         this.apiKey = apiKey;
         this.requestQueue = new BotRequestQueue(registry.getClient());
-
         requestQueue.start();
     }
 

@@ -10,17 +10,14 @@ import java.io.IOException;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+@Getter
+@Setter
 public class BotRequestQueue extends Thread {
-    @Getter
     private final Queue<BotRequest> requestQueue = new ConcurrentLinkedQueue<>();
-    @Getter
-    @Setter
     // the default interval between requests
     // 0 for instantaneous, negative numbers
     // will result in an error
     private long interval = 100;
-    @Setter
-    @Getter
     private OkHttpClient client;
 
     public BotRequestQueue(OkHttpClient client) {

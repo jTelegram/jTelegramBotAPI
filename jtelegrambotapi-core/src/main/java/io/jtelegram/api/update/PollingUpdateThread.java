@@ -1,6 +1,7 @@
 package io.jtelegram.api.update;
 
 import io.jtelegram.api.TelegramBot;
+import io.jtelegram.api.events.TelegramEvent;
 import io.jtelegram.api.requests.GetUpdates;
 import io.jtelegram.api.requests.framework.TelegramRequest;
 import io.jtelegram.api.update.types.MessageUpdate;
@@ -15,7 +16,7 @@ import java.util.stream.Stream;
 
 @RequiredArgsConstructor
 public class PollingUpdateThread extends Thread {
-    private static final Map<Class<? extends Update>, Function<Update, Object>> EVENT_FUNCTIONS = new HashMap<>();
+    private static final Map<Class<? extends Update>, Function<Update, TelegramEvent>> EVENT_FUNCTIONS = new HashMap<>();
     private int offset = 0;
     private final TelegramBot bot;
     private final PollingUpdateProvider owner;

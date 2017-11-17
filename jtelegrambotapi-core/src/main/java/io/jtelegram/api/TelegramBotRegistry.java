@@ -3,7 +3,9 @@ package io.jtelegram.api;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import io.jtelegram.api.chat.Chat;
 import io.jtelegram.api.chat.ChatType;
+import io.jtelegram.api.chat.message.ChatDeserializer;
 import io.jtelegram.api.chat.message.TextMessage;
 import io.jtelegram.api.chat.message.TextMessageDeserializer;
 import io.jtelegram.api.ex.TelegramException;
@@ -32,6 +34,7 @@ public class TelegramBotRegistry {
             .registerTypeAdapter(UpdateType.class, new LowercaseEnumAdapter<>(UpdateType.class))
             .registerTypeAdapter(ChatType.class, new LowercaseEnumAdapter<>(ChatType.class))
             .registerTypeAdapter(Update.class, new UpdateDeserializer())
+            .registerTypeAdapter(Chat.class, new ChatDeserializer())
             .create();
     private final UpdateProvider updateProvider;
     private String apiUrl = "https://api.telegram.org/bot";

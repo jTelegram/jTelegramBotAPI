@@ -1,11 +1,9 @@
-package io.jtelegram.api.chat.message;
+package io.jtelegram.api.chat;
 
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
-import io.jtelegram.api.chat.Chat;
-import io.jtelegram.api.chat.ChatType;
 
 import java.lang.reflect.Type;
 

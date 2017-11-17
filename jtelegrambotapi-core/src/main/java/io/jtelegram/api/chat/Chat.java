@@ -7,5 +7,5 @@ public class Chat {
     private long id;
     private ChatType type;
     private String username;
-    // todo ChatPhoto
+    private ChatPhoto photo;
 }

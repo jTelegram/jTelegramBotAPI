@@ -55,8 +55,7 @@ public class PollingUpdateThread extends Thread {
     public void handleUpdates(Update[] updates) {
         for (Update update : updates) {
             if (EVENT_FUNCTIONS.containsKey(update.getClass())) {
-                // todo actually call the event
-                EVENT_FUNCTIONS.get(update.getClass()).apply(update);
+                bot.getEventRegistry().dispatch(EVENT_FUNCTIONS.get(update.getClass()).apply(update));
             }
         }
 

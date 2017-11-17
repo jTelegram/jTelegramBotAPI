@@ -1,4 +1,4 @@
-package io.jtelegram.api.chat;
+package io.jtelegram.api.chat.message;
 
 import io.jtelegram.api.user.User;
 import lombok.Getter;
@@ -12,7 +12,8 @@ public class Message {
     private int messageId;
     private User from;
     private long date;
-    private User forwardFrom;
     private Message replyToMessage;
     private long editDate;
+    private User forwardedFrom;
+
 }

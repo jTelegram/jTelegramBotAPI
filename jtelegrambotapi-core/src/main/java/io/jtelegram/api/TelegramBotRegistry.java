@@ -3,9 +3,11 @@ package io.jtelegram.api;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import io.jtelegram.api.chat.ChatType;
 import io.jtelegram.api.ex.TelegramException;
 import io.jtelegram.api.requests.GetMe;
 import io.jtelegram.api.update.*;
+import io.jtelegram.api.util.LowercaseEnumAdapter;
 import lombok.Builder;
 import lombok.Getter;
 import okhttp3.OkHttpClient;
@@ -24,7 +26,8 @@ public class TelegramBotRegistry {
     public static final Gson GSON = new GsonBuilder()
             .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
             .excludeFieldsWithModifiers(Modifier.TRANSIENT)
-            .registerTypeAdapter(UpdateType.class, new UpdateTypeAdapter())
+            .registerTypeAdapter(UpdateType.class, new LowercaseEnumAdapter<>(UpdateType.class))
+            .registerTypeAdapter(ChatType.class, new LowercaseEnumAdapter<>(ChatType.class))
             .registerTypeAdapter(Update.class, new UpdateDeserializer())
             .create();
     private final UpdateProvider updateProvider;

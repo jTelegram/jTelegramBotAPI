@@ -1,7 +1,6 @@
 package io.jtelegram.api.update;
 
 import io.jtelegram.api.TelegramBot;
-import io.jtelegram.api.requests.GetUpdates;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

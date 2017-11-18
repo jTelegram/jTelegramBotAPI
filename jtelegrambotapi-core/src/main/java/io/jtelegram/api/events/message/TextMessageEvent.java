@@ -1,7 +1,7 @@
 package io.jtelegram.api.events.message;
 
 import io.jtelegram.api.TelegramBot;
-import io.jtelegram.api.chat.message.TextMessage;
+import io.jtelegram.api.message.impl.TextMessage;
 import io.jtelegram.api.events.Event;
 import lombok.Getter;
 

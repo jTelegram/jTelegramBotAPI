@@ -43,4 +43,14 @@ public interface TelegramRequest {
      * Handle an exception in the case that a network error occured
      */
     void handleException(IOException ex);
+
+    /*
+     * In the case that the request is not successful, the
+     * request must handle the error parameters returned.
+     * This is especially useful for sending messages.
+     *
+     * @return Whether or not to call the error handler
+     * @see ResponseParameters
+     */
+    //boolean handleResponseParameters(ResponseParameters parameters);
 }

@@ -1,6 +1,6 @@
-package io.jtelegram.api.chat.message.entity;
+package io.jtelegram.api.message.entity;
 
-import io.jtelegram.api.chat.message.TextMessage;
+import io.jtelegram.api.message.impl.TextMessage;
 import lombok.Getter;
 
 @Getter

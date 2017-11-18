@@ -6,11 +6,12 @@ import com.google.gson.GsonBuilder;
 import io.jtelegram.api.chat.Chat;
 import io.jtelegram.api.chat.ChatType;
 import io.jtelegram.api.chat.ChatDeserializer;
-import io.jtelegram.api.chat.message.Message;
-import io.jtelegram.api.chat.message.MessageDeserializer;
-import io.jtelegram.api.chat.message.TextMessage;
-import io.jtelegram.api.chat.message.TextMessageDeserializer;
+import io.jtelegram.api.message.Message;
+import io.jtelegram.api.message.MessageDeserializer;
+import io.jtelegram.api.message.impl.TextMessage;
+import io.jtelegram.api.message.gson.TextMessageDeserializer;
 import io.jtelegram.api.ex.TelegramException;
+import io.jtelegram.api.message.sticker.MaskPoint;
 import io.jtelegram.api.requests.GetMe;
 import io.jtelegram.api.update.*;
 import io.jtelegram.api.util.LowercaseEnumAdapter;
@@ -35,6 +36,7 @@ public class TelegramBotRegistry {
             .registerTypeAdapter(TextMessage.class, new TextMessageDeserializer())
             .registerTypeAdapter(UpdateType.class, new LowercaseEnumAdapter<>(UpdateType.class))
             .registerTypeAdapter(ChatType.class, new LowercaseEnumAdapter<>(ChatType.class))
+            .registerTypeAdapter(MaskPoint.class, new LowercaseEnumAdapter<>(MaskPoint.class))
             .registerTypeAdapter(Update.class, new UpdateDeserializer())
             .registerTypeAdapter(Chat.class, new ChatDeserializer())
             .registerTypeAdapter(Message.class, new MessageDeserializer())

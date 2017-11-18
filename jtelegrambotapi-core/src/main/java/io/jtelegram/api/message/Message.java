@@ -1,13 +1,9 @@
-package io.jtelegram.api.chat.message;
+package io.jtelegram.api.message;
 
 import io.jtelegram.api.chat.Chat;
 import io.jtelegram.api.user.User;
 import lombok.Getter;
 
-/**
- * Right now just a filler with basics
- * until a proper design is thought out
- */
 @Getter
 public abstract class Message<T> {
     private int messageId;

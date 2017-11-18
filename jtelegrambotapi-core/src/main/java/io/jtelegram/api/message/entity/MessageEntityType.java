@@ -1,4 +1,4 @@
-package io.jtelegram.api.chat.message.entity;
+package io.jtelegram.api.message.entity;
 
 public enum MessageEntityType {
     MENTION,

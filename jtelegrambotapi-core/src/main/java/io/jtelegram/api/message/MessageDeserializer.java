@@ -1,4 +1,4 @@
-package io.jtelegram.api.chat.message;
+package io.jtelegram.api.message;
 
 import com.google.gson.*;
 

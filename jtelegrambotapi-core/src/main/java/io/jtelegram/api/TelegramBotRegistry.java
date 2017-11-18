@@ -8,7 +8,6 @@ import io.jtelegram.api.chat.ChatType;
 import io.jtelegram.api.chat.ChatDeserializer;
 import io.jtelegram.api.message.Message;
 import io.jtelegram.api.message.MessageDeserializer;
-import io.jtelegram.api.message.impl.TextMessage;
 import io.jtelegram.api.message.gson.TextMessageDeserializer;
 import io.jtelegram.api.ex.TelegramException;
 import io.jtelegram.api.message.sticker.MaskPoint;
@@ -24,16 +23,12 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.function.BiConsumer;
 
-/**
- * @author Mazen Kotb
- */
-@Builder
 @Getter
 public class TelegramBotRegistry {
     public static final Gson GSON = new GsonBuilder()
             .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
-            .excludeFieldsWithModifiers(Modifier.TRANSIENT)
-            .registerTypeAdapter(TextMessage.class, new TextMessageDeserializer())
+            .excludeFieldsWithModifiers(Modifier.TRANSIENT, Modifier.STATIC)
+            .registerTypeAdapterFactory(new TextMessageDeserializer())
             .registerTypeAdapter(UpdateType.class, new LowercaseEnumAdapter<>(UpdateType.class))
             .registerTypeAdapter(ChatType.class, new LowercaseEnumAdapter<>(ChatType.class))
             .registerTypeAdapter(MaskPoint.class, new LowercaseEnumAdapter<>(MaskPoint.class))
@@ -45,6 +40,11 @@ public class TelegramBotRegistry {
     private String apiUrl = "https://api.telegram.org/bot";
     private OkHttpClient client = new OkHttpClient();
     private final Set<TelegramBot> bots = new HashSet<>();
+
+    @Builder
+    private TelegramBotRegistry(UpdateProvider updateProvider) {
+        this.updateProvider = updateProvider;
+    }
 
     public void setHttpClient(OkHttpClient client) {
         this.client = client;
@@ -67,6 +67,7 @@ public class TelegramBotRegistry {
 
         bot.perform(GetMe.builder()
                 .callback((user) -> {
+                    bot.setBotInfo(user);
                     callback.accept(bot, null);
                     bots.add(bot);
                     updateProvider.listenFor(bot);

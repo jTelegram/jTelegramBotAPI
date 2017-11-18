@@ -30,6 +30,6 @@ public class UpdateDeserializer implements JsonDeserializer<Update> {
             }
         }
 
-        return context.deserialize(object, Update.class);
+        return null;
     }
 }

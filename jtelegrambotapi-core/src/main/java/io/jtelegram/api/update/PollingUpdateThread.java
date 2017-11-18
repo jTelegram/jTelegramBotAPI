@@ -2,6 +2,8 @@ package io.jtelegram.api.update;
 
 import io.jtelegram.api.TelegramBot;
 import io.jtelegram.api.events.Event;
+import io.jtelegram.api.events.message.TextMessageEvent;
+import io.jtelegram.api.message.impl.TextMessage;
 import io.jtelegram.api.requests.GetUpdates;
 import io.jtelegram.api.requests.framework.TelegramRequest;
 import io.jtelegram.api.update.types.MessageUpdate;
@@ -11,19 +13,20 @@ import okhttp3.Response;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
 @RequiredArgsConstructor
 public class PollingUpdateThread extends Thread {
-    private static final Map<Class<? extends Update>, Function<Update, Event>> EVENT_FUNCTIONS = new HashMap<>();
+    private static final Map<Class<? extends Update>, BiFunction<TelegramBot, Update, Event>> EVENT_FUNCTIONS = new HashMap<>();
     private int offset = 0;
     private final TelegramBot bot;
     private final PollingUpdateProvider owner;
 
     static {
         // todo provide a valid event for updates
-        EVENT_FUNCTIONS.put(MessageUpdate.class, (update) -> null);
+        EVENT_FUNCTIONS.put(MessageUpdate.class, (bot, update) -> new TextMessageEvent(bot, (TextMessage) ((MessageUpdate) update).getMessage()));
     }
 
     @Override
@@ -55,10 +58,10 @@ public class PollingUpdateThread extends Thread {
     public void handleUpdates(Update[] updates) {
         for (Update update : updates) {
             if (EVENT_FUNCTIONS.containsKey(update.getClass())) {
-                bot.getEventRegistry().dispatch(EVENT_FUNCTIONS.get(update.getClass()).apply(update));
+                bot.getEventRegistry().dispatch(EVENT_FUNCTIONS.get(update.getClass()).apply(bot, update));
             }
         }
 
-        offset = Stream.of(updates).mapToInt(Update::getUpdateId).max().orElse(offset);
+        offset = Stream.of(updates).mapToInt(Update::getUpdateId).max().orElse(offset - 1) + 1;
     }
 }

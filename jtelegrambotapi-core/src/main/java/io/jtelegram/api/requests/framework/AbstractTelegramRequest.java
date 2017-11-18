@@ -46,7 +46,7 @@ public abstract class AbstractTelegramRequest implements TelegramRequest {
                 return null;
             }
 
-            return object.getAsJsonObject("result");
+            return object.get("result");
         }
 
         return null;
@@ -64,6 +64,8 @@ public abstract class AbstractTelegramRequest implements TelegramRequest {
 
     @Override
     public void handleException(IOException ex) {
-        errorHandler.accept(new NetworkException(ex));
+        if (errorHandler != null) {
+            errorHandler.accept(new NetworkException(ex));
+        }
     }
 }

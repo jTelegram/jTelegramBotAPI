@@ -11,6 +11,10 @@ public class RegexCommandListener implements CommandListener {
 
     @Override
     public boolean trigger(String s) {
+        // TODO not sure if this is safe to do
+        if (pattern.matcher(s).matches()) {
+            return true;
+        }
         return false;
     }
 }

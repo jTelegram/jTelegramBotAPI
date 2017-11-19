@@ -6,4 +6,8 @@ import lombok.Getter;
 public class PrivateChat extends Chat {
     private String firstName;
     private String lastName;
+
+    public String getFullName() {
+        return firstName + " " + lastName;
+    }
 }

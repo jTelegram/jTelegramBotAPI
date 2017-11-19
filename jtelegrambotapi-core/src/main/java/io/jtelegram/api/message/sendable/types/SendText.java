@@ -18,18 +18,16 @@ import java.util.function.Consumer;
 @ToString
 @Getter
 public class SendText extends SendableMessageRequest<TextMessage> {
-    private final String message;
+    private final String text;
     private final ParseMode parseMode;
     private final Boolean disableWebPagePreview;
-    private final ReplyMarkup replyMarkup;
 
     @Builder
-    protected SendText(Consumer<TextMessage> callback, Consumer<TelegramException> errorHandler, ChatID chatID, Integer replyToMessageID, Boolean disableNotification, String message, ParseMode parseMode, Boolean disableWebPagePreview, ReplyMarkup replyMarkup) {
+    protected SendText(Consumer<TextMessage> callback, Consumer<TelegramException> errorHandler, ChatID chatID, Integer replyToMessageID, Boolean disableNotification, String text, ParseMode parseMode, Boolean disableWebPagePreview, ReplyMarkup replyMarkup) {
         super("sendMessage", TextMessage.class, callback, errorHandler, chatID, replyToMessageID, disableNotification, replyMarkup);
-        this.message = message;
+        this.text = text;
         this.parseMode = parseMode;
         this.disableWebPagePreview = disableWebPagePreview;
-        this.replyMarkup = replyMarkup;
     }
 
 
@@ -40,7 +38,7 @@ public class SendText extends SendableMessageRequest<TextMessage> {
 
     @Override
     protected boolean isValid() {
-        return super.isValid() && message != null;
+        return super.isValid() && text != null;
     }
 
 

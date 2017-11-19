@@ -10,9 +10,13 @@ import io.jtelegram.api.message.sendable.SendableMessageType;
 import io.jtelegram.api.chat.id.ChatId;
 import io.jtelegram.api.chat.id.LongChatId;
 import lombok.Builder;
+import lombok.Getter;
+import lombok.ToString;
 
 import java.util.function.Consumer;
 
+@ToString
+@Getter
 public class SendAudio extends SendableMessageRequest<AudioMessage> {
     private final InputFile audio;
     private final String caption;

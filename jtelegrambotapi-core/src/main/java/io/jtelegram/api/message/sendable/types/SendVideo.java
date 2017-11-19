@@ -10,9 +10,12 @@ import io.jtelegram.api.message.sendable.SendableMessageType;
 import io.jtelegram.api.chat.id.ChatId;
 import io.jtelegram.api.chat.id.LongChatId;
 import lombok.Builder;
+import lombok.Getter;
+import lombok.ToString;
 
 import java.util.function.Consumer;
-
+@ToString
+@Getter
 public class SendVideo extends SendableMessageRequest<VideoMessage> {
     private final InputFile video;
     private final Integer duration;

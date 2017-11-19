@@ -7,11 +7,14 @@ import io.jtelegram.api.chat.Chat;
 import io.jtelegram.api.chat.ChatType;
 import io.jtelegram.api.chat.ChatDeserializer;
 import io.jtelegram.api.chat.id.ChatId;
-import io.jtelegram.api.chat.id.ChatIdSerializer;
+import io.jtelegram.api.chat.id.LongChatId;
 import io.jtelegram.api.message.Message;
 import io.jtelegram.api.message.MessageDeserializer;
+import io.jtelegram.api.message.gson.SendableMessageRequestSerializer;
 import io.jtelegram.api.message.gson.TextMessageDeserializer;
 import io.jtelegram.api.ex.TelegramException;
+import io.jtelegram.api.message.sendable.SendableMessageRequest;
+import io.jtelegram.api.message.sendable.types.SendText;
 import io.jtelegram.api.message.sticker.MaskPoint;
 import io.jtelegram.api.requests.GetMe;
 import io.jtelegram.api.update.*;
@@ -30,14 +33,14 @@ public class TelegramBotRegistry {
     public static final Gson GSON = new GsonBuilder()
             .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
             .excludeFieldsWithModifiers(Modifier.TRANSIENT, Modifier.STATIC)
-            .registerTypeAdapterFactory(new TextMessageDeserializer())
             .registerTypeAdapter(UpdateType.class, new LowercaseEnumAdapter<>(UpdateType.class))
             .registerTypeAdapter(ChatType.class, new LowercaseEnumAdapter<>(ChatType.class))
             .registerTypeAdapter(MaskPoint.class, new LowercaseEnumAdapter<>(MaskPoint.class))
             .registerTypeAdapter(Update.class, new UpdateDeserializer())
             .registerTypeAdapter(Chat.class, new ChatDeserializer())
             .registerTypeAdapter(Message.class, new MessageDeserializer())
-            .registerTypeAdapter(ChatId.class, new ChatIdSerializer())
+            .registerTypeAdapter(SendableMessageRequest.class, new SendableMessageRequestSerializer())
+            .registerTypeAdapterFactory(new TextMessageDeserializer())
             .create();
     private final UpdateProvider updateProvider;
     private String apiUrl = "https://api.telegram.org/bot";

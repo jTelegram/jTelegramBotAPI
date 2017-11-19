@@ -3,9 +3,11 @@ package io.jtelegram.api.message.sendable;
 import io.jtelegram.api.ex.TelegramException;
 import io.jtelegram.api.chat.id.ChatId;
 import io.jtelegram.api.requests.framework.QueryTelegramRequest;
+import lombok.Getter;
 
 import java.util.function.Consumer;
 
+@Getter
 public abstract class SendableMessageRequest<T> extends QueryTelegramRequest<T> {
     private final ChatId chatId;
     private final Integer replyToMessageId;

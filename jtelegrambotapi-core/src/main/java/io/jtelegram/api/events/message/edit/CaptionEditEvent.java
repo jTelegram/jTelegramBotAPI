@@ -1,4 +1,4 @@
-package io.jtelegram.api.events.message;
+package io.jtelegram.api.events.message.edit;
 
 import io.jtelegram.api.TelegramBot;
 import io.jtelegram.api.events.Event;

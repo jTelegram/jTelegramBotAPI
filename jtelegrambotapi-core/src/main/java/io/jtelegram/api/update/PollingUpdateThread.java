@@ -2,8 +2,8 @@ package io.jtelegram.api.update;
 
 import io.jtelegram.api.TelegramBot;
 import io.jtelegram.api.events.Event;
-import io.jtelegram.api.events.message.TextMessageEvent;
-import io.jtelegram.api.message.impl.TextMessage;
+import io.jtelegram.api.events.message.MessageEvent;
+import io.jtelegram.api.message.MessageType;
 import io.jtelegram.api.requests.GetUpdates;
 import io.jtelegram.api.requests.framework.TelegramRequest;
 import io.jtelegram.api.update.types.MessageUpdate;
@@ -11,10 +11,11 @@ import lombok.RequiredArgsConstructor;
 import okhttp3.Response;
 
 import java.io.IOException;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.BiFunction;
-import java.util.function.Function;
 import java.util.stream.Stream;
 
 @RequiredArgsConstructor
@@ -25,8 +26,31 @@ public class PollingUpdateThread extends Thread {
     private final PollingUpdateProvider owner;
 
     static {
-        // todo provide a valid event for updates
-        EVENT_FUNCTIONS.put(MessageUpdate.class, (bot, update) -> new TextMessageEvent(bot, (TextMessage) ((MessageUpdate) update).getMessage()));
+        EVENT_FUNCTIONS.put(MessageUpdate.class, (bot, up) -> {
+            MessageUpdate update = (MessageUpdate) up;
+            MessageType type = MessageType.typeFrom(update.getMessage());
+            Class<? extends MessageEvent> eventClass = type.getReceiveEventClass();
+            Constructor<? extends MessageEvent> constructor;
+
+            try {
+                constructor = eventClass.getDeclaredConstructor(TelegramBot.class, type.getMessageClass());
+            } catch (NoSuchMethodException ex) {
+                System.out.println("INTERNAL ERROR: Cannot find appropriate event constructor for " + eventClass.getName());
+                return null;
+            }
+
+            MessageEvent event;
+
+            try {
+                event = constructor.newInstance(bot, update.getMessage());
+            } catch (InstantiationException | IllegalAccessException | InvocationTargetException ex) {
+                System.out.println("There was an error creating a new instance of " + eventClass.getSimpleName() + "!");
+                ex.printStackTrace();
+                return null;
+            }
+
+            return event;
+        });
     }
 
     @Override

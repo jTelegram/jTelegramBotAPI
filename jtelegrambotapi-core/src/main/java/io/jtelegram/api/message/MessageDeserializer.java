@@ -11,7 +11,7 @@ public class MessageDeserializer implements JsonDeserializer<Message> {
 
         for (MessageType messageType : MessageType.values()) {
             if (object.has(messageType.name().toLowerCase())) {
-                return context.deserialize(object, messageType.getCorrespondingClass());
+                return context.deserialize(object, messageType.getMessageClass());
             }
         }
 

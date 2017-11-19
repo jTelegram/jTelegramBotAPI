@@ -31,6 +31,10 @@ public class EventRegistry {
 
     @SuppressWarnings("unchecked")
     public <E extends Event> void dispatch(E event) {
+        if (event == null) {
+            return;
+        }
+
         handlers.get(event.getType()).forEach(handler -> {
             EventHandler<E> eh = (EventHandler<E>) handler;
             eh.onEvent(event);

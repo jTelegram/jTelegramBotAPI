@@ -21,4 +21,8 @@ public abstract class Message<T> {
     private long forwardDate;
 
     public abstract T getContent();
+
+    public User getSender() {
+        return from;
+    }
 }

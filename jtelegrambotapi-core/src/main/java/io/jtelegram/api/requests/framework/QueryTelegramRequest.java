@@ -1,7 +1,6 @@
 package io.jtelegram.api.requests.framework;
 
 import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import io.jtelegram.api.ex.TelegramException;
 import okhttp3.Response;
 
@@ -30,5 +29,14 @@ public abstract class QueryTelegramRequest<T> extends AbstractTelegramRequest {
         if (body != null && (result = validate(body)) != null) {
             callback.accept(gson.fromJson(result.toString(), callbackType));
         }
+    }
+
+    /**
+     * Checks validity of this request. Internal method used before sending.
+     *
+     * @return
+     */
+    protected boolean isValid() {
+        return true;
     }
 }

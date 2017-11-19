@@ -2,5 +2,12 @@ package io.jtelegram.api.message.sendable;
 
 public enum SendableMessageType {
     TEXT,
-    FORWARD
+    FORWARD,
+    PHOTO,
+    AUDIO,
+    DOCUMENT,
+    VIDEO,
+    VOICE,
+    VIDEO_NOTE,
+
 }

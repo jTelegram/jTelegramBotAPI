@@ -8,22 +8,23 @@ import java.util.function.Consumer;
 
 public abstract class SendableMessageRequest<T> extends QueryTelegramRequest<T> {
     private final ChatID chatID;
-    private final int replyToMessageID;
-    private final boolean disableNotification;
+    private final Integer replyToMessageID;
+    private final Boolean disableNotification;
+    private final ReplyMarkup replyMarkup;
 
-    protected SendableMessageRequest(String endPoint, Class<T> callbackType, Consumer<T> callback, Consumer<TelegramException> errorHandler, ChatID chatID, int replyToMessageID, boolean disableNotification) {
+    protected SendableMessageRequest(String endPoint, Class<T> callbackType, Consumer<T> callback, Consumer<TelegramException> errorHandler, ChatID chatID, Integer replyToMessageID, Boolean disableNotification, ReplyMarkup replyMarkup) {
         super(endPoint, callbackType, callback, errorHandler);
         this.chatID = chatID;
         this.replyToMessageID = replyToMessageID;
         this.disableNotification = disableNotification;
+        this.replyMarkup = replyMarkup;
     }
 
-
-//    protected SendableMessageRequest(ChatID chatID, int replyToMessageID, boolean disableNotification) {
-//        this.chatID = chatID;
-//        this.replyToMessageID = replyToMessageID;
-//        this.disableNotification = disableNotification;
-//    }
-
     public abstract SendableMessageType getType();
+
+    @Override
+    protected boolean isValid() {
+        if (chatID == null) return false;
+        return true;
+    }
 }

@@ -4,6 +4,7 @@ import io.jtelegram.api.chat.Chat;
 import io.jtelegram.api.ex.TelegramException;
 import io.jtelegram.api.message.impl.TextMessage;
 import io.jtelegram.api.message.sendable.ParseMode;
+import io.jtelegram.api.message.sendable.ReplyMarkup;
 import io.jtelegram.api.message.sendable.SendableMessageRequest;
 import io.jtelegram.api.message.sendable.SendableMessageType;
 import io.jtelegram.api.message.sendable.chatid.ChatID;
@@ -19,23 +20,29 @@ import java.util.function.Consumer;
 public class SendText extends SendableMessageRequest<TextMessage> {
     private final String message;
     private final ParseMode parseMode;
-    private final boolean disableWebPagePreview;
-
+    private final Boolean disableWebPagePreview;
+    private final ReplyMarkup replyMarkup;
 
     @Builder
-    protected SendText(String endPoint, Class<TextMessage> callbackType, Consumer<TextMessage> callback, Consumer<TelegramException> errorHandler, ChatID chatID, int replyToMessageID, boolean disableNotification, String message, ParseMode parseMode, boolean disableWebPagePreview) {
-        super(endPoint, callbackType, callback, errorHandler, chatID, replyToMessageID, disableNotification);
+    protected SendText(Consumer<TextMessage> callback, Consumer<TelegramException> errorHandler, ChatID chatID, Integer replyToMessageID, Boolean disableNotification, String message, ParseMode parseMode, Boolean disableWebPagePreview, ReplyMarkup replyMarkup) {
+        super("sendMessage", TextMessage.class, callback, errorHandler, chatID, replyToMessageID, disableNotification, replyMarkup);
         this.message = message;
         this.parseMode = parseMode;
         this.disableWebPagePreview = disableWebPagePreview;
+        this.replyMarkup = replyMarkup;
     }
-    // TODO replyMarkup
 
 
     @Override
     public SendableMessageType getType() {
         return SendableMessageType.TEXT;
     }
+
+    @Override
+    protected boolean isValid() {
+        return super.isValid() && message != null;
+    }
+
 
     public static class SendTextBuilder {
         public SendTextBuilder chatID(Chat chat) {

@@ -39,12 +39,12 @@ public class SendAudio extends SendableMessageRequest<AudioMessage> {
     }
 
     public static class SendAudioBuilder {
-        public SendAudio.SendAudioBuilder chatID(Chat chat) {
+        public SendAudio.SendAudioBuilder chatId(Chat chat) {
             this.chatId = new LongChatId(chat.getId());
             return this;
         }
 
-        public SendAudio.SendAudioBuilder chatID(ChatId chatId) {
+        public SendAudio.SendAudioBuilder chatId(ChatId chatId) {
             this.chatId = chatId;
             return this;
         }

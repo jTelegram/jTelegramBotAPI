@@ -43,12 +43,12 @@ public class SendText extends SendableMessageRequest<TextMessage> {
 
 
     public static class SendTextBuilder {
-        public SendTextBuilder chatID(Chat chat) {
+        public SendTextBuilder chatId(Chat chat) {
             this.chatId = new LongChatId(chat.getId());
             return this;
         }
 
-        public SendTextBuilder chatID(ChatId chatId) {
+        public SendTextBuilder chatId(ChatId chatId) {
             this.chatId = chatId;
             return this;
         }

@@ -18,8 +18,8 @@ public class SendDocument extends SendableMessageRequest<DocumentMessage> {
     private final String caption;
 
     @Builder
-    protected SendDocument(Consumer<DocumentMessage> callback, Consumer<TelegramException> errorHandler, ChatID chatID, Integer replyToMessageID, Boolean disableNotification, ReplyMarkup replyMarkup, InputFile document, String caption) {
-        super("sendDocument", DocumentMessage.class, callback, errorHandler, chatID, replyToMessageID, disableNotification, replyMarkup);
+    protected SendDocument(Consumer<DocumentMessage> callback, Consumer<TelegramException> errorHandler, ChatID chatId, Integer replyToMessageId, Boolean disableNotification, ReplyMarkup replyMarkup, InputFile document, String caption) {
+        super("sendDocument", DocumentMessage.class, callback, errorHandler, chatId, replyToMessageId, disableNotification, replyMarkup);
         this.document = document;
         this.caption = caption;
     }
@@ -36,12 +36,12 @@ public class SendDocument extends SendableMessageRequest<DocumentMessage> {
 
     public static class SendDocumentBuilder {
         public SendDocument.SendDocumentBuilder chatID(Chat chat) {
-            this.chatID = new LongChatID(chat.getId());
+            this.chatId = new LongChatID(chat.getId());
             return this;
         }
 
-        public SendDocument.SendDocumentBuilder chatID(ChatID chatID) {
-            this.chatID = chatID;
+        public SendDocument.SendDocumentBuilder chatID(ChatID chatId) {
+            this.chatId = chatId;
             return this;
         }
     }

@@ -17,8 +17,8 @@ public class ForwardMessage extends SendableMessageRequest<Message> {
     private final Integer messageID;
 
     @Builder
-    protected ForwardMessage(Consumer<Message> callback, Consumer<TelegramException> errorHandler, ChatID chatID, Integer replyToMessageID, Boolean disableNotification, ChatID fromChatID, Integer messageID, ReplyMarkup replyMarkup) {
-        super("forwardMessage", Message.class, callback, errorHandler, chatID, replyToMessageID, disableNotification, replyMarkup);
+    protected ForwardMessage(Consumer<Message> callback, Consumer<TelegramException> errorHandler, ChatID chatId, Integer replyToMessageId, Boolean disableNotification, ChatID fromChatID, Integer messageID, ReplyMarkup replyMarkup) {
+        super("forwardMessage", Message.class, callback, errorHandler, chatId, replyToMessageId, disableNotification, replyMarkup);
         this.fromChatID = fromChatID;
         this.messageID = messageID;
     }
@@ -35,12 +35,12 @@ public class ForwardMessage extends SendableMessageRequest<Message> {
 
     public static class ForwardMessageBuilder {
         public ForwardMessage.ForwardMessageBuilder chatID(Chat chat) {
-            this.chatID = new LongChatID(chat.getId());
+            this.chatId = new LongChatID(chat.getId());
             return this;
         }
 
-        public ForwardMessage.ForwardMessageBuilder chatID(ChatID chatID) {
-            this.chatID = chatID;
+        public ForwardMessage.ForwardMessageBuilder chatID(ChatID chatId) {
+            this.chatId = chatId;
             return this;
         }
     }

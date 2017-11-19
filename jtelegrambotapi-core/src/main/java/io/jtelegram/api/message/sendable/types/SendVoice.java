@@ -19,8 +19,8 @@ public class SendVoice extends SendableMessageRequest<VoiceMessage> {
     private final Integer duration;
 
     @Builder
-    protected SendVoice(Consumer<VoiceMessage> callback, Consumer<TelegramException> errorHandler, ChatID chatID, Integer replyToMessageID, Boolean disableNotification, ReplyMarkup replyMarkup, InputFile voice, String caption, Integer duration) {
-        super("sendVoice", VoiceMessage.class, callback, errorHandler, chatID, replyToMessageID, disableNotification, replyMarkup);
+    protected SendVoice(Consumer<VoiceMessage> callback, Consumer<TelegramException> errorHandler, ChatID chatId, Integer replyToMessageId, Boolean disableNotification, ReplyMarkup replyMarkup, InputFile voice, String caption, Integer duration) {
+        super("sendVoice", VoiceMessage.class, callback, errorHandler, chatId, replyToMessageId, disableNotification, replyMarkup);
         this.voice = voice;
         this.caption = caption;
         this.duration = duration;
@@ -37,13 +37,13 @@ public class SendVoice extends SendableMessageRequest<VoiceMessage> {
     }
 
     public static class SendVoiceBuilder {
-        public SendVoice.SendVoiceBuilder chatID(Chat chat) {
-            this.chatID = new LongChatID(chat.getId());
+        public SendVoiceBuilder chatId(Chat chat) {
+            this.chatId = new LongChatID(chat.getId());
             return this;
         }
 
-        public SendVoice.SendVoiceBuilder chatID(ChatID chatID) {
-            this.chatID = chatID;
+        public SendVoice.SendVoiceBuilder chatId(ChatID chatId) {
+            this.chatId = chatId;
             return this;
         }
     }

@@ -23,8 +23,8 @@ public class SendText extends SendableMessageRequest<TextMessage> {
     private final Boolean disableWebPagePreview;
 
     @Builder
-    protected SendText(Consumer<TextMessage> callback, Consumer<TelegramException> errorHandler, ChatID chatID, Integer replyToMessageID, Boolean disableNotification, String text, ParseMode parseMode, Boolean disableWebPagePreview, ReplyMarkup replyMarkup) {
-        super("sendMessage", TextMessage.class, callback, errorHandler, chatID, replyToMessageID, disableNotification, replyMarkup);
+    protected SendText(Consumer<TextMessage> callback, Consumer<TelegramException> errorHandler, ChatID chatId, Integer replyToMessageID, Boolean disableNotification, String text, ParseMode parseMode, Boolean disableWebPagePreview, ReplyMarkup replyMarkup) {
+        super("sendMessage", TextMessage.class, callback, errorHandler, chatId, replyToMessageID, disableNotification, replyMarkup);
         this.text = text;
         this.parseMode = parseMode;
         this.disableWebPagePreview = disableWebPagePreview;
@@ -44,12 +44,12 @@ public class SendText extends SendableMessageRequest<TextMessage> {
 
     public static class SendTextBuilder {
         public SendTextBuilder chatID(Chat chat) {
-            this.chatID = new LongChatID(chat.getId());
+            this.chatId = new LongChatID(chat.getId());
             return this;
         }
 
-        public SendTextBuilder chatID(ChatID chatID) {
-            this.chatID = chatID;
+        public SendTextBuilder chatID(ChatID chatId) {
+            this.chatId = chatId;
             return this;
         }
     }

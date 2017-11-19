@@ -18,8 +18,8 @@ public class SendPhoto extends SendableMessageRequest<PhotoMessage> {
     private final String caption;
 
     @Builder
-    protected SendPhoto(Consumer<PhotoMessage> callback, Consumer<TelegramException> errorHandler, ChatID chatID, Integer replyToMessageID, Boolean disableNotification, ReplyMarkup replyMarkup, InputFile photo, String caption) {
-        super("sendPhoto", PhotoMessage.class, callback, errorHandler, chatID, replyToMessageID, disableNotification, replyMarkup);
+    protected SendPhoto(Consumer<PhotoMessage> callback, Consumer<TelegramException> errorHandler, ChatID chatId, Integer replyToMessageId, Boolean disableNotification, ReplyMarkup replyMarkup, InputFile photo, String caption) {
+        super("sendPhoto", PhotoMessage.class, callback, errorHandler, chatId, replyToMessageId, disableNotification, replyMarkup);
         this.photo = photo;
         this.caption = caption;
     }
@@ -36,12 +36,12 @@ public class SendPhoto extends SendableMessageRequest<PhotoMessage> {
 
     public static class SendPhotoBuilder {
         public SendPhoto.SendPhotoBuilder chatID(Chat chat) {
-            this.chatID = new LongChatID(chat.getId());
+            this.chatId = new LongChatID(chat.getId());
             return this;
         }
 
-        public SendPhoto.SendPhotoBuilder chatID(ChatID chatID) {
-            this.chatID = chatID;
+        public SendPhoto.SendPhotoBuilder chatID(ChatID chatId) {
+            this.chatId = chatId;
             return this;
         }
     }

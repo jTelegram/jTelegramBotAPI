@@ -21,8 +21,8 @@ public class SendVideo extends SendableMessageRequest<VideoMessage> {
     private final String caption;
 
     @Builder
-    protected SendVideo(Consumer<VideoMessage> callback, Consumer<TelegramException> errorHandler, ChatID chatID, Integer replyToMessageID, Boolean disableNotification, ReplyMarkup replyMarkup, InputFile video, Integer duration, Integer width, Integer height, String caption) {
-        super("sendVideo", VideoMessage.class, callback, errorHandler, chatID, replyToMessageID, disableNotification, replyMarkup);
+    protected SendVideo(Consumer<VideoMessage> callback, Consumer<TelegramException> errorHandler, ChatID chatId, Integer replyToMessageId, Boolean disableNotification, ReplyMarkup replyMarkup, InputFile video, Integer duration, Integer width, Integer height, String caption) {
+        super("sendVideo", VideoMessage.class, callback, errorHandler, chatId, replyToMessageId, disableNotification, replyMarkup);
         this.video = video;
         this.duration = duration;
         this.width = width;
@@ -41,13 +41,13 @@ public class SendVideo extends SendableMessageRequest<VideoMessage> {
     }
 
     public static class SendVideoBuilder {
-        public SendVideo.SendVideoBuilder chatID(Chat chat) {
-            this.chatID = new LongChatID(chat.getId());
+        public SendVideo.SendVideoBuilder chatId(Chat chat) {
+            this.chatId = new LongChatID(chat.getId());
             return this;
         }
 
-        public SendVideo.SendVideoBuilder chatID(ChatID chatID) {
-            this.chatID = chatID;
+        public SendVideo.SendVideoBuilder chatId(ChatID chatId) {
+            this.chatId = chatId;
             return this;
         }
     }

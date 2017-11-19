@@ -20,8 +20,8 @@ public class SendAudio extends SendableMessageRequest<AudioMessage> {
     private final String title;
 
     @Builder
-    protected SendAudio(Consumer<AudioMessage> callback, Consumer<TelegramException> errorHandler, ChatID chatID, Integer replyToMessageID, Boolean disableNotification, ReplyMarkup replyMarkup, InputFile audio, String caption, Integer duration, String title) {
-        super("sendAudio", AudioMessage.class, callback, errorHandler, chatID, replyToMessageID, disableNotification, replyMarkup);
+    protected SendAudio(Consumer<AudioMessage> callback, Consumer<TelegramException> errorHandler, ChatID chatId, Integer replyToMessageID, Boolean disableNotification, ReplyMarkup replyMarkup, InputFile audio, String caption, Integer duration, String title) {
+        super("sendAudio", AudioMessage.class, callback, errorHandler, chatId, replyToMessageID, disableNotification, replyMarkup);
         this.audio = audio;
         this.caption = caption;
         this.duration = duration;
@@ -40,12 +40,12 @@ public class SendAudio extends SendableMessageRequest<AudioMessage> {
 
     public static class SendAudioBuilder {
         public SendAudio.SendAudioBuilder chatID(Chat chat) {
-            this.chatID = new LongChatID(chat.getId());
+            this.chatId = new LongChatID(chat.getId());
             return this;
         }
 
-        public SendAudio.SendAudioBuilder chatID(ChatID chatID) {
-            this.chatID = chatID;
+        public SendAudio.SendAudioBuilder chatID(ChatID chatId) {
+            this.chatId = chatId;
             return this;
         }
     }

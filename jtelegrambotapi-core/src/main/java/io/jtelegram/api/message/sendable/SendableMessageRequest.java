@@ -7,15 +7,15 @@ import io.jtelegram.api.requests.framework.QueryTelegramRequest;
 import java.util.function.Consumer;
 
 public abstract class SendableMessageRequest<T> extends QueryTelegramRequest<T> {
-    private final ChatID chatID;
-    private final Integer replyToMessageID;
+    private final ChatID chatId;
+    private final Integer replyToMessageId;
     private final Boolean disableNotification;
     private final ReplyMarkup replyMarkup;
 
-    protected SendableMessageRequest(String endPoint, Class<T> callbackType, Consumer<T> callback, Consumer<TelegramException> errorHandler, ChatID chatID, Integer replyToMessageID, Boolean disableNotification, ReplyMarkup replyMarkup) {
+    protected SendableMessageRequest(String endPoint, Class<T> callbackType, Consumer<T> callback, Consumer<TelegramException> errorHandler, ChatID chatId, Integer replyToMessageId, Boolean disableNotification, ReplyMarkup replyMarkup) {
         super(endPoint, callbackType, callback, errorHandler);
-        this.chatID = chatID;
-        this.replyToMessageID = replyToMessageID;
+        this.chatId = chatId;
+        this.replyToMessageId = replyToMessageId;
         this.disableNotification = disableNotification;
         this.replyMarkup = replyMarkup;
     }
@@ -24,7 +24,7 @@ public abstract class SendableMessageRequest<T> extends QueryTelegramRequest<T> 
 
     @Override
     protected boolean isValid() {
-        if (chatID == null) return false;
+        if (chatId == null) return false;
         return true;
     }
 }

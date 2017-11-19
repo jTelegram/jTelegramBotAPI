@@ -7,13 +7,12 @@ import io.jtelegram.api.chat.Chat;
 import io.jtelegram.api.chat.ChatType;
 import io.jtelegram.api.chat.ChatDeserializer;
 import io.jtelegram.api.chat.id.ChatId;
+import io.jtelegram.api.chat.id.ChatIdSerializer;
 import io.jtelegram.api.chat.id.LongChatId;
 import io.jtelegram.api.message.Message;
 import io.jtelegram.api.message.MessageDeserializer;
-import io.jtelegram.api.message.gson.SendableMessageRequestSerializer;
 import io.jtelegram.api.message.gson.TextMessageDeserializer;
 import io.jtelegram.api.ex.TelegramException;
-import io.jtelegram.api.message.sendable.SendableMessageRequest;
 import io.jtelegram.api.message.sendable.types.SendText;
 import io.jtelegram.api.message.sticker.MaskPoint;
 import io.jtelegram.api.requests.GetMe;
@@ -39,7 +38,7 @@ public class TelegramBotRegistry {
             .registerTypeAdapter(Update.class, new UpdateDeserializer())
             .registerTypeAdapter(Chat.class, new ChatDeserializer())
             .registerTypeAdapter(Message.class, new MessageDeserializer())
-            .registerTypeAdapter(SendableMessageRequest.class, new SendableMessageRequestSerializer())
+            .registerTypeHierarchyAdapter(ChatId.class, new ChatIdSerializer())
             .registerTypeAdapterFactory(new TextMessageDeserializer())
             .create();
     private final UpdateProvider updateProvider;

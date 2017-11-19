@@ -8,7 +8,6 @@ import io.jtelegram.api.message.impl.DocumentMessage;
 import io.jtelegram.api.message.sendable.InputFile;
 import io.jtelegram.api.message.sendable.ReplyMarkup;
 import io.jtelegram.api.message.sendable.SendableMessageRequest;
-import io.jtelegram.api.message.sendable.SendableMessageType;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
@@ -26,11 +25,6 @@ public class SendDocument extends SendableMessageRequest<DocumentMessage> {
         super("sendDocument", DocumentMessage.class, callback, errorHandler, chatId, replyToMessageId, disableNotification, replyMarkup);
         this.document = document;
         this.caption = caption;
-    }
-
-    @Override
-    public SendableMessageType getType() {
-        return SendableMessageType.DOCUMENT;
     }
 
     @Override

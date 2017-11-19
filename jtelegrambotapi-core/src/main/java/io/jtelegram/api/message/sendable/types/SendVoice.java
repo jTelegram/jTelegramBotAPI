@@ -8,7 +8,6 @@ import io.jtelegram.api.message.impl.VoiceMessage;
 import io.jtelegram.api.message.sendable.InputFile;
 import io.jtelegram.api.message.sendable.ReplyMarkup;
 import io.jtelegram.api.message.sendable.SendableMessageRequest;
-import io.jtelegram.api.message.sendable.SendableMessageType;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
@@ -28,11 +27,6 @@ public class SendVoice extends SendableMessageRequest<VoiceMessage> {
         this.voice = voice;
         this.caption = caption;
         this.duration = duration;
-    }
-
-    @Override
-    public SendableMessageType getType() {
-        return null;
     }
 
     @Override

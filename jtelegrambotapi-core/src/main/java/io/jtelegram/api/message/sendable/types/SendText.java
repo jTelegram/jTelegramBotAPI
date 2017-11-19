@@ -6,7 +6,6 @@ import io.jtelegram.api.message.impl.TextMessage;
 import io.jtelegram.api.message.sendable.ParseMode;
 import io.jtelegram.api.message.sendable.ReplyMarkup;
 import io.jtelegram.api.message.sendable.SendableMessageRequest;
-import io.jtelegram.api.message.sendable.SendableMessageType;
 import io.jtelegram.api.chat.id.ChatId;
 import io.jtelegram.api.chat.id.LongChatId;
 import lombok.Builder;
@@ -31,10 +30,6 @@ public class SendText extends SendableMessageRequest<TextMessage> {
     }
 
 
-    @Override
-    public SendableMessageType getType() {
-        return SendableMessageType.TEXT;
-    }
 
     @Override
     protected boolean isValid() {

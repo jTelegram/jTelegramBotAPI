@@ -6,7 +6,6 @@ import io.jtelegram.api.message.impl.VideoMessage;
 import io.jtelegram.api.message.sendable.InputFile;
 import io.jtelegram.api.message.sendable.ReplyMarkup;
 import io.jtelegram.api.message.sendable.SendableMessageRequest;
-import io.jtelegram.api.message.sendable.SendableMessageType;
 import io.jtelegram.api.chat.id.ChatId;
 import io.jtelegram.api.chat.id.LongChatId;
 import lombok.Builder;
@@ -31,11 +30,6 @@ public class SendVideo extends SendableMessageRequest<VideoMessage> {
         this.width = width;
         this.height = height;
         this.caption = caption;
-    }
-
-    @Override
-    public SendableMessageType getType() {
-        return SendableMessageType.VIDEO;
     }
 
     @Override

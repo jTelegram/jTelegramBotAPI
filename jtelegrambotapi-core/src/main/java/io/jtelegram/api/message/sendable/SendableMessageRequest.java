@@ -2,6 +2,7 @@ package io.jtelegram.api.message.sendable;
 
 import io.jtelegram.api.ex.TelegramException;
 import io.jtelegram.api.chat.id.ChatId;
+import io.jtelegram.api.message.MessageType;
 import io.jtelegram.api.requests.framework.QueryTelegramRequest;
 import lombok.Getter;
 
@@ -22,7 +23,6 @@ public abstract class SendableMessageRequest<T> extends QueryTelegramRequest<T> 
         this.replyMarkup = replyMarkup;
     }
 
-    public abstract SendableMessageType getType();
 
     @Override
     protected boolean isValid() {

@@ -37,6 +37,6 @@ public abstract class QueryTelegramRequest<T> extends AbstractTelegramRequest {
      * @return
      */
     protected boolean isValid() {
-        return true;
+        return false;
     }
 }

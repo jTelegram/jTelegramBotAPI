@@ -10,13 +10,14 @@ import io.jtelegram.api.message.sendable.ReplyMarkup;
 import io.jtelegram.api.message.sendable.SendableMessageRequest;
 import lombok.Builder;
 
+import java.util.List;
 import java.util.function.Consumer;
 
 public class SendMediaGroup extends SendableMessageRequest<Message[]> {
-    private final InputMedia[] media;
+    private final List<InputMedia> media;
 
     @Builder
-    protected SendMediaGroup(Consumer<Message[]> callback, Consumer<TelegramException> errorHandler, ChatId chatId, Integer replyToMessageId, Boolean disableNotification, ReplyMarkup replyMarkup, InputMedia[] media) {
+    protected SendMediaGroup(Consumer<Message[]> callback, Consumer<TelegramException> errorHandler, ChatId chatId, Integer replyToMessageId, Boolean disableNotification, ReplyMarkup replyMarkup, List<InputMedia> media) {
 
         super("sendMediaGroup", Message[].class, callback, errorHandler, chatId, replyToMessageId, disableNotification, replyMarkup);
         this.media = media;
@@ -24,7 +25,7 @@ public class SendMediaGroup extends SendableMessageRequest<Message[]> {
 
     @Override
     protected boolean isValid() {
-        return super.isValid() && media != null && media.length != 0;
+        return super.isValid() && media != null && media.size() != 0;
     }
 
     public static class SendMediaGroupBuilder {

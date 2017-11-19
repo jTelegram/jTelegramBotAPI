@@ -1,17 +1,21 @@
 package io.jtelegram.api.message.sendable.types;
 
 import io.jtelegram.api.chat.Chat;
+import io.jtelegram.api.chat.id.ChatId;
+import io.jtelegram.api.chat.id.LongChatId;
 import io.jtelegram.api.ex.TelegramException;
 import io.jtelegram.api.message.Message;
 import io.jtelegram.api.message.sendable.ReplyMarkup;
 import io.jtelegram.api.message.sendable.SendableMessageRequest;
 import io.jtelegram.api.message.sendable.SendableMessageType;
-import io.jtelegram.api.chat.id.ChatId;
-import io.jtelegram.api.chat.id.LongChatId;
 import lombok.Builder;
+import lombok.Getter;
+import lombok.ToString;
 
 import java.util.function.Consumer;
 
+@ToString
+@Getter
 public class ForwardMessage extends SendableMessageRequest<Message> {
     private final ChatId fromChatId;
     private final Integer messageID;

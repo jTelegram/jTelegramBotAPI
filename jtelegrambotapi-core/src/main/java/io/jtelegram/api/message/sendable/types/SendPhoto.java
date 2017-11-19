@@ -1,18 +1,22 @@
 package io.jtelegram.api.message.sendable.types;
 
 import io.jtelegram.api.chat.Chat;
+import io.jtelegram.api.chat.id.ChatId;
+import io.jtelegram.api.chat.id.LongChatId;
 import io.jtelegram.api.ex.TelegramException;
 import io.jtelegram.api.message.impl.PhotoMessage;
 import io.jtelegram.api.message.sendable.InputFile;
 import io.jtelegram.api.message.sendable.ReplyMarkup;
 import io.jtelegram.api.message.sendable.SendableMessageRequest;
 import io.jtelegram.api.message.sendable.SendableMessageType;
-import io.jtelegram.api.chat.id.ChatId;
-import io.jtelegram.api.chat.id.LongChatId;
 import lombok.Builder;
+import lombok.Getter;
+import lombok.ToString;
 
 import java.util.function.Consumer;
 
+@ToString
+@Getter
 public class SendPhoto extends SendableMessageRequest<PhotoMessage> {
     private final InputFile photo;
     private final String caption;

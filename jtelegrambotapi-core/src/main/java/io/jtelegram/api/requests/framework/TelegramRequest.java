@@ -1,6 +1,5 @@
 package io.jtelegram.api.requests.framework;
 
-
 import io.jtelegram.api.TelegramBot;
 import okhttp3.MediaType;
 import okhttp3.Request;

@@ -5,7 +5,7 @@ import io.jtelegram.api.chat.id.ChatId;
 import io.jtelegram.api.chat.id.LongChatId;
 import io.jtelegram.api.ex.TelegramException;
 import io.jtelegram.api.message.Message;
-import io.jtelegram.api.message.sendable.InputMedia;
+import io.jtelegram.api.message.sendable.input.InputMedia;
 import io.jtelegram.api.message.sendable.ReplyMarkup;
 import io.jtelegram.api.message.sendable.SendableMessageRequest;
 import lombok.Builder;

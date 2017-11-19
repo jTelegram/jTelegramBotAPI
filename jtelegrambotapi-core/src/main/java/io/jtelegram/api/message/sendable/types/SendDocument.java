@@ -5,7 +5,8 @@ import io.jtelegram.api.chat.id.ChatId;
 import io.jtelegram.api.chat.id.LongChatId;
 import io.jtelegram.api.ex.TelegramException;
 import io.jtelegram.api.message.impl.DocumentMessage;
-import io.jtelegram.api.message.sendable.InputFile;
+import io.jtelegram.api.message.sendable.InputFileMessageRequest;
+import io.jtelegram.api.message.sendable.input.file.InputFile;
 import io.jtelegram.api.message.sendable.ReplyMarkup;
 import io.jtelegram.api.message.sendable.SendableMessageRequest;
 import lombok.Builder;
@@ -16,7 +17,7 @@ import java.util.function.Consumer;
 
 @ToString
 @Getter
-public class SendDocument extends SendableMessageRequest<DocumentMessage> {
+public class SendDocument extends InputFileMessageRequest<DocumentMessage> {
     private final InputFile document;
     private final String caption;
 
@@ -30,6 +31,11 @@ public class SendDocument extends SendableMessageRequest<DocumentMessage> {
     @Override
     protected boolean isValid() {
         return super.isValid() && document != null;
+    }
+
+    @Override
+    public InputFile getInputFile() {
+        return document;
     }
 
     public static class SendDocumentBuilder {

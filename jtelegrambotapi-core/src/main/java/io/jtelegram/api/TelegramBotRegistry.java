@@ -8,10 +8,15 @@ import io.jtelegram.api.chat.ChatType;
 import io.jtelegram.api.chat.ChatDeserializer;
 import io.jtelegram.api.chat.id.ChatId;
 import io.jtelegram.api.chat.id.ChatIdSerializer;
+import io.jtelegram.api.chat.id.LongChatId;
 import io.jtelegram.api.message.Message;
 import io.jtelegram.api.message.MessageDeserializer;
 import io.jtelegram.api.message.gson.TextMessageDeserializer;
 import io.jtelegram.api.ex.TelegramException;
+import io.jtelegram.api.message.sendable.input.file.InputFile;
+import io.jtelegram.api.message.sendable.input.file.InputFileSerializer;
+import io.jtelegram.api.message.sendable.input.file.LocalInputFile;
+import io.jtelegram.api.message.sendable.types.SendPhoto;
 import io.jtelegram.api.message.sticker.MaskPoint;
 import io.jtelegram.api.requests.GetMe;
 import io.jtelegram.api.update.*;
@@ -20,6 +25,7 @@ import lombok.Builder;
 import lombok.Getter;
 import okhttp3.OkHttpClient;
 
+import java.io.File;
 import java.lang.reflect.Modifier;
 import java.util.HashSet;
 import java.util.Set;
@@ -36,6 +42,7 @@ public class TelegramBotRegistry {
             .registerTypeAdapter(Update.class, new UpdateDeserializer())
             .registerTypeAdapter(Chat.class, new ChatDeserializer())
             .registerTypeAdapter(Message.class, new MessageDeserializer())
+            .registerTypeHierarchyAdapter(InputFile.class, new InputFileSerializer())
             .registerTypeHierarchyAdapter(ChatId.class, new ChatIdSerializer())
             .registerTypeAdapterFactory(new TextMessageDeserializer())
             .create();
@@ -45,8 +52,13 @@ public class TelegramBotRegistry {
     private final Set<TelegramBot> bots = new HashSet<>();
 
     @Builder
-    private TelegramBotRegistry(UpdateProvider updateProvider) {
+    protected TelegramBotRegistry(UpdateProvider updateProvider, String apiUrl, OkHttpClient client) {
         this.updateProvider = updateProvider;
+        this.client = client;
+
+        if (client == null) {
+            client = new OkHttpClient();
+        }
     }
 
     public void setHttpClient(OkHttpClient client) {

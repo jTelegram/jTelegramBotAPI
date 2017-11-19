@@ -3,9 +3,9 @@ package io.jtelegram.api.message.sendable.types;
 import io.jtelegram.api.chat.Chat;
 import io.jtelegram.api.ex.TelegramException;
 import io.jtelegram.api.message.impl.AudioMessage;
-import io.jtelegram.api.message.sendable.InputFile;
+import io.jtelegram.api.message.sendable.InputFileMessageRequest;
+import io.jtelegram.api.message.sendable.input.file.InputFile;
 import io.jtelegram.api.message.sendable.ReplyMarkup;
-import io.jtelegram.api.message.sendable.SendableMessageRequest;
 import io.jtelegram.api.chat.id.ChatId;
 import io.jtelegram.api.chat.id.LongChatId;
 import lombok.Builder;
@@ -16,7 +16,7 @@ import java.util.function.Consumer;
 
 @ToString
 @Getter
-public class SendAudio extends SendableMessageRequest<AudioMessage> {
+public class SendAudio extends InputFileMessageRequest<AudioMessage> {
     private final InputFile audio;
     private final String caption;
     private final Integer duration;
@@ -36,6 +36,10 @@ public class SendAudio extends SendableMessageRequest<AudioMessage> {
         return super.isValid() && audio != null;
     }
 
+    @Override
+    public InputFile getInputFile() {
+        return audio;
+    }
 
     public static class SendAudioBuilder {
         public SendAudio.SendAudioBuilder chatId(Chat chat) {

@@ -5,7 +5,8 @@ import io.jtelegram.api.chat.id.ChatId;
 import io.jtelegram.api.chat.id.LongChatId;
 import io.jtelegram.api.ex.TelegramException;
 import io.jtelegram.api.message.impl.PhotoMessage;
-import io.jtelegram.api.message.sendable.InputFile;
+import io.jtelegram.api.message.sendable.InputFileMessageRequest;
+import io.jtelegram.api.message.sendable.input.file.InputFile;
 import io.jtelegram.api.message.sendable.ReplyMarkup;
 import io.jtelegram.api.message.sendable.SendableMessageRequest;
 import lombok.Builder;
@@ -16,7 +17,7 @@ import java.util.function.Consumer;
 
 @ToString
 @Getter
-public class SendPhoto extends SendableMessageRequest<PhotoMessage> {
+public class SendPhoto extends InputFileMessageRequest<PhotoMessage> {
     private final InputFile photo;
     private final String caption;
 
@@ -30,6 +31,11 @@ public class SendPhoto extends SendableMessageRequest<PhotoMessage> {
     @Override
     protected boolean isValid() {
         return super.isValid() && photo != null;
+    }
+
+    @Override
+    public InputFile getInputFile() {
+        return photo;
     }
 
     public static class SendPhotoBuilder {

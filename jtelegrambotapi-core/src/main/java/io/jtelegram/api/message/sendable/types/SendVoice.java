@@ -5,7 +5,8 @@ import io.jtelegram.api.chat.id.ChatId;
 import io.jtelegram.api.chat.id.LongChatId;
 import io.jtelegram.api.ex.TelegramException;
 import io.jtelegram.api.message.impl.VoiceMessage;
-import io.jtelegram.api.message.sendable.InputFile;
+import io.jtelegram.api.message.sendable.InputFileMessageRequest;
+import io.jtelegram.api.message.sendable.input.file.InputFile;
 import io.jtelegram.api.message.sendable.ReplyMarkup;
 import io.jtelegram.api.message.sendable.SendableMessageRequest;
 import lombok.Builder;
@@ -16,7 +17,7 @@ import java.util.function.Consumer;
 
 @ToString
 @Getter
-public class SendVoice extends SendableMessageRequest<VoiceMessage> {
+public class SendVoice extends InputFileMessageRequest<VoiceMessage> {
     private final InputFile voice;
     private final String caption;
     private final Integer duration;
@@ -32,6 +33,11 @@ public class SendVoice extends SendableMessageRequest<VoiceMessage> {
     @Override
     protected boolean isValid() {
         return super.isValid() && voice != null;
+    }
+
+    @Override
+    public InputFile getInputFile() {
+        return voice;
     }
 
     public static class SendVoiceBuilder {

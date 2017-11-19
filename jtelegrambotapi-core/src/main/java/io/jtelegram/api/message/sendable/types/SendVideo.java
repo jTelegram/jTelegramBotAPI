@@ -3,7 +3,8 @@ package io.jtelegram.api.message.sendable.types;
 import io.jtelegram.api.chat.Chat;
 import io.jtelegram.api.ex.TelegramException;
 import io.jtelegram.api.message.impl.VideoMessage;
-import io.jtelegram.api.message.sendable.InputFile;
+import io.jtelegram.api.message.sendable.InputFileMessageRequest;
+import io.jtelegram.api.message.sendable.input.file.InputFile;
 import io.jtelegram.api.message.sendable.ReplyMarkup;
 import io.jtelegram.api.message.sendable.SendableMessageRequest;
 import io.jtelegram.api.chat.id.ChatId;
@@ -15,7 +16,7 @@ import lombok.ToString;
 import java.util.function.Consumer;
 @ToString
 @Getter
-public class SendVideo extends SendableMessageRequest<VideoMessage> {
+public class SendVideo extends InputFileMessageRequest<VideoMessage> {
     private final InputFile video;
     private final Integer duration;
     private final Integer width;
@@ -35,6 +36,11 @@ public class SendVideo extends SendableMessageRequest<VideoMessage> {
     @Override
     protected boolean isValid() {
         return super.isValid() && video != null;
+    }
+
+    @Override
+    public InputFile getInputFile() {
+        return video;
     }
 
     public static class SendVideoBuilder {

@@ -35,9 +35,13 @@ public class EventRegistry {
             return;
         }
 
-        handlers.get(event.getType()).forEach(handler -> {
-            EventHandler<E> eh = (EventHandler<E>) handler;
-            eh.onEvent(event);
-        });
+        List<EventHandler<? extends Event>> h = handlers.get(event.getType());
+
+        if (h != null) {
+            h.forEach(handler -> {
+                EventHandler<E> eh = (EventHandler<E>) handler;
+                eh.onEvent(event);
+            });
+        }
     }
 }

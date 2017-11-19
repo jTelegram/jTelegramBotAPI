@@ -7,8 +7,8 @@ import io.jtelegram.api.message.sendable.InputFile;
 import io.jtelegram.api.message.sendable.ReplyMarkup;
 import io.jtelegram.api.message.sendable.SendableMessageRequest;
 import io.jtelegram.api.message.sendable.SendableMessageType;
-import io.jtelegram.api.message.sendable.chatid.ChatID;
-import io.jtelegram.api.message.sendable.chatid.LongChatID;
+import io.jtelegram.api.chat.id.ChatId;
+import io.jtelegram.api.chat.id.LongChatId;
 import lombok.Builder;
 
 import java.util.function.Consumer;
@@ -20,7 +20,7 @@ public class SendAudio extends SendableMessageRequest<AudioMessage> {
     private final String title;
 
     @Builder
-    protected SendAudio(Consumer<AudioMessage> callback, Consumer<TelegramException> errorHandler, ChatID chatId, Integer replyToMessageID, Boolean disableNotification, ReplyMarkup replyMarkup, InputFile audio, String caption, Integer duration, String title) {
+    protected SendAudio(Consumer<AudioMessage> callback, Consumer<TelegramException> errorHandler, ChatId chatId, Integer replyToMessageID, Boolean disableNotification, ReplyMarkup replyMarkup, InputFile audio, String caption, Integer duration, String title) {
         super("sendAudio", AudioMessage.class, callback, errorHandler, chatId, replyToMessageID, disableNotification, replyMarkup);
         this.audio = audio;
         this.caption = caption;
@@ -40,11 +40,11 @@ public class SendAudio extends SendableMessageRequest<AudioMessage> {
 
     public static class SendAudioBuilder {
         public SendAudio.SendAudioBuilder chatID(Chat chat) {
-            this.chatId = new LongChatID(chat.getId());
+            this.chatId = new LongChatId(chat.getId());
             return this;
         }
 
-        public SendAudio.SendAudioBuilder chatID(ChatID chatId) {
+        public SendAudio.SendAudioBuilder chatID(ChatId chatId) {
             this.chatId = chatId;
             return this;
         }

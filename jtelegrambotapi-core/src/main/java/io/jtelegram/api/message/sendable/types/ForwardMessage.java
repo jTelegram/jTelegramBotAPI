@@ -6,20 +6,20 @@ import io.jtelegram.api.message.Message;
 import io.jtelegram.api.message.sendable.ReplyMarkup;
 import io.jtelegram.api.message.sendable.SendableMessageRequest;
 import io.jtelegram.api.message.sendable.SendableMessageType;
-import io.jtelegram.api.message.sendable.chatid.ChatID;
-import io.jtelegram.api.message.sendable.chatid.LongChatID;
+import io.jtelegram.api.chat.id.ChatId;
+import io.jtelegram.api.chat.id.LongChatId;
 import lombok.Builder;
 
 import java.util.function.Consumer;
 
 public class ForwardMessage extends SendableMessageRequest<Message> {
-    private final ChatID fromChatID;
+    private final ChatId fromChatId;
     private final Integer messageID;
 
     @Builder
-    protected ForwardMessage(Consumer<Message> callback, Consumer<TelegramException> errorHandler, ChatID chatId, Integer replyToMessageId, Boolean disableNotification, ChatID fromChatID, Integer messageID, ReplyMarkup replyMarkup) {
+    protected ForwardMessage(Consumer<Message> callback, Consumer<TelegramException> errorHandler, ChatId chatId, Integer replyToMessageId, Boolean disableNotification, ChatId fromChatId, Integer messageID, ReplyMarkup replyMarkup) {
         super("forwardMessage", Message.class, callback, errorHandler, chatId, replyToMessageId, disableNotification, replyMarkup);
-        this.fromChatID = fromChatID;
+        this.fromChatId = fromChatId;
         this.messageID = messageID;
     }
 
@@ -30,16 +30,16 @@ public class ForwardMessage extends SendableMessageRequest<Message> {
 
     @Override
     protected boolean isValid() {
-        return super.isValid() && fromChatID != null && messageID != null;
+        return super.isValid() && fromChatId != null && messageID != null;
     }
 
     public static class ForwardMessageBuilder {
         public ForwardMessage.ForwardMessageBuilder chatID(Chat chat) {
-            this.chatId = new LongChatID(chat.getId());
+            this.chatId = new LongChatId(chat.getId());
             return this;
         }
 
-        public ForwardMessage.ForwardMessageBuilder chatID(ChatID chatId) {
+        public ForwardMessage.ForwardMessageBuilder chatID(ChatId chatId) {
             this.chatId = chatId;
             return this;
         }

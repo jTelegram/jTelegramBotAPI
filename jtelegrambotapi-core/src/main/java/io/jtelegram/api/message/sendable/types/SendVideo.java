@@ -7,8 +7,8 @@ import io.jtelegram.api.message.sendable.InputFile;
 import io.jtelegram.api.message.sendable.ReplyMarkup;
 import io.jtelegram.api.message.sendable.SendableMessageRequest;
 import io.jtelegram.api.message.sendable.SendableMessageType;
-import io.jtelegram.api.message.sendable.chatid.ChatID;
-import io.jtelegram.api.message.sendable.chatid.LongChatID;
+import io.jtelegram.api.chat.id.ChatId;
+import io.jtelegram.api.chat.id.LongChatId;
 import lombok.Builder;
 
 import java.util.function.Consumer;
@@ -21,7 +21,7 @@ public class SendVideo extends SendableMessageRequest<VideoMessage> {
     private final String caption;
 
     @Builder
-    protected SendVideo(Consumer<VideoMessage> callback, Consumer<TelegramException> errorHandler, ChatID chatId, Integer replyToMessageId, Boolean disableNotification, ReplyMarkup replyMarkup, InputFile video, Integer duration, Integer width, Integer height, String caption) {
+    protected SendVideo(Consumer<VideoMessage> callback, Consumer<TelegramException> errorHandler, ChatId chatId, Integer replyToMessageId, Boolean disableNotification, ReplyMarkup replyMarkup, InputFile video, Integer duration, Integer width, Integer height, String caption) {
         super("sendVideo", VideoMessage.class, callback, errorHandler, chatId, replyToMessageId, disableNotification, replyMarkup);
         this.video = video;
         this.duration = duration;
@@ -42,11 +42,11 @@ public class SendVideo extends SendableMessageRequest<VideoMessage> {
 
     public static class SendVideoBuilder {
         public SendVideo.SendVideoBuilder chatId(Chat chat) {
-            this.chatId = new LongChatID(chat.getId());
+            this.chatId = new LongChatId(chat.getId());
             return this;
         }
 
-        public SendVideo.SendVideoBuilder chatId(ChatID chatId) {
+        public SendVideo.SendVideoBuilder chatId(ChatId chatId) {
             this.chatId = chatId;
             return this;
         }

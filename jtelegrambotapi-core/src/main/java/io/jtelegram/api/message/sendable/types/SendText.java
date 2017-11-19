@@ -7,8 +7,8 @@ import io.jtelegram.api.message.sendable.ParseMode;
 import io.jtelegram.api.message.sendable.ReplyMarkup;
 import io.jtelegram.api.message.sendable.SendableMessageRequest;
 import io.jtelegram.api.message.sendable.SendableMessageType;
-import io.jtelegram.api.message.sendable.chatid.ChatID;
-import io.jtelegram.api.message.sendable.chatid.LongChatID;
+import io.jtelegram.api.chat.id.ChatId;
+import io.jtelegram.api.chat.id.LongChatId;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
@@ -23,7 +23,7 @@ public class SendText extends SendableMessageRequest<TextMessage> {
     private final Boolean disableWebPagePreview;
 
     @Builder
-    protected SendText(Consumer<TextMessage> callback, Consumer<TelegramException> errorHandler, ChatID chatId, Integer replyToMessageID, Boolean disableNotification, String text, ParseMode parseMode, Boolean disableWebPagePreview, ReplyMarkup replyMarkup) {
+    protected SendText(Consumer<TextMessage> callback, Consumer<TelegramException> errorHandler, ChatId chatId, Integer replyToMessageID, Boolean disableNotification, String text, ParseMode parseMode, Boolean disableWebPagePreview, ReplyMarkup replyMarkup) {
         super("sendMessage", TextMessage.class, callback, errorHandler, chatId, replyToMessageID, disableNotification, replyMarkup);
         this.text = text;
         this.parseMode = parseMode;
@@ -44,11 +44,11 @@ public class SendText extends SendableMessageRequest<TextMessage> {
 
     public static class SendTextBuilder {
         public SendTextBuilder chatID(Chat chat) {
-            this.chatId = new LongChatID(chat.getId());
+            this.chatId = new LongChatId(chat.getId());
             return this;
         }
 
-        public SendTextBuilder chatID(ChatID chatId) {
+        public SendTextBuilder chatID(ChatId chatId) {
             this.chatId = chatId;
             return this;
         }

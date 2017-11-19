@@ -1,13 +1,13 @@
-package io.jtelegram.api.message.sendable.chatid;
+package io.jtelegram.api.chat.id;
 
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class LongChatID implements ChatID<Long> {
+public class LongChatId implements ChatId<Long> {
     private final long chatId;
 
     @Override
-    public Long getID() {
+    public Long getId() {
         return chatId;
     }
 }

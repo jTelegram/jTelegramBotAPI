@@ -34,12 +34,12 @@ public class ForwardMessage extends SendableMessageRequest<Message> {
     }
 
     public static class ForwardMessageBuilder {
-        public ForwardMessage.ForwardMessageBuilder chatID(Chat chat) {
+        public ForwardMessage.ForwardMessageBuilder chatId(Chat chat) {
             this.chatId = new LongChatId(chat.getId());
             return this;
         }
 
-        public ForwardMessage.ForwardMessageBuilder chatID(ChatId chatId) {
+        public ForwardMessage.ForwardMessageBuilder chatId(ChatId chatId) {
             this.chatId = chatId;
             return this;
         }

@@ -35,12 +35,12 @@ public class SendPhoto extends SendableMessageRequest<PhotoMessage> {
     }
 
     public static class SendPhotoBuilder {
-        public SendPhoto.SendPhotoBuilder chatID(Chat chat) {
+        public SendPhoto.SendPhotoBuilder chatId(Chat chat) {
             this.chatId = new LongChatId(chat.getId());
             return this;
         }
 
-        public SendPhoto.SendPhotoBuilder chatID(ChatId chatId) {
+        public SendPhoto.SendPhotoBuilder chatId(ChatId chatId) {
             this.chatId = chatId;
             return this;
         }

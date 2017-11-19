@@ -5,9 +5,9 @@ import io.jtelegram.api.chat.id.ChatId;
 import io.jtelegram.api.chat.id.LongChatId;
 import io.jtelegram.api.ex.TelegramException;
 import io.jtelegram.api.message.Message;
+import io.jtelegram.api.message.MessageType;
 import io.jtelegram.api.message.sendable.ReplyMarkup;
 import io.jtelegram.api.message.sendable.SendableMessageRequest;
-import io.jtelegram.api.message.sendable.SendableMessageType;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
@@ -27,10 +27,6 @@ public class ForwardMessage extends SendableMessageRequest<Message> {
         this.messageID = messageID;
     }
 
-    @Override
-    public SendableMessageType getType() {
-        return SendableMessageType.FORWARD;
-    }
 
     @Override
     protected boolean isValid() {

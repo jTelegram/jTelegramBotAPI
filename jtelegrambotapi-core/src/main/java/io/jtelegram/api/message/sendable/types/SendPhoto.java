@@ -8,7 +8,6 @@ import io.jtelegram.api.message.impl.PhotoMessage;
 import io.jtelegram.api.message.sendable.InputFile;
 import io.jtelegram.api.message.sendable.ReplyMarkup;
 import io.jtelegram.api.message.sendable.SendableMessageRequest;
-import io.jtelegram.api.message.sendable.SendableMessageType;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
@@ -31,11 +30,6 @@ public class SendPhoto extends SendableMessageRequest<PhotoMessage> {
     @Override
     protected boolean isValid() {
         return super.isValid() && photo != null;
-    }
-
-    @Override
-    public SendableMessageType getType() {
-        return SendableMessageType.PHOTO;
     }
 
     public static class SendPhotoBuilder {

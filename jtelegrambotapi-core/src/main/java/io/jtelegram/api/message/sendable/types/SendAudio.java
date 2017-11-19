@@ -6,7 +6,6 @@ import io.jtelegram.api.message.impl.AudioMessage;
 import io.jtelegram.api.message.sendable.InputFile;
 import io.jtelegram.api.message.sendable.ReplyMarkup;
 import io.jtelegram.api.message.sendable.SendableMessageRequest;
-import io.jtelegram.api.message.sendable.SendableMessageType;
 import io.jtelegram.api.chat.id.ChatId;
 import io.jtelegram.api.chat.id.LongChatId;
 import lombok.Builder;
@@ -37,10 +36,6 @@ public class SendAudio extends SendableMessageRequest<AudioMessage> {
         return super.isValid() && audio != null;
     }
 
-    @Override
-    public SendableMessageType getType() {
-        return SendableMessageType.AUDIO;
-    }
 
     public static class SendAudioBuilder {
         public SendAudio.SendAudioBuilder chatId(Chat chat) {

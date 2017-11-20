@@ -12,9 +12,7 @@ public class InputFileSerializer implements JsonSerializer<InputFile> {
     @Override
     public JsonElement serialize(InputFile inputFile, Type type, JsonSerializationContext context) {
         if (inputFile instanceof LocalInputFile) {
-            // this is so our InputFileMessageRequest processor can realize
-            // that this is a local file
-            return new JsonPrimitive("file://" + ((File) inputFile.getData()).getAbsolutePath());
+            return new JsonPrimitive("attach://" + ((File) inputFile.getData()).getName());
         }
 
         return new JsonPrimitive(inputFile.getData().toString());

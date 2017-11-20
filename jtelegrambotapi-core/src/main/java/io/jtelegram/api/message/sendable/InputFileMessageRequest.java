@@ -13,6 +13,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 
 import java.io.File;
+import java.util.List;
 import java.util.function.Consumer;
 
 public abstract class InputFileMessageRequest<T> extends SendableMessageRequest<T> {
@@ -24,19 +25,12 @@ public abstract class InputFileMessageRequest<T> extends SendableMessageRequest<
 
     @Override
     public Request.Builder build(TelegramBot bot) {
-        InputFile file = getInputFile();
+        List<InputFile> inputFiles = getInputFiles();
 
-        if (!(file instanceof LocalInputFile)) {
+        if (inputFiles.stream().noneMatch((e) -> e instanceof LocalInputFile)) {
             return super.build(bot);
         }
 
-        /*
-         * If we are uploading a file,
-         * we have to send our request
-         * completely as a multi part
-         * for request...
-         */
-        File inputFile = ((LocalInputFile) file).getData();
         JsonObject obj = gson.toJsonTree(this).getAsJsonObject();
         MultipartBody.Builder bodyBuilder = new MultipartBody.Builder()
                 .setType(MultipartBody.FORM);
@@ -48,23 +42,19 @@ public abstract class InputFileMessageRequest<T> extends SendableMessageRequest<
             if (e.isJsonPrimitive()) {
                 val = e.getAsString();
             } else {
-                val = e.getAsJsonObject().toString();
+                val = e.toString();
             }
 
-            if (!val.startsWith("file://")) {
-                bodyBuilder.addFormDataPart(key, val);
-            } else {
-                // this is our input file, add it to the form accordingly
-                bodyBuilder.addFormDataPart(
-                        key,
-                        inputFile.getName(),
-                        RequestBody.create(OCTET_STREAM_TYPE, inputFile)
-                );
-            }
+            bodyBuilder.addFormDataPart(key, val);
+        });
+
+        inputFiles.stream().filter((e) -> e instanceof LocalInputFile).forEach((inputFile) -> {
+            File file = ((LocalInputFile) inputFile).getData();
+            bodyBuilder.addFormDataPart(file.getName(), file.getName(), RequestBody.create(OCTET_STREAM_TYPE, file));
         });
 
         return super.build(bot).post(bodyBuilder.build());
     }
 
-    public abstract InputFile getInputFile();
+    public abstract List<InputFile> getInputFiles();
 }

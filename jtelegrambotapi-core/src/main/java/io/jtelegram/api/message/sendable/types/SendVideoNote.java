@@ -13,6 +13,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.function.Consumer;
 
 @ToString
@@ -36,8 +38,8 @@ public class SendVideoNote extends InputFileMessageRequest<VideoNote> {
     }
 
     @Override
-    public InputFile getInputFile() {
-        return videoNote;
+    public List<InputFile> getInputFiles() {
+        return Collections.singletonList(videoNote);
     }
 
     public static class SendVideoNoteBuilder {

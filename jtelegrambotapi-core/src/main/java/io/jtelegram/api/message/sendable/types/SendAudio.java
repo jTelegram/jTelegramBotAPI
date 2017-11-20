@@ -12,6 +12,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.function.Consumer;
 
 @ToString
@@ -37,8 +39,8 @@ public class SendAudio extends InputFileMessageRequest<AudioMessage> {
     }
 
     @Override
-    public InputFile getInputFile() {
-        return audio;
+    public List<InputFile> getInputFiles() {
+        return Collections.singletonList(audio);
     }
 
     public static class SendAudioBuilder {

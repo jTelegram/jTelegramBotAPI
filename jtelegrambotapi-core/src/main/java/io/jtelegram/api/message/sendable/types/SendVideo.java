@@ -13,6 +13,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.function.Consumer;
 @ToString
 @Getter
@@ -39,8 +41,8 @@ public class SendVideo extends InputFileMessageRequest<VideoMessage> {
     }
 
     @Override
-    public InputFile getInputFile() {
-        return video;
+    public List<InputFile> getInputFiles() {
+        return Collections.singletonList(video);
     }
 
     public static class SendVideoBuilder {

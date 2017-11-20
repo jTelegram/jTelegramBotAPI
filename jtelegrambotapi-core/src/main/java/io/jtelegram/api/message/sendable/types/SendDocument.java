@@ -13,6 +13,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.function.Consumer;
 
 @ToString
@@ -34,8 +36,8 @@ public class SendDocument extends InputFileMessageRequest<DocumentMessage> {
     }
 
     @Override
-    public InputFile getInputFile() {
-        return document;
+    public List<InputFile> getInputFiles() {
+        return Collections.singletonList(document);
     }
 
     public static class SendDocumentBuilder {

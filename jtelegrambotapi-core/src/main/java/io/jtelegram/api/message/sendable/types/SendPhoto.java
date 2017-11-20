@@ -13,6 +13,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.function.Consumer;
 
 @ToString
@@ -34,8 +36,8 @@ public class SendPhoto extends InputFileMessageRequest<PhotoMessage> {
     }
 
     @Override
-    public InputFile getInputFile() {
-        return photo;
+    public List<InputFile> getInputFiles() {
+        return Collections.singletonList(photo);
     }
 
     public static class SendPhotoBuilder {

@@ -16,7 +16,7 @@ import io.jtelegram.api.message.types.helpers.input.file.InputFile;
 import io.jtelegram.api.message.types.helpers.input.file.InputFileSerializer;
 import io.jtelegram.api.message.types.helpers.input.media.InputMediaType;
 import io.jtelegram.api.message.sticker.MaskPoint;
-import io.jtelegram.api.requests.GetMe;
+import io.jtelegram.api.message.types.sendable.GetMe;
 import io.jtelegram.api.update.*;
 import io.jtelegram.api.util.LowercaseEnumAdapter;
 import lombok.Builder;

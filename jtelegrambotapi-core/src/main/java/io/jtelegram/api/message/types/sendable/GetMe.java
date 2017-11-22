@@ -1,4 +1,4 @@
-package io.jtelegram.api.requests;
+package io.jtelegram.api.message.types.sendable;
 
 import io.jtelegram.api.ex.TelegramException;
 import io.jtelegram.api.requests.framework.QueryTelegramRequest;
@@ -13,4 +13,8 @@ public class GetMe extends QueryTelegramRequest<User> {
         super("getMe", User.class, callback, errorHandler);
     }
 
+    @Override
+    protected boolean isValid() {
+        return true;
+    }
 }

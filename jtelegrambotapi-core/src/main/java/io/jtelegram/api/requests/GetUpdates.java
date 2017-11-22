@@ -29,4 +29,10 @@ public class GetUpdates extends QueryTelegramRequest<Update[]> {
         this.timeout = timeout;
         this.allowedUpdates = allowedUpdates;
     }
+
+    @Override
+    protected boolean isValid() {
+        // TODO potentially needs updating.
+        return true;
+    }
 }

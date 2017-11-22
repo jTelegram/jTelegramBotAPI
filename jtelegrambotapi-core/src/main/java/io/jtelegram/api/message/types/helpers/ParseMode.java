@@ -1,4 +1,4 @@
-package io.jtelegram.api.message.types.sendable.helpers;
+package io.jtelegram.api.message.types.helpers;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

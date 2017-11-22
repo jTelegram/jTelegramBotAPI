@@ -1,6 +1,6 @@
-package io.jtelegram.api.message.types.sendable.helpers.input.media;
+package io.jtelegram.api.message.types.helpers.input.media;
 
-import io.jtelegram.api.message.types.sendable.helpers.input.file.InputFile;
+import io.jtelegram.api.message.types.helpers.input.file.InputFile;
 
 public class VideoInputMedia extends InputMedia {
     private int width;

@@ -4,7 +4,7 @@ import io.jtelegram.api.chat.id.ChatId;
 import io.jtelegram.api.ex.TelegramException;
 import io.jtelegram.api.message.impl.TextMessage;
 import io.jtelegram.api.message.types.sendable.helpers.EditMessageRequest;
-import io.jtelegram.api.message.types.sendable.helpers.ParseMode;
+import io.jtelegram.api.message.types.helpers.ParseMode;
 import io.jtelegram.api.message.types.sendable.helpers.ReplyMarkup;
 import lombok.Builder;
 import lombok.Getter;

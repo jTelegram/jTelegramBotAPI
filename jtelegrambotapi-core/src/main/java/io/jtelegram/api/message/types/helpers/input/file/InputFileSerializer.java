@@ -1,4 +1,4 @@
-package io.jtelegram.api.message.types.sendable.helpers.input.file;
+package io.jtelegram.api.message.types.helpers.input.file;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;

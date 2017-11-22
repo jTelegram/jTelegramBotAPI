@@ -29,4 +29,11 @@ public abstract class UpdateTelegramRequest extends AbstractTelegramRequest {
             callback.run();
         }
     }
+
+    /**
+     * Checks validity of this request. Internal method used before sending.
+     *
+     * @return
+     */
+    protected abstract boolean isValid();
 }

@@ -39,3 +39,6 @@ Network Trash Folder
 Temporary Items
 .apdisk
 infer-out/
+
+# Ignore travis
+!.travis.yml

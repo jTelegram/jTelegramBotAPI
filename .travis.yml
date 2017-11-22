@@ -1,0 +1,11 @@
+language: java
+jdk: openjdk8
+sudo: false
+branches:
+  only:
+    - master
+    - release
+cache:
+  directories:
+    - "$HOME/.m2"
+

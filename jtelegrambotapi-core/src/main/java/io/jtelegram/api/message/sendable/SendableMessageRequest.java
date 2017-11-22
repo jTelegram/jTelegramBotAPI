@@ -9,15 +9,13 @@ import lombok.Getter;
 import java.util.function.Consumer;
 
 @Getter
-public abstract class SendableMessageRequest<T> extends QueryTelegramRequest<T> {
-    private final ChatId chatId;
+public abstract class SendableMessageRequest<T> extends SendableChatRequest<T> {
     private final Integer replyToMessageId;
     private final Boolean disableNotification;
     private final ReplyMarkup replyMarkup;
 
     protected SendableMessageRequest(String endPoint, Class<T> callbackType, Consumer<T> callback, Consumer<TelegramException> errorHandler, ChatId chatId, Integer replyToMessageId, Boolean disableNotification, ReplyMarkup replyMarkup) {
-        super(endPoint, callbackType, callback, errorHandler);
-        this.chatId = chatId;
+        super(endPoint, callbackType, callback, errorHandler, chatId);
         this.replyToMessageId = replyToMessageId;
         this.disableNotification = disableNotification;
         this.replyMarkup = replyMarkup;
@@ -26,7 +24,6 @@ public abstract class SendableMessageRequest<T> extends QueryTelegramRequest<T> 
 
     @Override
     protected boolean isValid() {
-        if (chatId == null) return false;
-        return true;
+        return super.isValid();
     }
 }

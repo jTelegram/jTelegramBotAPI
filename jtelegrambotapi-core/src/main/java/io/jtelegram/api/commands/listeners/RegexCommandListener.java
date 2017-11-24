@@ -1,6 +1,5 @@
 package io.jtelegram.api.commands.listeners;
 
-import io.jtelegram.api.commands.CommandListener;
 import lombok.RequiredArgsConstructor;
 
 import java.util.regex.Pattern;

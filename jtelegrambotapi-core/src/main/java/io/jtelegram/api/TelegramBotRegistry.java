@@ -27,6 +27,7 @@ import java.util.Set;
 import java.util.function.BiConsumer;
 
 @Getter
+@Builder
 public class TelegramBotRegistry {
     public static final Gson GSON = new GsonBuilder()
             .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
@@ -51,7 +52,6 @@ public class TelegramBotRegistry {
     private OkHttpClient client = new OkHttpClient();
     private final Set<TelegramBot> bots = new HashSet<>();
 
-    @Builder
     public TelegramBotRegistry(UpdateProvider updateProvider, String apiUrl, OkHttpClient client) {
         this.updateProvider = updateProvider;
         this.apiUrl = apiUrl;

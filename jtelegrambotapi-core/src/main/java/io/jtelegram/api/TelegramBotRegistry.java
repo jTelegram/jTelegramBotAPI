@@ -45,13 +45,17 @@ public class TelegramBotRegistry {
             .registerTypeAdapterFactory(new TextMessageDeserializer())
             .create();
     private final UpdateProvider updateProvider;
+    @Builder.Default
     private String apiUrl = "https://api.telegram.org/bot";
+    @Builder.Default
     private OkHttpClient client = new OkHttpClient();
     private final Set<TelegramBot> bots = new HashSet<>();
 
     @Builder
-    protected TelegramBotRegistry(UpdateProvider updateProvider) {
+    public TelegramBotRegistry(UpdateProvider updateProvider, String apiUrl, OkHttpClient client) {
         this.updateProvider = updateProvider;
+        this.apiUrl = apiUrl;
+        this.client = client;
     }
 
     public void setHttpClient(OkHttpClient client) {

@@ -9,6 +9,7 @@ public abstract class Message<T> {
     private int messageId;
     private User from;
     private long date;
+    private Chat chat;
     private Message replyToMessage;
     private long editDate;
     /** CHANNEL FIELDS **/

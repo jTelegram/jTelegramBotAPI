@@ -42,7 +42,9 @@ public abstract class AbstractTelegramRequest implements TelegramRequest {
 
             if (!object.get("ok").getAsBoolean()) {
                 // todo convert to good exceptions
-                errorHandler.accept(gson.fromJson(response, TelegramException.class));
+                if (errorHandler != null) {
+                    errorHandler.accept(gson.fromJson(response, TelegramException.class));
+                }
                 return null;
             }
 

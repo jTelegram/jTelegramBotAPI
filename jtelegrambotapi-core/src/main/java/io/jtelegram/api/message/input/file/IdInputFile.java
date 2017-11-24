@@ -1,11 +1,21 @@
 package io.jtelegram.api.message.input.file;
 
+import io.jtelegram.api.message.media.FileMedium;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-@AllArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
 public class IdInputFile implements InputFile<String> {
     // this is the id
     private String data;
+
+    public static IdInputFile of(String data) {
+        return new IdInputFile(data);
+    }
+
+    public static IdInputFile of(FileMedium medium) {
+        return new IdInputFile(medium.getFileId());
+    }
 }

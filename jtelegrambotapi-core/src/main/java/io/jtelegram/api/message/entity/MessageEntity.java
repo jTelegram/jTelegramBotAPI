@@ -2,8 +2,10 @@ package io.jtelegram.api.message.entity;
 
 import io.jtelegram.api.message.impl.TextMessage;
 import lombok.Getter;
+import lombok.ToString;
 
 @Getter
+@ToString
 public class MessageEntity {
     private MessageEntityType type;
     private int offset;

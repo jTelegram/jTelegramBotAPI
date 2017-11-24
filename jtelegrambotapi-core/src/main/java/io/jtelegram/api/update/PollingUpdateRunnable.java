@@ -27,7 +27,7 @@ import java.util.function.BiFunction;
 import java.util.stream.Stream;
 
 @RequiredArgsConstructor
-public class PollingUpdateThread extends Thread {
+public class PollingUpdateRunnable implements Runnable {
     private static final Map<Class<? extends Update>, BiFunction<TelegramBot, Update, Event>> EVENT_FUNCTIONS = new HashMap<>();
     private int offset = 0;
     private final TelegramBot bot;
@@ -78,7 +78,7 @@ public class PollingUpdateThread extends Thread {
 
     @Override
     public void run() {
-        while (!isInterrupted()) {
+        while (!Thread.currentThread().isInterrupted()) {
             TelegramRequest request = GetUpdates.builder()
                     .allowedUpdates(owner.getAllowedUpdates())
                     .offset(offset)

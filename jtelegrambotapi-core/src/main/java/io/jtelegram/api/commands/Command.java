@@ -19,8 +19,8 @@ public class Command {
     public String getArgsAsText() {
         StringBuilder sb = new StringBuilder();
 
-        args.forEach(sb::append);
+        args.forEach(s->sb.append(s).append(" "));
 
-        return sb.toString();
+        return sb.toString().trim();
     }
 }

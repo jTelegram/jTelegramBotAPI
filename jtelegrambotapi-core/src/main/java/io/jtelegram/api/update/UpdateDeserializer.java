@@ -23,7 +23,6 @@ public class UpdateDeserializer implements JsonDeserializer<Update> {
     @Override
     public Update deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext context) throws JsonParseException {
         JsonObject object = jsonElement.getAsJsonObject();
-
         for (String key : object.keySet()) {
             if (CLASS_MAP.containsKey(key)) {
                 return context.deserialize(object, CLASS_MAP.get(key));

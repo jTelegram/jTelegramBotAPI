@@ -25,7 +25,7 @@ public class TextCommandListener implements CommandListener {
     public boolean trigger(String s) {
         if (s == null) return false;
 
-        if (caseSensitive)
+        if (!caseSensitive)
             return text.equalsIgnoreCase(s);
 
         return text.equals(s);

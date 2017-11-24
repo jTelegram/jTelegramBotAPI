@@ -4,7 +4,9 @@ import io.jtelegram.api.TelegramBot;
 import io.jtelegram.api.events.Event;
 import io.jtelegram.api.message.Message;
 import lombok.Getter;
+import lombok.ToString;
 
+@ToString
 public class MessageEvent<T extends Message> extends Event {
     @Getter
     private T message;

@@ -39,6 +39,8 @@ public class CommandRegistry implements EventHandler<TextMessageEvent> {
         for (MessageEntity messageEntity : entities) {
             if (messageEntity.getType() == MessageEntityType.BOT_COMMAND) {
                 baseCommand = messageText.substring(messageEntity.getOffset(), messageEntity.getLength());
+                baseCommand = baseCommand.substring(1);
+                break;
             }
         }
 
@@ -50,7 +52,6 @@ public class CommandRegistry implements EventHandler<TextMessageEvent> {
         }
 
         Command command = new Command(baseCommand, argsList, message);
-
         listeners.entrySet()
                 .stream()
                 .filter(e -> e.getKey().trigger(command.getBaseCommand()))

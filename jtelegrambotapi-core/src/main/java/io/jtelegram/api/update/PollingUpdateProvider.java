@@ -14,7 +14,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Getter
 @Builder
 public class PollingUpdateProvider implements UpdateProvider {
-    private final Map<TelegramBot, PollingUpdateThread> botThreads = new ConcurrentHashMap<>();
+    private final Map<TelegramBot, Thread> botThreads = new ConcurrentHashMap<>();
     // THESE VALUES SHOULD NOT BE MODIFIED AFTER SET
     // DO NOT USE REFLECTION TO CHANGE THESE
     private int sleepInterval = 50;
@@ -23,9 +23,10 @@ public class PollingUpdateProvider implements UpdateProvider {
 
     @Override
     public void listenFor(TelegramBot bot) {
-        PollingUpdateThread thread = new PollingUpdateThread(bot, this);
-        thread.start();
-        botThreads.put(bot, thread);
+            PollingUpdateRunnable runnable = new PollingUpdateRunnable(bot, this);
+            Thread thread = new Thread(runnable, "update-provider");
+            thread.start();
+            botThreads.put(bot, thread);
     }
 
     @Override

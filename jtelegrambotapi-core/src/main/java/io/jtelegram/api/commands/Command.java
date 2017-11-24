@@ -15,4 +15,12 @@ public class Command {
     private final String baseCommand;
     private final List<String> args;
     private final TextMessage baseMessage;
+
+    public String getArgsAsText() {
+        StringBuilder sb = new StringBuilder();
+
+        args.forEach(sb::append);
+
+        return sb.toString();
+    }
 }

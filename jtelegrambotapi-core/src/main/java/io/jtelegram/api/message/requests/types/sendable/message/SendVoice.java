@@ -41,15 +41,4 @@ public class SendVoice extends InputFileMessageRequest<VoiceMessage> {
         return Collections.singletonList(voice);
     }
 
-    public static class SendVoiceBuilder {
-        public SendVoiceBuilder chatId(Chat chat) {
-            this.chatId = new LongChatId(chat.getId());
-            return this;
-        }
-
-        public SendVoice.SendVoiceBuilder chatId(ChatId chatId) {
-            this.chatId = chatId;
-            return this;
-        }
-    }
 }

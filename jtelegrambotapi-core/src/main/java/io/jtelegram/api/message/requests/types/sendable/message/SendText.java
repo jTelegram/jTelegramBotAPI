@@ -36,16 +36,4 @@ public class SendText extends SendableMessageRequest<TextMessage> {
         return super.isValid() && text != null;
     }
 
-
-    public static class SendTextBuilder {
-        public SendTextBuilder chatId(Chat chat) {
-            this.chatId = new LongChatId(chat.getId());
-            return this;
-        }
-
-        public SendTextBuilder chatId(ChatId chatId) {
-            this.chatId = chatId;
-            return this;
-        }
-    }
 }

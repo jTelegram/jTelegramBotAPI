@@ -43,15 +43,4 @@ public class SendAudio extends InputFileMessageRequest<AudioMessage> {
         return Collections.singletonList(audio);
     }
 
-    public static class SendAudioBuilder {
-        public SendAudio.SendAudioBuilder chatId(Chat chat) {
-            this.chatId = new LongChatId(chat.getId());
-            return this;
-        }
-
-        public SendAudio.SendAudioBuilder chatId(ChatId chatId) {
-            this.chatId = chatId;
-            return this;
-        }
-    }
 }

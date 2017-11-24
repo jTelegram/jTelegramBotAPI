@@ -32,15 +32,4 @@ public class ForwardMessage extends SendableMessageRequest<Message> {
         return super.isValid() && fromChatId != null && messageID != null;
     }
 
-    public static class ForwardMessageBuilder {
-        public ForwardMessage.ForwardMessageBuilder chatId(Chat chat) {
-            this.chatId = new LongChatId(chat.getId());
-            return this;
-        }
-
-        public ForwardMessage.ForwardMessageBuilder chatId(ChatId chatId) {
-            this.chatId = chatId;
-            return this;
-        }
-    }
 }

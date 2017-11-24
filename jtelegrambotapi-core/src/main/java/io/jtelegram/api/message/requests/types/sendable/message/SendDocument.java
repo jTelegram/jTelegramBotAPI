@@ -39,15 +39,4 @@ public class SendDocument extends InputFileMessageRequest<DocumentMessage> {
         return Collections.singletonList(document);
     }
 
-    public static class SendDocumentBuilder {
-        public SendDocument.SendDocumentBuilder chatId(Chat chat) {
-            this.chatId = new LongChatId(chat.getId());
-            return this;
-        }
-
-        public SendDocument.SendDocumentBuilder chatId(ChatId chatId) {
-            this.chatId = chatId;
-            return this;
-        }
-    }
 }

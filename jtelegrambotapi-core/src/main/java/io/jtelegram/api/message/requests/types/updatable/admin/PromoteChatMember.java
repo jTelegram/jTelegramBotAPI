@@ -20,8 +20,8 @@ public class PromoteChatMember extends UserAdminChatRequest {
     private final Boolean canPromoteMembers;
 
     @Builder
-    public PromoteChatMember(String endPoint, Consumer<TelegramException> errorHandler, Runnable callback, ChatId chatId, Integer userId, Boolean canChangeInfo, Boolean canPostMessages, Boolean canEditMessages, Boolean canDeleteMessages, Boolean canInviteUsers, Boolean canRestrictMembers, Boolean canPinMessages, Boolean canPromoteMembers) {
-        super(endPoint, errorHandler, callback, chatId, userId);
+    public PromoteChatMember(Consumer<TelegramException> errorHandler, Runnable callback, ChatId chatId, Integer userId, Boolean canChangeInfo, Boolean canPostMessages, Boolean canEditMessages, Boolean canDeleteMessages, Boolean canInviteUsers, Boolean canRestrictMembers, Boolean canPinMessages, Boolean canPromoteMembers) {
+        super("promoteChatMember", errorHandler, callback, chatId, userId);
         this.canChangeInfo = canChangeInfo;
         this.canPostMessages = canPostMessages;
         this.canEditMessages = canEditMessages;

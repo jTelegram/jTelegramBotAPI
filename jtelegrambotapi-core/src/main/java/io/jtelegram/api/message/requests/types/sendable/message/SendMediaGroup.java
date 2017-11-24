@@ -34,15 +34,4 @@ public class SendMediaGroup extends InputFileMessageRequest<Message[]> {
         return media.stream().map(InputMedia::getMedia).collect(Collectors.toList());
     }
 
-    public static class SendMediaGroupBuilder {
-        public SendMediaGroup.SendMediaGroupBuilder chatId(Chat chat) {
-            this.chatId = new LongChatId(chat.getId());
-            return this;
-        }
-
-        public SendMediaGroup.SendMediaGroupBuilder chatId(ChatId chatId) {
-            this.chatId = chatId;
-            return this;
-        }
-    }
 }

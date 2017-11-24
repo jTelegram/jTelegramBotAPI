@@ -41,15 +41,4 @@ public class SendVideoNote extends InputFileMessageRequest<VideoNote> {
         return Collections.singletonList(videoNote);
     }
 
-    public static class SendVideoNoteBuilder {
-        public SendVideoNote.SendVideoNoteBuilder chatId(Chat chat) {
-            this.chatId = new LongChatId(chat.getId());
-            return this;
-        }
-
-        public SendVideoNote.SendVideoNoteBuilder chatId(ChatId chatId) {
-            this.chatId = chatId;
-            return this;
-        }
-    }
 }

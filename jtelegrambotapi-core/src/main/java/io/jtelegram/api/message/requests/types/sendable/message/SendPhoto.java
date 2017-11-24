@@ -39,15 +39,4 @@ public class SendPhoto extends InputFileMessageRequest<PhotoMessage> {
         return Collections.singletonList(photo);
     }
 
-    public static class SendPhotoBuilder {
-        public SendPhoto.SendPhotoBuilder chatId(Chat chat) {
-            this.chatId = new LongChatId(chat.getId());
-            return this;
-        }
-
-        public SendPhoto.SendPhotoBuilder chatId(ChatId chatId) {
-            this.chatId = chatId;
-            return this;
-        }
-    }
 }

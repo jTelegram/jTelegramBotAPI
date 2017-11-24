@@ -11,8 +11,8 @@ public class SetChatDescription extends UpdatableChatRequest {
     private final String description;
 
     @Builder
-    public SetChatDescription(String endPoint, Consumer<TelegramException> errorHandler, Runnable callback, ChatId chatId, String description) {
-        super(endPoint, errorHandler, callback, chatId);
+    public SetChatDescription( Consumer<TelegramException> errorHandler, Runnable callback, ChatId chatId, String description) {
+        super("setChatDescription", errorHandler, callback, chatId);
         this.description = description;
     }
 

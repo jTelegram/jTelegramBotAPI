@@ -44,15 +44,4 @@ public class SendVideo extends InputFileMessageRequest<VideoMessage> {
         return Collections.singletonList(video);
     }
 
-    public static class SendVideoBuilder {
-        public SendVideo.SendVideoBuilder chatId(Chat chat) {
-            this.chatId = new LongChatId(chat.getId());
-            return this;
-        }
-
-        public SendVideo.SendVideoBuilder chatId(ChatId chatId) {
-            this.chatId = chatId;
-            return this;
-        }
-    }
 }

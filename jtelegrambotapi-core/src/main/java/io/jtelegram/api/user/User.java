@@ -18,4 +18,22 @@ public class User {
     private String username;
     private String languageCode;
 
+    public String getFullname() {
+        return new StringBuilder(firstName).append(" ").append(lastName).toString();
+    }
+
+    /**
+     * Tries the get the username of the user.
+     * If it doesn't exist, it will fallback on getting the user the full name of the user.
+     *
+     * @return
+     */
+    public String getUsernameFallbackName() {
+        if (username == null) {
+            return getFullname();
+        } else {
+            return username;
+        }
+    }
+
 }

@@ -10,4 +10,9 @@ public class LongChatId implements ChatId<Long> {
     public Long getId() {
         return chatId;
     }
+
+    @Override
+    public String toString() {
+        return String.valueOf(chatId);
+    }
 }

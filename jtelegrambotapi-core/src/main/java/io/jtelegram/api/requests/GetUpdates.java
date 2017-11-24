@@ -7,6 +7,7 @@ import io.jtelegram.api.update.Update;
 import io.jtelegram.api.update.UpdateType;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.ToString;
 
 import java.util.List;
 import java.util.function.Consumer;
@@ -15,6 +16,7 @@ import java.util.function.Consumer;
  * Method for polling and retrieve latest updates
  */
 @Getter
+@ToString
 public class GetUpdates extends QueryTelegramRequest<Update[]> {
     private final int offset;
     private final int limit;
@@ -32,7 +34,6 @@ public class GetUpdates extends QueryTelegramRequest<Update[]> {
 
     @Override
     protected boolean isValid() {
-        // TODO potentially needs updating.
-        return true;
+        return limit >= 0 && timeout >= 0;
     }
 }

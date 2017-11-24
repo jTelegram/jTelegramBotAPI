@@ -3,9 +3,7 @@ package io.jtelegram.api;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import io.jtelegram.api.chat.Chat;
-import io.jtelegram.api.chat.ChatType;
-import io.jtelegram.api.chat.ChatDeserializer;
+import io.jtelegram.api.chat.*;
 import io.jtelegram.api.chat.id.ChatId;
 import io.jtelegram.api.chat.id.ChatIdSerializer;
 import io.jtelegram.api.message.Message;
@@ -37,6 +35,8 @@ public class TelegramBotRegistry {
             .registerTypeAdapter(ChatType.class, new LowercaseEnumAdapter<>(ChatType.class))
             .registerTypeAdapter(MaskPoint.class, new LowercaseEnumAdapter<>(MaskPoint.class))
             .registerTypeAdapter(InputMediaType.class, new LowercaseEnumAdapter<>(InputMediaType.class))
+            .registerTypeAdapter(ChatAction.class, new LowercaseEnumAdapter<>(ChatAction.class))
+            .registerTypeAdapter(ChatMemberStatus.class, new LowercaseEnumAdapter<>(ChatMemberStatus.class))
             .registerTypeAdapter(Update.class, new UpdateDeserializer())
             .registerTypeAdapter(Chat.class, new ChatDeserializer())
             .registerTypeAdapter(Message.class, new MessageDeserializer())

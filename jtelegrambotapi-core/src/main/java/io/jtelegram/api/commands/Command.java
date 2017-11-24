@@ -1,11 +1,18 @@
 package io.jtelegram.api.commands;
 
+import io.jtelegram.api.message.impl.TextMessage;
+import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 
 import java.util.List;
 
-@RequiredArgsConstructor
+@RequiredArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
+@ToString
 public class Command {
     private final String baseCommand;
     private final List<String> args;
+    private final TextMessage baseMessage;
 }

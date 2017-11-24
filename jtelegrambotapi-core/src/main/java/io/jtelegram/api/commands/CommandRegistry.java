@@ -2,20 +2,34 @@ package io.jtelegram.api.commands;
 
 import io.jtelegram.api.TelegramBot;
 import io.jtelegram.api.commands.listeners.CommandListener;
+import io.jtelegram.api.commands.listeners.TextCommandListener;
+import io.jtelegram.api.events.EventHandler;
 import io.jtelegram.api.events.message.TextMessageEvent;
 import io.jtelegram.api.message.entity.MessageEntity;
 import io.jtelegram.api.message.entity.MessageEntityType;
 import io.jtelegram.api.message.impl.TextMessage;
-import lombok.RequiredArgsConstructor;
 
 import java.util.*;
 
-@RequiredArgsConstructor
-public class CommandRegistry {
+public class CommandRegistry implements EventHandler<TextMessageEvent> {
     private final TelegramBot bot;
     private final Map<CommandListener, CommandHandler> listeners = new HashMap<>();
 
-    public void handle(TextMessageEvent event) {
+    public CommandRegistry(TelegramBot bot) {
+        this.bot = bot;
+        bot.getEventRegistry().registerEvent(TextMessageEvent.class, this);
+    }
+
+    public void registerCommand(CommandListener listener, CommandHandler handler) {
+        this.listeners.put(listener, handler);
+    }
+
+    public void registerCommand(String command, CommandHandler handler) {
+        this.registerCommand(new TextCommandListener(command, false), handler);
+    }
+
+    @Override
+    public void onEvent(TextMessageEvent event) {
         TextMessage message = event.getMessage();
         List<MessageEntity> entities = message.getEntities();
 

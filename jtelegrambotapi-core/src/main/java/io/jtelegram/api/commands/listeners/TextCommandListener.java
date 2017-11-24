@@ -1,8 +1,12 @@
 package io.jtelegram.api.commands.listeners;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 @AllArgsConstructor
+@EqualsAndHashCode
+@ToString
 public class TextCommandListener implements CommandListener {
     private final String text;
     private final boolean caseSensitive;

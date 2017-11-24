@@ -9,6 +9,12 @@ import io.jtelegram.api.user.User;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import okhttp3.Request;
+import okhttp3.Response;
+import okhttp3.ResponseBody;
+
+import java.io.IOException;
+import java.io.InputStream;
 
 
 @Getter
@@ -36,5 +42,18 @@ public class TelegramBot {
         requestQueue.getRequestQueue().add(new BotRequest(this, request));
     }
 
-    // TODO registering events.
+    public InputStream downloadFile(TelegramFile file) throws IOException {
+        return downloadFile(file.getFilePath());
+    }
+
+    public InputStream downloadFile(String filePath) throws IOException {
+        ResponseBody body = registry.getClient().newCall(
+                new Request.Builder()
+                        .url(registry.getApiUrl() + apiKey + "/" + filePath)
+                        .get()
+                        .build()
+        ).execute().body();
+
+        return body == null ? null : body.byteStream();
+    }
 }

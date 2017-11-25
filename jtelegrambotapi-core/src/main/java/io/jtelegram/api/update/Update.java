@@ -1,5 +1,6 @@
 package io.jtelegram.api.update;
 
+import com.google.gson.*;
 import io.jtelegram.api.inline.CallbackQuery;
 import io.jtelegram.api.inline.InlineQuery;
 import io.jtelegram.api.inline.result.ChosenInlineResult;
@@ -7,6 +8,10 @@ import io.jtelegram.api.message.Message;
 import io.jtelegram.api.message.payments.PreCheckoutQuery;
 import io.jtelegram.api.message.payments.ShippingQuery;
 import lombok.Getter;
+
+import java.lang.reflect.Type;
+import java.util.HashMap;
+import java.util.Map;
 
 @Getter
 public class Update {
@@ -55,5 +60,27 @@ public class Update {
     @Getter
     public static class ShippingQueryUpdate extends Update {
         private ShippingQuery shippingQuery;
+    }
+
+    public static class Deserializer implements JsonDeserializer<Update> {
+        private static final Map<String, Class<? extends Update>> CLASS_MAP = new HashMap<>();
+
+        static {
+            for (UpdateType<? extends Update> type : UpdateType.ALL) {
+                CLASS_MAP.put(type.getName().toLowerCase(), type.getUpdateClass());
+            }
+        }
+
+        @Override
+        public Update deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext context) throws JsonParseException {
+            JsonObject object = jsonElement.getAsJsonObject();
+            for (String key : object.keySet()) {
+                if (CLASS_MAP.containsKey(key)) {
+                    return context.deserialize(object, CLASS_MAP.get(key));
+                }
+            }
+
+            return null;
+        }
     }
 }

@@ -12,6 +12,7 @@ import io.jtelegram.api.ex.TelegramException;
 import io.jtelegram.api.message.impl.TextMessage;
 import io.jtelegram.api.message.input.file.InputFile;
 import io.jtelegram.api.message.input.media.InputMediaType;
+import io.jtelegram.api.message.keyboard.ReplyKeyboardRow;
 import io.jtelegram.api.message.sticker.MaskPoint;
 import io.jtelegram.api.requests.GetMe;
 import io.jtelegram.api.update.*;
@@ -38,6 +39,7 @@ public class TelegramBotRegistry {
             .registerTypeAdapter(ChatMemberStatus.class, new LowercaseEnumAdapter<>(ChatMemberStatus.class))
             .registerTypeAdapter(InlineResultType.class, new LowercaseEnumAdapter<>(InlineResultType.class))
             .registerTypeAdapter(InlineKeyboardRow.class, new InlineKeyboardRow.Serializer())
+            .registerTypeAdapter(ReplyKeyboardRow.class, new ReplyKeyboardRow.Serializer())
             .registerTypeAdapter(Update.class, new Update.Deserializer())
             .registerTypeAdapter(Chat.class, new Chat.Deserializer())
             .registerTypeAdapter(Message.class, new Message.Deserializer())

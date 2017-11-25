@@ -2,13 +2,12 @@ package io.jtelegram.api.inline.keyboard;
 
 import com.google.gson.annotations.SerializedName;
 import io.jtelegram.api.message.games.CallbackGame;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.ToString;
+import lombok.*;
 
 @Getter
 @ToString
 @Builder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class InlineKeyboardButton {
     @SerializedName("text")
     private String label;

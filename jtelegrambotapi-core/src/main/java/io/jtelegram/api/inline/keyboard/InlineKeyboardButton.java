@@ -7,7 +7,6 @@ import lombok.*;
 @Getter
 @ToString
 @Builder
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class InlineKeyboardButton {
     @SerializedName("text")
     private String label;

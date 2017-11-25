@@ -9,7 +9,6 @@ import java.util.List;
 @Builder
 @Getter
 @ToString
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ReplyKeyboardRow {
     @Singular
     private List<KeyboardButton> buttons;

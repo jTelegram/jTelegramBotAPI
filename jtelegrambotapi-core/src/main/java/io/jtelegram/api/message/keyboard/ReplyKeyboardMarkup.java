@@ -8,7 +8,6 @@ import java.util.List;
 @Builder
 @Getter
 @ToString
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ReplyKeyboardMarkup implements ReplyMarkup {
     @Singular
     private List<ReplyKeyboardRow> rows;

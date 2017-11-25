@@ -3,8 +3,10 @@ package io.jtelegram.api.message;
 import io.jtelegram.api.chat.Chat;
 import io.jtelegram.api.user.User;
 import lombok.Getter;
+import lombok.ToString;
 
 @Getter
+@ToString
 public abstract class Message<T> {
     private int messageId;
     private User from;

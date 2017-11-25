@@ -1,10 +1,6 @@
 package io.jtelegram.api.update;
 
 import com.google.gson.*;
-import io.jtelegram.api.update.types.ChannelPostUpdate;
-import io.jtelegram.api.update.types.EditedChannelPostUpdate;
-import io.jtelegram.api.update.types.EditedMessageUpdate;
-import io.jtelegram.api.update.types.MessageUpdate;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;
@@ -14,10 +10,9 @@ public class UpdateDeserializer implements JsonDeserializer<Update> {
     private static final Map<String, Class<? extends Update>> CLASS_MAP = new HashMap<>();
 
     static {
-        CLASS_MAP.put("message", MessageUpdate.class);
-        CLASS_MAP.put("edited_message", EditedMessageUpdate.class);
-        CLASS_MAP.put("channel_post", ChannelPostUpdate.class);
-        CLASS_MAP.put("edited_channel_post", EditedChannelPostUpdate.class);
+        for (UpdateType<? extends Update> type : UpdateType.ALL) {
+            CLASS_MAP.put(type.getName().toLowerCase(), type.getUpdateClass());
+        }
     }
 
     @Override

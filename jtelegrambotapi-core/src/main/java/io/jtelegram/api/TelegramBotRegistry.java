@@ -6,6 +6,8 @@ import com.google.gson.GsonBuilder;
 import io.jtelegram.api.chat.*;
 import io.jtelegram.api.chat.id.ChatId;
 import io.jtelegram.api.chat.id.ChatIdSerializer;
+import io.jtelegram.api.inline.keyboard.InlineKeyboardRow;
+import io.jtelegram.api.inline.result.framework.InlineResultType;
 import io.jtelegram.api.message.Message;
 import io.jtelegram.api.message.MessageDeserializer;
 import io.jtelegram.api.message.gson.TextMessageDeserializer;
@@ -38,6 +40,8 @@ public class TelegramBotRegistry {
             .registerTypeAdapter(InputMediaType.class, new LowercaseEnumAdapter<>(InputMediaType.class))
             .registerTypeAdapter(ChatAction.class, new LowercaseEnumAdapter<>(ChatAction.class))
             .registerTypeAdapter(ChatMemberStatus.class, new LowercaseEnumAdapter<>(ChatMemberStatus.class))
+            .registerTypeAdapter(InlineResultType.class, new LowercaseEnumAdapter<>(InlineResultType.class))
+            .registerTypeAdapter(InlineKeyboardRow.class, new InlineKeyboardRow.Serializer())
             .registerTypeAdapter(Update.class, new UpdateDeserializer())
             .registerTypeAdapter(Chat.class, new ChatDeserializer())
             .registerTypeAdapter(Message.class, new MessageDeserializer())

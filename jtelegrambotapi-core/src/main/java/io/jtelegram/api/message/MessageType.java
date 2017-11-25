@@ -7,8 +7,8 @@ import lombok.Getter;
 public enum MessageType {
     TEXT(TextMessage.class, TextMessageEvent.class),
     AUDIO(AudioMessage.class, AudioMessageEvent.class),
-    DOCUMENT(ContactMessage.class, ContactMessageEvent.class),
-    GAME(DocumentMessage.class, DocumentMessageEvent.class),
+    DOCUMENT(DocumentMessage.class, DocumentMessageEvent.class),
+    GAME(GameMessage.class, GameMessageEvent.class),
     PHOTO(PhotoMessage.class, PhotoMessageEvent.class),
     STICKER(StickerMessage.class, StickerMessageEvent.class),
     VIDEO(VideoMessage.class, VideoMessageEvent.class),
@@ -16,7 +16,8 @@ public enum MessageType {
     VIDEO_NOTE(VideoNoteMessage.class, VideoNoteMessageEvent.class),
     CONTACT(ContactMessage.class, ContactMessageEvent.class),
     LOCATION(LocationMessage.class, LocationMessageEvent.class),
-    VENUE(VenueMessage.class, VenueMessageEvent.class)
+    VENUE(VenueMessage.class, VenueMessageEvent.class),
+    INVOICE(InvoiceMessage.class, InvoiceMessageEvent.class)
     ;
 
     @Getter

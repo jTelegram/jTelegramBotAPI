@@ -6,6 +6,7 @@ import io.jtelegram.api.events.channel.ChannelPostEditEvent;
 import io.jtelegram.api.events.channel.ChannelPostEvent;
 import io.jtelegram.api.events.inline.ChosenInlineResultEvent;
 import io.jtelegram.api.events.inline.InlineQueryEvent;
+import io.jtelegram.api.events.inline.keyboard.CallbackQueryEvent;
 import io.jtelegram.api.events.location.LocationUpdateEvent;
 import io.jtelegram.api.events.message.MessageEvent;
 import io.jtelegram.api.events.message.edit.CaptionEditEvent;
@@ -64,6 +65,12 @@ public class UpdateType<T extends Update> {
             (bot, update) -> new PreCheckoutQueryEvent(bot, update.getPreCheckoutQuery())
     );
 
+    public static final UpdateType<Update.CallbackQueryUpdate> CALLBACK_QUERY = new UpdateType<>(
+            "CALLBACK_QUERY",
+            Update.CallbackQueryUpdate.class,
+            (bot, update) -> new CallbackQueryEvent(bot, update.getCallbackQuery())
+    );
+
     public static final UpdateType<Update.MessageUpdate> MESSAGE = new UpdateType<>(
             "MESSAGE",
             Update.MessageUpdate.class,
@@ -111,7 +118,7 @@ public class UpdateType<T extends Update> {
             }
     );
 
-    public static final UpdateType<? extends Update>[] ALL = new UpdateType[] { MESSAGE, EDITED_MESSAGE, CHANNEL_POST, EDITED_CHANNEL_POST, INLINE_QUERY, CHOSEN_INLINE_RESULT, SHIPPING_QUERY, PRE_CHECKOUT_QUERY };
+    public static final UpdateType<? extends Update>[] ALL = new UpdateType[] { MESSAGE, EDITED_MESSAGE, CALLBACK_QUERY, CHANNEL_POST, EDITED_CHANNEL_POST, INLINE_QUERY, CHOSEN_INLINE_RESULT, SHIPPING_QUERY, PRE_CHECKOUT_QUERY };
 
     private String name;
     private Class<T> updateClass;

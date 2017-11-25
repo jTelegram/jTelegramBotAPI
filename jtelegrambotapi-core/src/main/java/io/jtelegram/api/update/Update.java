@@ -1,5 +1,6 @@
 package io.jtelegram.api.update;
 
+import io.jtelegram.api.inline.CallbackQuery;
 import io.jtelegram.api.inline.InlineQuery;
 import io.jtelegram.api.inline.result.ChosenInlineResult;
 import io.jtelegram.api.message.Message;
@@ -34,6 +35,11 @@ public class Update {
     @Getter
     public static class InlineQueryUpdate extends Update {
         private InlineQuery inlineQuery;
+    }
+
+    @Getter
+    public static class CallbackQueryUpdate extends Update {
+        private CallbackQuery callbackQuery;
     }
 
     @Getter

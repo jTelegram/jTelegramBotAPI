@@ -1,7 +1,10 @@
 package io.jtelegram.api.message;
 
+import io.jtelegram.api.events.chat.*;
 import io.jtelegram.api.events.message.*;
+import io.jtelegram.api.events.payment.SuccessfulPaymentEvent;
 import io.jtelegram.api.message.impl.*;
+import io.jtelegram.api.message.impl.service.*;
 import lombok.Getter;
 
 public enum MessageType {
@@ -17,7 +20,14 @@ public enum MessageType {
     CONTACT(ContactMessage.class, ContactMessageEvent.class),
     LOCATION(LocationMessage.class, LocationMessageEvent.class),
     VENUE(VenueMessage.class, VenueMessageEvent.class),
-    INVOICE(InvoiceMessage.class, InvoiceMessageEvent.class)
+    INVOICE(InvoiceMessage.class, InvoiceMessageEvent.class),
+    SUCCESSFUL_PAYMENT(SuccessfulPaymentMessage.class, SuccessfulPaymentEvent.class),
+
+    NEW_CHAT_MEMBERS(NewChatMembersMessage.class, ChatMemberJoinedEvent.class),
+    LEFT_CHAT_MEMBER(LeftChatMemberMessage.class, ChatMemberLeftEvent.class),
+    NEW_CHAT_TITLE(NewChatTitleMessage.class, NewChatTitleEvent.class),
+    DELETE_CHAT_PHOTO(DeleteChatPhotoMessage.class, ChatPhotoDeletedEvent.class),
+    GROUP_CHAT_CREATED(GroupChatCreatedMessage.class, GroupChatCreatedEvent.class)
     ;
 
     @Getter

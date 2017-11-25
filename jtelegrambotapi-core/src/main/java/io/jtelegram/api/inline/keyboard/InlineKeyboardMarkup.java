@@ -10,6 +10,6 @@ import java.util.List;
 @Getter
 @Builder
 public class InlineKeyboardMarkup implements ReplyMarkup {
-    @Singular
+    @Singular("keyboard")
     private List<InlineKeyboardRow> inlineKeyboard;
 }

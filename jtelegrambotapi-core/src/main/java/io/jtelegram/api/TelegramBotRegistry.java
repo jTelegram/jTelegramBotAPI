@@ -31,7 +31,7 @@ public class TelegramBotRegistry {
     public static final Gson GSON = new GsonBuilder()
             .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
             .excludeFieldsWithModifiers(Modifier.TRANSIENT, Modifier.STATIC)
-            .registerTypeAdapter(UpdateType.class, new UpdateType.Serializer())
+            .registerTypeAdapter(UpdateType.class, new UpdateType.GsonTypeAdapter())
             .registerTypeAdapter(ChatType.class, new LowercaseEnumAdapter<>(ChatType.class))
             .registerTypeAdapter(MaskPoint.class, new LowercaseEnumAdapter<>(MaskPoint.class))
             .registerTypeAdapter(InputMediaType.class, new LowercaseEnumAdapter<>(InputMediaType.class))
@@ -45,7 +45,6 @@ public class TelegramBotRegistry {
             .registerTypeAdapter(Message.class, new Message.Deserializer())
             .registerTypeHierarchyAdapter(InputFile.class, new InputFile.Serializer())
             .registerTypeHierarchyAdapter(ChatId.class, new ChatId.Serializer())
-            .registerTypeAdapterFactory(new TextMessage.GsonAdapterFactory())
             .create();
     private final UpdateProvider updateProvider;
     private String apiUrl = "https://api.telegram.org/bot";

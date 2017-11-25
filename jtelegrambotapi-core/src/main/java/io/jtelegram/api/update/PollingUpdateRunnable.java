@@ -43,13 +43,13 @@ public class PollingUpdateRunnable implements Runnable {
 
     public void handleUpdates(Update[] updates) {
         for (Update update : updates) {
-            handleUpdate(UpdateType.from(update.getClass()), update);
+            handleUpdate(bot, UpdateType.from(update.getClass()), update);
         }
 
         offset = Stream.of(updates).mapToInt(Update::getUpdateId).max().orElse(offset - 1) + 1;
     }
 
-    public <T extends Update> void handleUpdate(UpdateType<T> type, Update update) {
+    public static <T extends Update> void handleUpdate(TelegramBot bot, UpdateType<T> type, Update update) {
         if (type != null) {
             Class<T> clazz = type.getUpdateClass();
 

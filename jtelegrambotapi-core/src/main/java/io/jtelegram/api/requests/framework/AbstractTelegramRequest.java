@@ -15,7 +15,7 @@ import java.util.function.Consumer;
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 public abstract class AbstractTelegramRequest implements TelegramRequest {
     // utility field
-    protected static Gson gson = TelegramBotRegistry.GSON;
+    protected transient static Gson gson = TelegramBotRegistry.GSON;
     private transient final String endPoint;
     protected transient final Consumer<TelegramException> errorHandler;
 

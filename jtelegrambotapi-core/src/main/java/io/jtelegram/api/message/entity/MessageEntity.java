@@ -1,6 +1,5 @@
 package io.jtelegram.api.message.entity;
 
-import io.jtelegram.api.message.impl.TextMessage;
 import lombok.Getter;
 import lombok.ToString;
 
@@ -12,7 +11,7 @@ public class MessageEntity {
     private int length;
     private String content;
 
-    public void updateContent(TextMessage origin) {
-        this.content = origin.getText().substring(offset, offset + length);
+    public void updateContent(String text) {
+        this.content = text.substring(offset, offset + length);
     }
 }

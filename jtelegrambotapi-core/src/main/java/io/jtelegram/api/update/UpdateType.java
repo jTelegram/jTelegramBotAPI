@@ -1,9 +1,8 @@
 package io.jtelegram.api.update;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonPrimitive;
-import com.google.gson.JsonSerializationContext;
-import com.google.gson.JsonSerializer;
+import com.google.gson.*;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
 import io.jtelegram.api.TelegramBot;
 import io.jtelegram.api.events.Event;
 import io.jtelegram.api.events.channel.ChannelPostEditEvent;
@@ -26,6 +25,7 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Type;
@@ -138,10 +138,24 @@ public class UpdateType<T extends Update> {
         return null;
     }
 
-    public static class Serializer implements JsonSerializer<UpdateType> {
+    public static UpdateType<? extends Update> from(String name) {
+        for (UpdateType<? extends Update> type : ALL) {
+            if (type.name.equalsIgnoreCase(name))
+                return type;
+        }
+
+        return null;
+    }
+
+    public static class GsonTypeAdapter extends TypeAdapter<UpdateType> {
         @Override
-        public JsonElement serialize(UpdateType updateType, Type type, JsonSerializationContext jsonSerializationContext) {
-            return new JsonPrimitive(updateType.name);
+        public void write(JsonWriter jsonWriter, UpdateType updateType) throws IOException {
+            jsonWriter.value(updateType.name.toLowerCase());
+        }
+
+        @Override
+        public UpdateType read(JsonReader jsonReader) throws IOException {
+            return UpdateType.from(jsonReader.nextString());
         }
     }
 }

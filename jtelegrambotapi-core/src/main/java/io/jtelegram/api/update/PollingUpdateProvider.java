@@ -1,6 +1,7 @@
 package io.jtelegram.api.update;
 
 import io.jtelegram.api.TelegramBot;
+import io.jtelegram.api.requests.webhooks.DeleteWebhook;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -23,10 +24,19 @@ public class PollingUpdateProvider implements UpdateProvider {
 
     @Override
     public void listenFor(TelegramBot bot) {
-            PollingUpdateRunnable runnable = new PollingUpdateRunnable(bot, this);
-            Thread thread = new Thread(runnable, "update-provider");
-            thread.start();
-            botThreads.put(bot, thread);
+        // remove any previous webhooks in case
+        // we are switching providers
+        bot.perform(DeleteWebhook.builder()
+                .callback(() -> startUpdateThread(bot))
+                .errorHandler((e) -> startUpdateThread(bot))
+                .build());
+    }
+
+    private void startUpdateThread(TelegramBot bot) {
+        PollingUpdateRunnable runnable = new PollingUpdateRunnable(bot, this);
+        Thread thread = new Thread(runnable, bot.getBotInfo().getUsername() + "-update-provider");
+        thread.start();
+        botThreads.put(bot, thread);
     }
 
     @Override

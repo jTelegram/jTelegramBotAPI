@@ -29,12 +29,11 @@ import java.util.Set;
 import java.util.function.BiConsumer;
 
 @Getter
-@Builder
 public class TelegramBotRegistry {
     public static final Gson GSON = new GsonBuilder()
             .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
             .excludeFieldsWithModifiers(Modifier.TRANSIENT, Modifier.STATIC)
-            .registerTypeAdapter(UpdateType.class, new LowercaseEnumAdapter<>(UpdateType.class))
+            .registerTypeAdapter(UpdateType.class, new UpdateType.Serializer())
             .registerTypeAdapter(ChatType.class, new LowercaseEnumAdapter<>(ChatType.class))
             .registerTypeAdapter(MaskPoint.class, new LowercaseEnumAdapter<>(MaskPoint.class))
             .registerTypeAdapter(InputMediaType.class, new LowercaseEnumAdapter<>(InputMediaType.class))
@@ -50,16 +49,21 @@ public class TelegramBotRegistry {
             .registerTypeAdapterFactory(new TextMessageDeserializer())
             .create();
     private final UpdateProvider updateProvider;
-    @Builder.Default
     private String apiUrl = "https://api.telegram.org/bot";
-    @Builder.Default
     private OkHttpClient client = new OkHttpClient();
     private final Set<TelegramBot> bots = new HashSet<>();
 
-    public TelegramBotRegistry(UpdateProvider updateProvider, String apiUrl, OkHttpClient client) {
+    @Builder
+    private TelegramBotRegistry(UpdateProvider updateProvider, String apiUrl, OkHttpClient client) {
         this.updateProvider = updateProvider;
-        this.apiUrl = apiUrl;
-        this.client = client;
+
+        if (apiUrl != null) {
+            this.apiUrl = apiUrl;
+        }
+
+        if (client != null) {
+            this.client = client;
+        }
     }
 
     public void setHttpClient(OkHttpClient client) {

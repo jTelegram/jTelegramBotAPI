@@ -1,5 +1,9 @@
 package io.jtelegram.api.update;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
 import io.jtelegram.api.TelegramBot;
 import io.jtelegram.api.events.Event;
 import io.jtelegram.api.events.channel.ChannelPostEditEvent;
@@ -24,6 +28,7 @@ import lombok.Getter;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Type;
 import java.util.function.BiFunction;
 
 @Getter
@@ -131,5 +136,12 @@ public class UpdateType<T extends Update> {
         }
 
         return null;
+    }
+
+    public static class Serializer implements JsonSerializer<UpdateType> {
+        @Override
+        public JsonElement serialize(UpdateType updateType, Type type, JsonSerializationContext jsonSerializationContext) {
+            return new JsonPrimitive(updateType.name);
+        }
     }
 }

@@ -15,13 +15,13 @@ public class InlineResultVoice extends InlineResult implements InlineResult.Urla
     private String title;
     private String caption;
     @SerializedName("voice_duration")
-    private String duration;
+    private Integer duration;
     @SerializedName("voice_url")
     private String url;
 
     @Builder
     private InlineResultVoice(String id, InlineKeyboardMarkup replyMarkup, InputMessageContent inputMessageContent,
-                              String title, String caption, String duration, String url) {
+                              String title, String caption, Integer duration, String url) {
         super(id, replyMarkup, inputMessageContent);
         this.title = title;
         this.caption = caption;

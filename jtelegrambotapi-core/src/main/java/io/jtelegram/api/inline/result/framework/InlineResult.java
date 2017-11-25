@@ -31,7 +31,7 @@ public abstract class InlineResult {
     }
 
     public interface Duratable {
-        int getDuration();
+        Integer getDuration();
     }
 
     public interface Titled {
@@ -43,7 +43,7 @@ public abstract class InlineResult {
     }
 
     public interface Visual {
-        int getWidth();
-        int getHeight();
+        Integer getWidth();
+        Integer getHeight();
     }
 }

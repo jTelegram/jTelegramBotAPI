@@ -5,10 +5,6 @@ import com.jtelegram.api.events.message.*;
 import com.jtelegram.api.events.payment.SuccessfulPaymentEvent;
 import com.jtelegram.api.message.impl.*;
 import com.jtelegram.api.message.impl.service.*;
-import io.jtelegram.api.events.chat.*;
-import io.jtelegram.api.events.message.*;
-import io.jtelegram.api.message.impl.*;
-import io.jtelegram.api.message.impl.service.*;
 import lombok.Getter;
 
 public enum MessageType {

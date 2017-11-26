@@ -4,7 +4,6 @@ import com.google.gson.annotations.SerializedName;
 import com.jtelegram.api.inline.result.framework.InlineResult;
 import com.jtelegram.api.inline.input.InputMessageContent;
 import com.jtelegram.api.inline.keyboard.InlineKeyboardMarkup;
-import io.jtelegram.api.inline.result.framework.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;

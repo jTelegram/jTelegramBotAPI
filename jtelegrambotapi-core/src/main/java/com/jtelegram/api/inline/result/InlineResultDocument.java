@@ -5,7 +5,6 @@ import com.jtelegram.api.inline.input.InputMessageContent;
 import com.jtelegram.api.inline.keyboard.InlineKeyboardMarkup;
 import com.jtelegram.api.inline.result.framework.DimensionalThumbableInlineResult;
 import com.jtelegram.api.inline.result.framework.InlineResult;
-import io.jtelegram.api.inline.result.framework.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;

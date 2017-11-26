@@ -2,8 +2,6 @@ package com.jtelegram.api.inline.result.framework;
 
 import com.jtelegram.api.inline.result.*;
 import com.jtelegram.api.inline.result.cached.*;
-import io.jtelegram.api.inline.result.*;
-import io.jtelegram.api.inline.result.cached.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

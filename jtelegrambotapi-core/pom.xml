@@ -10,25 +10,11 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <properties>
-        <main.package>com.jtelegram.api</main.package>
-        <main.class>TelegramBot</main.class>
-    </properties>
 
     <artifactId>jtelegrambotapi-core</artifactId>
     <name>jTelegramBotAPI</name>
 
-    <distributionManagement>
-        <snapshotRepository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-        </snapshotRepository>
-        <repository>
-            <id>ossrh</id>
-            <name>Nexus Release Repository</name>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-        </repository>
-    </distributionManagement>
+
 
     <dependencies>
         <dependency>
@@ -47,17 +33,4 @@
         </dependency>
     </dependencies>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
 </project>

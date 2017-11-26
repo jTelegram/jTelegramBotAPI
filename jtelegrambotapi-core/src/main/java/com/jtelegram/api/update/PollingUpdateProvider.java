@@ -2,10 +2,7 @@ package com.jtelegram.api.update;
 
 import com.jtelegram.api.TelegramBot;
 import com.jtelegram.api.requests.webhooks.DeleteWebhook;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -20,6 +17,7 @@ public class PollingUpdateProvider implements UpdateProvider {
     // DO NOT USE REFLECTION TO CHANGE THESE
     private int sleepInterval = 50;
     private int timeout = 10;
+    @Singular
     private List<UpdateType> allowedUpdates = new ArrayList<>();
 
     @Override

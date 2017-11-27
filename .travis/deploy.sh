@@ -2,6 +2,11 @@
 
 set -e
 
+if [ "$TRAVIS_PULL_REQUEST" == "true" ]
+then
+    exit 0
+fi
+
 # only do deployment, when travis detects a new tag
 if [ ! -z "$TRAVIS_TAG" ]
 then

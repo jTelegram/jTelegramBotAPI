@@ -26,3 +26,17 @@ else
     echo "not on a tag -> keep snapshot version in pom.xml"
     mvn clean deploy --settings .travis/settings.xml -DskipTests=true -B -U
 fi
+
+
+cd jtelegramapi-core/target/apidocs
+git init
+git remote add javadoc git@github.com:jTelegram/jTelegramBotAPI.git
+
+git config user.name "Travis CI"
+git config user.email "travis@travis-ci.org"
+
+git add --all
+git commit -m ""
+git merge --no-edit -s ours remotes/javadoc/ghpages
+git push javadoc master:gh-pages
+rm -r -f .git

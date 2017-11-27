@@ -6,9 +6,7 @@ install:
 before_install:
   - if [ ! -z "$GPG_SECRET_KEYS" ]; then echo $GPG_SECRET_KEYS | base64 --decode | $GPG_EXECUTABLE --import; fi
   - if [ ! -z "$GPG_OWNERTRUST" ]; then echo $GPG_OWNERTRUST | base64 --decode | $GPG_EXECUTABLE --import-ownertrust; fi
-  - $GPG_EXECUTABLE --list-secret-keys
-  - echo "list keys"
-  - $GPG_EXECUTABLE --list-keys
+  - if [ ! -z "$SSH_KEY" ]; then echo $SSH_KEY | base64 --decode > $HOME/.ssh/id_rsa; chmod 600 $HOME/.ssh/id_rsa; fi
 deploy:
   - provider: script
     script: .travis/deploy.sh

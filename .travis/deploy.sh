@@ -36,7 +36,7 @@ then
 
     cd jtelegrambotapi-core/target
 
-    git clone -b gh-pages git@github.com:jTelegram/jTelegramBotAPI.git
+    git clone -b gh-pages git@github.com:jTelegram/jTelegramBotAPI.git gh-pages
     cd gh-pages
     rm -rf *
 

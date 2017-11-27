@@ -29,6 +29,8 @@
 
 if [ ! -z "$SSH_KEY" ]
 then
+    mvn clean package
+    pwd
     # Setup deployment key
     echo $SSH_KEY | base64 --decode > $HOME/.ssh/id_rsa
     chmod 600 $HOME/.ssh/id_rsa

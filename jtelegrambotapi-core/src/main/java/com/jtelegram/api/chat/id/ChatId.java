@@ -5,6 +5,7 @@ import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 import com.jtelegram.api.chat.Chat;
+import com.jtelegram.api.message.Message;
 
 import java.lang.reflect.Type;
 
@@ -13,6 +14,10 @@ public interface ChatId<T> {
 
     static LongChatId of(long id) {
         return new LongChatId(id);
+    }
+
+    static LongChatId of(Message message) {
+        return new LongChatId(message.getChat().getId());
     }
 
     static StringChatId of(String id) {

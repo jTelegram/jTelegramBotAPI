@@ -27,16 +27,24 @@
 #    mvn clean deploy --settings .travis/settings.xml -DskipTests=true -B -U
 #fi
 
+if [ ! -z "$SSH_KEY" ]
+then
+    # Setup deployment key
+    echo $SSH_KEY | base64 --decode > $HOME/.ssh/id_rsa
+    chmod 600 $HOME/.ssh/id_rsa
 
-cd jtelegrambotapi-core/target/apidocs
-git init
-git remote add javadoc git@github.com:jTelegram/jTelegramBotAPI.git
+    cd jtelegrambotapi-core/target/apidocs
+    git init
+    git config user.name "Travis CI"
+    git config user.email "travis@travis-ci.org"
 
-git config user.name "Travis CI"
-git config user.email "travis@travis-ci.org"
+    git remote add javadoc git@github.com:jTelegram/jTelegramBotAPI.git
+    git add --all
+    git commit -m "github pages update"
 
-git add --all
-git commit -m ""
-git merge --no-edit -s ours remotes/javadoc/ghpages
-git push javadoc master:gh-pages
-rm -r -f .git
+    #git merge --no-edit -s ours remotes/javadoc/ghpages
+
+    git push --force --quiet javadoc master:gh-pages
+
+    rm -rf .git
+fi

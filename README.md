@@ -16,7 +16,7 @@ jTelegram is a Java API Wrapper for the Telegram Bot API. The wrapper supports a
 
 ## Getting Started
 
-To get started, check out our wiki [here](wiki).
+To get started, check out our wiki [here](https://github.com/jtelegram/jTelegramBotAPI/wiki).
 
 ## Support
 
@@ -26,4 +26,4 @@ We can provide support in English and French (Français), although please keep i
 
 ## Licensing
 
-This project is under the MIT license, please consult [this link](https://github.com/aaomidi/jTelegramBotAPI/blob/master/LICENSE) for more information.
+This project is under the MIT license, please consult [this link](https://github.com/jTelegram/jTelegramBotAPI/blob/master/LICENSE) for more information.

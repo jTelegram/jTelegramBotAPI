@@ -30,23 +30,29 @@
 if [ ! -z "$SSH_KEY" ]
 then
     mvn clean package
-    pwd
     # Setup deployment key
     echo $SSH_KEY | base64 --decode > $HOME/.ssh/id_rsa
     chmod 600 $HOME/.ssh/id_rsa
 
-    cd jtelegrambotapi-core/target/apidocs
-    git init
+    cd jtelegrambotapi-core/target
+
+    git clone -b gh-pages git@github.com:jTelegram/jTelegramBotAPI.git
+    cd gh-pages
+    rm -rf *
+
+    git config --global push.default simple
     git config user.name "Travis CI"
     git config user.email "travis@travis-ci.org"
 
-    git remote add javadoc git@github.com:jTelegram/jTelegramBotAPI.git
+    git cp ../apidocs/* .
+
+    git remote add javadoc
     git add --all
-    git commit -m "github pages update"
+    git commit -m "Deploy javadocs to GitHub Pages Travis build: ${TRAVIS_BUILD_NUMBER}" -m "Commit: ${TRAVIS_COMMIT}"
 
     #git merge --no-edit -s ours remotes/javadoc/ghpages
 
-    git push --force --quiet javadoc gh-pages
+    git push --force --quiet
 
     rm -rf .git
 fi

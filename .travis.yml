@@ -13,6 +13,12 @@ deploy:
     on:
       repo: jTelegram/jTelegramBotAPI
       tags: true
+  - provider: script
+    script: .travis/deploy.sh
+    skip_cleanup: true
+    on:
+      repo: jTelegram/jTelegramBotAPI
+      branch: master
 cache:
   directories:
     - "$HOME/.m2"

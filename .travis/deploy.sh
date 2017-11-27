@@ -51,7 +51,7 @@ then
 
     cp -rf ../apidocs/* .
 
-    git remote add javadoc
+    #git remote add javadoc
     git add --all
     git commit -m "Deploy javadocs to GitHub Pages Travis build: ${TRAVIS_BUILD_NUMBER}" -m "Commit: ${TRAVIS_COMMIT}"
 

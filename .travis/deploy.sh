@@ -44,7 +44,7 @@ then
 
     #git merge --no-edit -s ours remotes/javadoc/ghpages
 
-    git push --force --quiet javadoc master:gh-pages
+    git push --force --quiet javadoc gh-pages
 
     rm -rf .git
 fi

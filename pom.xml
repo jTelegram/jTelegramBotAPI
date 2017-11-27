@@ -13,7 +13,7 @@
 
     <issueManagement>
         <system>GitHub</system>
-        <!--<url></url>-->
+        <url>https://github.com/jTelegram/jTelegramBotAPI/issues</url>
     </issueManagement>
 
     <distributionManagement>
@@ -35,11 +35,11 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
-    <!--<scm>-->
-    <!--<connection></connection>-->
-    <!--<developerConnection></developerConnection>-->
-    <!--<url></url>-->
-    <!--</scm>-->
+    <scm>
+        <url>git@github.com:jTelegram/jTelegramBotAPI.git</url>
+        <connection>scm:git:git@github.com:jTelegram/jTelegramBotAPI.git</connection>
+        <developerConnection>scm:git:git@github.com:jTelegram/jTelegramBotAPI.git</developerConnection>
+    </scm>
     <developers>
         <developer>
             <id>aaomidi</id>

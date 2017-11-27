@@ -12,13 +12,11 @@ deploy:
     skip_cleanup: true
     on:
       branch: master
-      jdk: oraclejdk8
   - provider: script
     script: .travis/deploy.sh
     skip_cleanup: true
     on:
       tags: true
-      jdk: oraclejdk8
 cache:
   directories:
     - "$HOME/.m2"

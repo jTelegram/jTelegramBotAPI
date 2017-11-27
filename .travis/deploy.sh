@@ -44,7 +44,7 @@ then
     git config user.name "Travis CI"
     git config user.email "travis@travis-ci.org"
 
-    git cp ../apidocs/* .
+    cp ../apidocs/* .
 
     git remote add javadoc
     git add --all

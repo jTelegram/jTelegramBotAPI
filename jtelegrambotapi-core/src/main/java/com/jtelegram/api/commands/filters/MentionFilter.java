@@ -1,5 +1,6 @@
 package com.jtelegram.api.commands.filters;
 
+import com.jtelegram.api.chat.ChatType;
 import com.jtelegram.api.commands.Command;
 import com.jtelegram.api.events.message.TextMessageEvent;
 import com.jtelegram.api.message.entity.MessageEntityType;
@@ -26,10 +27,11 @@ public class MentionFilter extends CommandFilter {
     protected boolean _test(TextMessageEvent event, Command command) {
         String botUsername = event.getBot().getBotInfo().getUsername();
 
-        return event.getMessage().getEntities().stream()
-                .filter(me -> me.getType() == MessageEntityType.MENTION)
-                .filter(me -> botUsername.equalsIgnoreCase(me.toString()))
-                .count() > 0;
+        return event.getMessage().getChat().getType() == ChatType.PRIVATE
+                || event.getMessage().getEntities().stream()
+                        .filter(me -> me.getType() == MessageEntityType.MENTION)
+                        .filter(me -> botUsername.equalsIgnoreCase(me.toString()))
+                        .count() > 0;
     }
 
 }

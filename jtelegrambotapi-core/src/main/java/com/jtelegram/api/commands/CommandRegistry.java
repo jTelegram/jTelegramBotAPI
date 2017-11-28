@@ -10,6 +10,7 @@ import com.jtelegram.api.message.entity.MessageEntityType;
 import com.jtelegram.api.message.impl.TextMessage;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class CommandRegistry implements EventHandler<TextMessageEvent> {
     private final TelegramBot bot;
@@ -41,7 +42,13 @@ public class CommandRegistry implements EventHandler<TextMessageEvent> {
         }
 
         String[] args = message.getText().split(" ");
-        String[] argsList = Arrays.copyOfRange(args, 1, args.length);
+        String[] argsArray = Arrays.copyOfRange(args, 1, args.length);
+        List<String> argsList = Collections.unmodifiableList(
+                Arrays.stream(argsArray)
+                        .filter(Objects::nonNull)
+                        .collect(Collectors.toList())
+        );
+        
         Command command = new Command(baseCommand, argsList, message);
         long handled = listeners.stream()
                 .filter(e -> e.test(event, command))

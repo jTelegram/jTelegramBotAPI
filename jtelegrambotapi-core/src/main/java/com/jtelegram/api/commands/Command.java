@@ -13,7 +13,7 @@ import java.util.List;
 @ToString
 public class Command {
     private final String baseCommand;
-    private final String[] args;
+    private final List<String> args;
     private final TextMessage baseMessage;
 
     public String getArgsAsText() {

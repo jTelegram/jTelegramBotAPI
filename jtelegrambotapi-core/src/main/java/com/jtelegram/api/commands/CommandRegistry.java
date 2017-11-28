@@ -2,7 +2,7 @@ package com.jtelegram.api.commands;
 
 import com.jtelegram.api.TelegramBot;
 import com.jtelegram.api.commands.filters.CommandFilter;
-import com.jtelegram.api.commands.filters.TextCommandFilter;
+import com.jtelegram.api.commands.filters.TextFilter;
 import com.jtelegram.api.events.EventHandler;
 import com.jtelegram.api.events.message.TextMessageEvent;
 import com.jtelegram.api.message.entity.MessageEntity;
@@ -25,7 +25,7 @@ public class CommandRegistry implements EventHandler<TextMessageEvent> {
     }
 
     public void registerCommand(String command, CommandFilter filter) {
-        this.registerCommand(new TextCommandFilter(command, false, filter));
+        this.registerCommand(new TextFilter(command, false, filter));
     }
 
     @Override

@@ -5,13 +5,22 @@ import com.jtelegram.api.events.message.TextMessageEvent;
 import java.util.regex.Pattern;
 
 /**
+ * A {@link CommandFilter} testing if the command matches
+ * a certain {@link Pattern regular expression pattern}.
+ *
  * @author Nick Robson
  */
-public class RegexCommandFilter extends CommandFilter {
+public class RegexFilter extends CommandFilter {
 
     private final Pattern pattern;
 
-    public RegexCommandFilter(Pattern pattern, CommandFilter... children) {
+    /**
+     * Creates a RegexFilter with given children.
+     *
+     * @param children The children filters, which will be checked in order
+     *                 if this filter tests to be {@code true}
+     */
+    public RegexFilter(Pattern pattern, CommandFilter... children) {
         super(children);
         this.pattern = pattern;
     }

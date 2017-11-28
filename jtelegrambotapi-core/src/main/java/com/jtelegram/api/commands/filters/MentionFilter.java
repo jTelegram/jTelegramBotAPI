@@ -5,10 +5,19 @@ import com.jtelegram.api.events.message.TextMessageEvent;
 import com.jtelegram.api.message.entity.MessageEntityType;
 
 /**
+ * A {@link CommandFilter} testing if the bot was mentioned in
+ * the command.
+ *
  * @author Nick Robson
  */
 public class MentionFilter extends CommandFilter {
 
+    /**
+     * Creates a CommandFilter with given children.
+     *
+     * @param children The children filters, which will be checked in order
+     *                 if this filter tests to be {@code true}
+     */
     public MentionFilter(CommandFilter... children) {
         super(children);
     }

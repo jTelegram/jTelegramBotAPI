@@ -17,12 +17,16 @@ public abstract class CommandFilter {
     protected abstract boolean _test(TextMessageEvent event, Command command);
 
     public final boolean test(TextMessageEvent event, Command command) {
-        if (_test(event, command)) {
-            for (CommandFilter child : children) {
-                if (child != null && child.test(event, command)) {
-                    return true;
+        try {
+            if (_test(event, command)) {
+                for (CommandFilter child : children) {
+                    if (child != null && child.test(event, command)) {
+                        return true;
+                    }
                 }
             }
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
         return false;
     }

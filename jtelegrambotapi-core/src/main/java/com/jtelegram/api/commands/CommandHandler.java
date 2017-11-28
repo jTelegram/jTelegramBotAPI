@@ -8,7 +8,7 @@ public abstract class CommandHandler extends CommandFilter {
     public abstract void onCommand(TextMessageEvent event, Command command);
 
     @Override
-    protected final boolean _test(TextMessageEvent event, Command command) {
+    protected final boolean preTest(TextMessageEvent event, Command command) {
         try {
             onCommand(event, command);
         } catch (Exception ex) {

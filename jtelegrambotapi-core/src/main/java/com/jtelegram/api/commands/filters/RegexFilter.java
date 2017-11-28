@@ -27,7 +27,7 @@ public class RegexFilter extends CommandFilter {
     }
 
     @Override
-    protected boolean _test(TextMessageEvent event, Command command) {
+    protected boolean preTest(TextMessageEvent event, Command command) {
         return pattern.matcher(command.getBaseCommand()).matches();
     }
 

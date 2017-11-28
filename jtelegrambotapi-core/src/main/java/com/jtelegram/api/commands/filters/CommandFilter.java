@@ -26,7 +26,7 @@ public abstract class CommandFilter {
         this.children = children;
     }
 
-    protected abstract boolean _test(TextMessageEvent event, Command command);
+    protected abstract boolean preTest(TextMessageEvent event, Command command);
 
     /**
      * Checks to see if the given event and command test to be {@code true}
@@ -40,7 +40,7 @@ public abstract class CommandFilter {
      */
     public final boolean test(TextMessageEvent event, Command command) {
         try {
-            if (_test(event, command)) {
+            if (preTest(event, command)) {
                 for (CommandFilter child : children) {
                     if (child != null && child.test(event, command)) {
                         return true;

@@ -24,7 +24,7 @@ public class MentionFilter extends CommandFilter {
     }
 
     @Override
-    protected boolean _test(TextMessageEvent event, Command command) {
+    protected boolean preTest(TextMessageEvent event, Command command) {
         String botUsername = event.getBot().getBotInfo().getUsername();
 
         return event.getMessage().getChat().getType() == ChatType.PRIVATE

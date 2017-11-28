@@ -29,7 +29,7 @@ public class TextFilter extends CommandFilter {
     }
 
     @Override
-    protected boolean _test(TextMessageEvent event, Command command) {
+    protected boolean preTest(TextMessageEvent event, Command command) {
         return caseSensitive
                 ? this.command.equals(command.getBaseCommand())
                 : this.command.equalsIgnoreCase(command.getBaseCommand());

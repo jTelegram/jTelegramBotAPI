@@ -6,6 +6,8 @@ import com.jtelegram.api.chat.id.ChatId;
 import com.jtelegram.api.commands.Command;
 import com.jtelegram.api.requests.message.framework.ParseMode;
 import com.jtelegram.api.requests.message.send.SendText;
+import com.jtelegram.api.test.message.LiveLocationTest;
+import com.jtelegram.api.test.message.LocationMessageTest;
 import com.jtelegram.api.update.PollingUpdateProvider;
 import com.jtelegram.api.update.UpdateProvider;
 import com.jtelegram.api.webhooks.WebhookUpdateProvider;
@@ -124,6 +126,7 @@ public class BotMainTest {
     }
 
     private void registerModules() {
-        //
+        registerModule(new LiveLocationTest(bot));
+        registerModule(new LocationMessageTest(bot));
     }
 }

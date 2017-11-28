@@ -17,6 +17,8 @@ public class TextFilter extends CommandFilter {
     /**
      * Creates a TextFilter with given children.
      *
+     * @param command The command name to match
+     * @param caseSensitive Whether to enforce case sensitivity or not
      * @param children The children filters, which will be checked in order
      *                 if this filter tests to be {@code true}
      */

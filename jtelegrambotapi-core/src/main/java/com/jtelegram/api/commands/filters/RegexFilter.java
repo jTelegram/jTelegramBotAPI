@@ -17,6 +17,7 @@ public class RegexFilter extends CommandFilter {
     /**
      * Creates a RegexFilter with given children.
      *
+     * @param pattern The pattern to match against
      * @param children The children filters, which will be checked in order
      *                 if this filter tests to be {@code true}
      */

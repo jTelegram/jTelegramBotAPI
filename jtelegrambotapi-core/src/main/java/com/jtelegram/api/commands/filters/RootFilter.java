@@ -30,6 +30,6 @@ public class RootFilter extends CommandFilter {
 
     @Override
     protected boolean preTest(TextMessageEvent event, Command command) {
-        return false;
+        return true;
     }
 }

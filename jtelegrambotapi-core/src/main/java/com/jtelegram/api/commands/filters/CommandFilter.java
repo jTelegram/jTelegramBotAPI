@@ -46,6 +46,7 @@ public abstract class CommandFilter {
                         return true;
                     }
                 }
+                return true;
             }
         } catch (Exception ex) {
             ex.printStackTrace();

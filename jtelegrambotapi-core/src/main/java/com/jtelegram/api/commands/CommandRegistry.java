@@ -34,10 +34,13 @@ public class CommandRegistry implements EventHandler<TextMessageEvent> {
         TextMessage message = event.getMessage();
 
         List<MessageEntity> entities = message.getEntities();
-        MessageEntity first = !entities.isEmpty() ? entities.get(0) : null;
-        String baseCommand = first != null && first.getType() == MessageEntityType.BOT_COMMAND ? first.getContent().substring(1) : null;
+        Optional<String> baseCommand = entities.stream()
+                .filter(me -> me.getOffset() == 0)
+                .filter(me -> me.getType() == MessageEntityType.BOT_COMMAND)
+                .map(me -> me.getContent().substring(1))
+                .findAny();
 
-        if (baseCommand == null || baseCommand.isEmpty()) {
+        if (!baseCommand.isPresent()) {
             return; // not a command
         }
 
@@ -48,8 +51,8 @@ public class CommandRegistry implements EventHandler<TextMessageEvent> {
                         .filter(Objects::nonNull)
                         .collect(Collectors.toList())
         );
-        
-        Command command = new Command(baseCommand, argsList, message);
+
+        Command command = new Command(baseCommand.get(), argsList, message);
         long handled = listeners.stream()
                 .filter(e -> e.test(event, command))
                 .count();

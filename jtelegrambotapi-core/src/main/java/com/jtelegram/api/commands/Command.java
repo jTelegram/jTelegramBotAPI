@@ -13,14 +13,10 @@ import java.util.List;
 @ToString
 public class Command {
     private final String baseCommand;
-    private final List<String> args;
+    private final String[] args;
     private final TextMessage baseMessage;
 
     public String getArgsAsText() {
-        StringBuilder sb = new StringBuilder();
-
-        args.forEach(s->sb.append(s).append(" "));
-
-        return sb.toString().trim();
+        return String.join(" ", args);
     }
 }

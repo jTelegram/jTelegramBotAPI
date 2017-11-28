@@ -13,6 +13,7 @@ import java.util.List;
 @ToString
 public class Command {
     private final String baseCommand;
+    private final boolean mentioned;
     private final List<String> args;
     private final TextMessage baseMessage;
 

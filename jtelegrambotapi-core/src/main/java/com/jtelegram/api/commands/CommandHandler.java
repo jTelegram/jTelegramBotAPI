@@ -3,12 +3,18 @@ package com.jtelegram.api.commands;
 import com.jtelegram.api.commands.filters.CommandFilter;
 import com.jtelegram.api.events.message.TextMessageEvent;
 
-public abstract class CommandHandler extends CommandFilter {
+public interface CommandHandler extends CommandFilter {
 
-    public abstract void onCommand(TextMessageEvent event, Command command);
+    /**
+     * Runs this command.
+     *
+     * @param event The event containing the command
+     * @param command The command being run
+     */
+    void onCommand(TextMessageEvent event, Command command);
 
     @Override
-    protected final boolean preTest(TextMessageEvent event, Command command) {
+    default boolean test(TextMessageEvent event, Command command) {
         try {
             onCommand(event, command);
         } catch (Exception ex) {

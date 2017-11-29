@@ -8,7 +8,7 @@ import com.jtelegram.api.events.message.TextMessageEvent;
  *
  * @author Nick Robson
  */
-public class RootFilter extends CommandFilter {
+public class RootFilter extends AbstractCommandFilter {
 
     private static CommandFilter[] combine(CommandFilter first, CommandFilter... remaining) {
         CommandFilter[] filters = new CommandFilter[remaining.length + 1];

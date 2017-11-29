@@ -10,7 +10,7 @@ import com.jtelegram.api.events.message.TextMessageEvent;
  *
  * @author Nick Robson
  */
-public class MentionFilter extends CommandFilter {
+public class MentionFilter extends AbstractCommandFilter {
 
     /**
      * Creates a MentionFilter with given children.

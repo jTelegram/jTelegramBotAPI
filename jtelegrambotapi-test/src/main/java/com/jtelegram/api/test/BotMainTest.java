@@ -61,12 +61,7 @@ public class BotMainTest {
             System.out.printf("Logged in as @%s\n", bot.getBotInfo().getUsername());
 
             registerModules();
-            bot.getCommandRegistry().registerCommand(new TextFilter("test", false, new CommandHandler() {
-                @Override
-                public void onCommand(TextMessageEvent event, Command command) {
-                    handleTestCommand(command);
-                }
-            }));
+            bot.getCommandRegistry().registerCommand(new TextFilter("test", false, this::handleTestCommand));
         });
     }
 
@@ -74,7 +69,7 @@ public class BotMainTest {
         new BotMainTest(args);
     }
 
-    private void handleTestCommand(Command command) {
+    private boolean handleTestCommand(TextMessageEvent event, Command command) {
         List<String> args = command.getArgs();
 
         if (args.size() == 0) {
@@ -82,7 +77,7 @@ public class BotMainTest {
                     .text("Please specify a module to test, or 'all' to perform all applicable tests for this chat")
                     .chatId(ChatId.of(command.getBaseMessage().getChat()))
                     .build());
-            return;
+            return true;
         }
 
         String moduleName = args.get(0);
@@ -94,17 +89,18 @@ public class BotMainTest {
                     .collect(Collectors.toList());
 
             applicableModules.forEach((m) -> testModule(m, moduleArgs, command));
-            return;
+            return true;
         }
 
         TestModule module = modules.get(moduleName.toLowerCase());
 
         if (module != null) {
             testModule(module, moduleArgs, command);
-            return;
+            return true;
         }
 
         sendError(command, "No module found by the name of " + moduleName);
+        return true;
     }
 
     private void testModule(TestModule module, String[] args, Command command) {

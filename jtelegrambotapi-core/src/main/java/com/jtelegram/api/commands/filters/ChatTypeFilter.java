@@ -14,7 +14,7 @@ import java.util.Set;
  *
  * @author Nick Robson
  */
-public class ChatTypeFilter extends CommandFilter {
+public class ChatTypeFilter extends AbstractCommandFilter {
 
     private final Set<ChatType> chatTypes;
 

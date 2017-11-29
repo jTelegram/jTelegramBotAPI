@@ -9,7 +9,7 @@ import com.jtelegram.api.events.message.TextMessageEvent;
  *
  * @author Nick Robson
  */
-public class TextFilter extends CommandFilter {
+public class TextFilter extends AbstractCommandFilter {
 
     private final String command;
     private final boolean caseSensitive;

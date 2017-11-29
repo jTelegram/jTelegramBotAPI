@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
  *
  * @author Nick Robson
  */
-public class RegexFilter extends CommandFilter {
+public class RegexFilter extends AbstractCommandFilter {
 
     private final Pattern pattern;
 

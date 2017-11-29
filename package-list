@@ -3,7 +3,7 @@ com.jtelegram.api.chat
 com.jtelegram.api.chat.id
 com.jtelegram.api.chat.type
 com.jtelegram.api.commands
-com.jtelegram.api.commands.listeners
+com.jtelegram.api.commands.filters
 com.jtelegram.api.events
 com.jtelegram.api.events.channel
 com.jtelegram.api.events.chat

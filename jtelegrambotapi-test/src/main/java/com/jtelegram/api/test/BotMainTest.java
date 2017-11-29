@@ -4,6 +4,9 @@ import com.jtelegram.api.TelegramBot;
 import com.jtelegram.api.TelegramBotRegistry;
 import com.jtelegram.api.chat.id.ChatId;
 import com.jtelegram.api.commands.Command;
+import com.jtelegram.api.commands.CommandHandler;
+import com.jtelegram.api.commands.filters.TextFilter;
+import com.jtelegram.api.events.message.TextMessageEvent;
 import com.jtelegram.api.requests.message.framework.ParseMode;
 import com.jtelegram.api.requests.message.send.SendText;
 import com.jtelegram.api.test.message.LiveLocationTest;
@@ -53,10 +56,17 @@ public class BotMainTest {
                 return;
             }
 
+            this.bot = bot;
+
             System.out.printf("Logged in as @%s\n", bot.getBotInfo().getUsername());
 
             registerModules();
-            bot.getCommandRegistry().registerCommand("test", this::handleTestCommand);
+            bot.getCommandRegistry().registerCommand(new TextFilter("test", false, new CommandHandler() {
+                @Override
+                public void onCommand(TextMessageEvent event, Command command) {
+                    handleTestCommand(command);
+                }
+            }));
         });
     }
 

@@ -52,6 +52,9 @@ public class LiveLocationTest implements TestModule {
 
         @Override
         public void run() {
+            latitude++;
+            longitude++;
+
             bot.perform(EditMessageLiveLocation.builder()
                     .chatId(ChatId.of(chat))
                     .messageId(message.getMessageId())

@@ -13,12 +13,12 @@ import java.util.function.Consumer;
 @Getter
 @ToString
 public class EditMessageLiveLocation extends SendableInlineRequest<Message> {
-    private final Long latitude;
-    private final Long longitude;
+    private final Float latitude;
+    private final Float longitude;
     private final Integer livePeriod;
 
     @Builder
-    protected EditMessageLiveLocation(Consumer<Message> callback, Consumer<TelegramException> errorHandler, ChatId chatId, Integer messageId, String inlineMessageId, Long latitude, Long longitude, Integer livePeriod) {
+    protected EditMessageLiveLocation(Consumer<Message> callback, Consumer<TelegramException> errorHandler, ChatId chatId, Integer messageId, String inlineMessageId, Float latitude, Float longitude, Integer livePeriod) {
         super("editMessageLiveLocation", Message.class, callback, errorHandler, chatId, messageId, inlineMessageId);
         this.latitude = latitude;
         this.longitude = longitude;

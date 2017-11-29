@@ -16,8 +16,8 @@ public interface CommandFilter {
      * @param event The event to be tested
      * @param command The command data executed in this event
      *
-     * @return True iff this filter allows this event and command combination to
-     * go ahead.
+     * @return True if and only if this filter allows this event and
+     * command combination to go ahead.
      */
     boolean test(TextMessageEvent event, Command command);
 

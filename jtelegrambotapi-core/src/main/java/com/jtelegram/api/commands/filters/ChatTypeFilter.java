@@ -11,8 +11,6 @@ import java.util.Set;
 /**
  * A {@link CommandFilter} testing which type of chat the
  * command was executed in.
- *
- * @author Nick Robson
  */
 public class ChatTypeFilter extends AbstractCommandFilter {
 

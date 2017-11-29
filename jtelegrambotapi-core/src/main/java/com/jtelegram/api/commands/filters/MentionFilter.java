@@ -7,8 +7,6 @@ import com.jtelegram.api.events.message.TextMessageEvent;
 /**
  * A {@link CommandFilter} testing if the bot was mentioned in
  * the command.
- *
- * @author Nick Robson
  */
 public class MentionFilter extends AbstractCommandFilter {
 

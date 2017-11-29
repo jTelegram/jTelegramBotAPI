@@ -5,8 +5,6 @@ import com.jtelegram.api.events.message.TextMessageEvent;
 
 /**
  * A {@link CommandFilter} that merely groups filters.
- *
- * @author Nick Robson
  */
 public class RootFilter extends AbstractCommandFilter {
 

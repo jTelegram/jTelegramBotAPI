@@ -11,8 +11,6 @@ import com.jtelegram.api.TelegramBot;
  * The update provider is expected to be given
  * the owning registry in the constructor to
  * do so.
- *
- * @author Mazen Kotb
  */
 public interface UpdateProvider {
     /**

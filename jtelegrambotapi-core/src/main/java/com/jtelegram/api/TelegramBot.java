@@ -15,7 +15,6 @@ import okhttp3.ResponseBody;
 import java.io.IOException;
 import java.io.InputStream;
 
-
 @Getter
 @EqualsAndHashCode(of = {"apiKey", "botInfo"})
 public class TelegramBot {

@@ -14,10 +14,12 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
-@RequiredArgsConstructor
-public class LiveLocationTest implements TestModule {
-    private final TelegramBot bot;
+public class LiveLocationTest extends AbstractTestModule {
     private final Timer timer = new Timer();
+
+    public LiveLocationTest(TelegramBot bot) {
+        super(bot);
+    }
 
     @Override
     public void handle(String[] args, Command command) throws Exception {

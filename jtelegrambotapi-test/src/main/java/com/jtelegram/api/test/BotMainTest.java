@@ -11,13 +11,14 @@ import com.jtelegram.api.requests.message.framework.ParseMode;
 import com.jtelegram.api.requests.message.send.SendText;
 import com.jtelegram.api.test.message.LiveLocationTest;
 import com.jtelegram.api.test.message.LocationMessageTest;
+import com.jtelegram.api.test.message.ResourceTestModule;
 import com.jtelegram.api.update.PollingUpdateProvider;
 import com.jtelegram.api.update.UpdateProvider;
 import com.jtelegram.api.webhooks.WebhookUpdateProvider;
 import io.vertx.core.http.HttpServerOptions;
 import io.vertx.core.net.JksOptions;
 
-import java.io.File;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -134,5 +135,81 @@ public class BotMainTest {
     private void registerModules() {
         registerModule(new LiveLocationTest(bot));
         registerModule(new LocationMessageTest(bot));
+
+        prepareResources();
+    }
+
+    private boolean prepareResourceDirectory() {
+        File resourcesDir = new File("test-resources");
+
+        if (resourcesDir.exists() && resourcesDir.isDirectory()) {
+            return false; // we're good
+        }
+
+        resourcesDir.delete();
+        resourcesDir.mkdirs();
+
+        return true;
+    }
+
+    private void prepareResources() {
+        if (!prepareResourceDirectory()) {
+            return;
+        }
+
+        List<TestModule> failedModules = new ArrayList<>();
+
+        modules.values().stream()
+                .filter((m) -> m instanceof ResourceTestModule)
+                .forEach((m) -> {
+                    ResourceTestModule module = (ResourceTestModule) m;
+                    File file = module.getResourceFile();
+
+                    if (file.exists()) {
+                        return;
+                    }
+
+                    try {
+                        file.createNewFile();
+                    } catch (IOException ex) {
+                        System.out.println("Failed loading " + module.getName() + ": Could not create new resource file");
+                        ex.printStackTrace();
+                        failedModules.add(m);
+                        return;
+                    }
+
+                    FileOutputStream output;
+
+                    try {
+                        output = new FileOutputStream(file);
+                    } catch (FileNotFoundException ignored) {
+                        return;
+                    }
+
+                    InputStream input = module.getResourceStream();
+
+                    System.out.println("Transferring " + module.getResourceName() + " from executable to file...");
+
+                    try {
+                        byte[] buffer = new byte[1024];
+
+                        while (input.available() > 0) {
+                            int lengthRead = input.read(buffer);
+
+                            if (lengthRead != -1) {
+                                output.write(buffer, 0, lengthRead);
+                            }
+                        }
+
+                        output.close();
+                        input.close();
+
+                        System.out.println("Successfully transferred " + module.getResourceName() + " to " + module.getResourceFile().getPath());
+                    } catch (IOException ex) {
+                        System.out.println("Failed loading " + module.getResourceName() + " while writing to file!");
+                        ex.printStackTrace();
+                        failedModules.add(m);
+                    }
+                });
     }
 }

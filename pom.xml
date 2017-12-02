@@ -9,6 +9,10 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
     <name>jTelegramBotAPI Parent</name>
     <inceptionYear>2017</inceptionYear>
 
@@ -68,6 +72,7 @@
     <modules>
         <module>jtelegrambotapi-core</module>
         <module>jtelegrambotapi-webhooks</module>
+        <module>jtelegrambotapi-menus</module>
         <module>jtelegrambotapi-test</module>
     </modules>
 
@@ -97,6 +102,11 @@
                 <artifactId>vertx-core</artifactId>
                 <version>3.5.0</version>
                 <scope>compile</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.google.code.findbugs</groupId>
+                <artifactId>jsr305</artifactId>
+                <version>3.0.2</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

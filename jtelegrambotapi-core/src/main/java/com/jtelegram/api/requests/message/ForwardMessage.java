@@ -15,19 +15,19 @@ import java.util.function.Consumer;
 @Getter
 public class ForwardMessage extends SendableMessageRequest<Message> {
     private final ChatId fromChatId;
-    private final Integer messageID;
+    private final Integer messageId;
 
     @Builder
-    protected ForwardMessage(Consumer<Message> callback, Consumer<TelegramException> errorHandler, ChatId chatId, Integer replyToMessageId, Boolean disableNotification, ChatId fromChatId, Integer messageID, ReplyMarkup replyMarkup) {
+    protected ForwardMessage(Consumer<Message> callback, Consumer<TelegramException> errorHandler, ChatId chatId, Integer replyToMessageId, Boolean disableNotification, ChatId fromChatId, Integer messageId, ReplyMarkup replyMarkup) {
         super("forwardMessage", Message.class, callback, errorHandler, chatId, replyToMessageId, disableNotification, replyMarkup);
         this.fromChatId = fromChatId;
-        this.messageID = messageID;
+        this.messageId = messageId;
     }
 
 
     @Override
     protected boolean isValid() {
-        return super.isValid() && fromChatId != null && messageID != null;
+        return super.isValid() && fromChatId != null && messageId != null;
     }
 
 }

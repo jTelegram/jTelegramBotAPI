@@ -26,11 +26,11 @@ public class AnswerInlineQuery extends UpdateTelegramRequest {
     private String switchPmParameter;
 
     @Builder
-    private AnswerInlineQuery(String endPoint, Consumer<TelegramException> errorHandler,
+    private AnswerInlineQuery(Consumer<TelegramException> errorHandler,
                              Runnable callback, String queryId, List<InlineResult> results,
                              Integer cacheTime, Boolean isPersonal, String nextOffset,
                              String switchPmText, String switchPmParameter) {
-        super(endPoint, errorHandler, callback);
+        super("answerInlineQuery", errorHandler, callback);
         this.queryId = queryId;
         this.results = results;
         this.cacheTime = cacheTime;

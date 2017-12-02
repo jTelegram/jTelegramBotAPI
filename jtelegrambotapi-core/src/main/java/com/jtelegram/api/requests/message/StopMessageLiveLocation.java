@@ -14,8 +14,8 @@ import java.util.function.Consumer;
 @ToString
 public class StopMessageLiveLocation extends SendableInlineRequest<Message> {
     @Builder
-    protected StopMessageLiveLocation(String endPoint, Class<Message> callbackType, Consumer<Message> callback, Consumer<TelegramException> errorHandler, ChatId chatId, Integer messageId, String inlineMessageId) {
-        super(endPoint, callbackType, callback, errorHandler, chatId, messageId, inlineMessageId);
+    protected StopMessageLiveLocation(Class<Message> callbackType, Consumer<Message> callback, Consumer<TelegramException> errorHandler, ChatId chatId, Integer messageId, String inlineMessageId) {
+        super("stopMessageLiveLocation", callbackType, callback, errorHandler, chatId, messageId, inlineMessageId);
     }
 
     @Override

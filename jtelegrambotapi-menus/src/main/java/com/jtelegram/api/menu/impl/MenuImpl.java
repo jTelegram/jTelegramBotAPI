@@ -156,15 +156,23 @@ public class MenuImpl implements Menu {
                     countDownLatch.countDown();
                 })
                 .build());
+        try {
+            countDownLatch.await();
+        } catch (InterruptedException ex) {
+            throw new RuntimeException(ex);
+        }
         Object moe = messageOrError.get();
         if (moe instanceof TextMessage) {
             TextMessage message = (TextMessage) moe;
             messages.add(message.getMessageId());
             MenuStateImpl state = getState();
             bot.perform(EditTextMessage.builder()
+                    .chatId(ChatId.of(chat))
+                    .messageId(message.getMessageId())
                     .text(state.getText())
                     .parseMode(state.getParseMode())
                     .replyMarkup(state.getGrid().toReplyMarkup(this.menuId, getState().stateId))
+                    .errorHandler(Throwable::printStackTrace)
                     .build());
             return message;
         }

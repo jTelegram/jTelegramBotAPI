@@ -1,6 +1,8 @@
 package com.jtelegram.api.commands;
 
+import com.jtelegram.api.chat.Chat;
 import com.jtelegram.api.message.impl.TextMessage;
+import com.jtelegram.api.user.User;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -19,5 +21,13 @@ public class Command {
 
     public String getArgsAsText() {
         return String.join(" ", args);
+    }
+
+    public Chat getChat() {
+        return baseMessage.getChat();
+    }
+
+    public User getSender() {
+        return baseMessage.getSender();
     }
 }

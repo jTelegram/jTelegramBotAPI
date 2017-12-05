@@ -7,9 +7,10 @@ import com.jtelegram.api.requests.message.send.SendLocation;
 import com.jtelegram.api.test.TestModule;
 import lombok.AllArgsConstructor;
 
-@AllArgsConstructor
-public class LocationMessageTest implements TestModule {
-    protected TelegramBot bot;
+public class LocationMessageTest extends AbstractTestModule {
+    public LocationMessageTest(TelegramBot bot) {
+        super(bot);
+    }
 
     @Override
     public String validate(Command command) {

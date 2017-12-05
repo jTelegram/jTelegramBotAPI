@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.ToString;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 @Getter
@@ -24,5 +25,12 @@ public class PhotoMessage extends CaptionableMessage<List<PhotoSize>> {
     @Override
     public List<PhotoSize> getContent() {
         return photo;
+    }
+
+    public PhotoSize getHighestResolutionPhoto() {
+        return photo.stream()
+                .sorted(Comparator.comparingInt((p) -> p.getWidth() + p.getHeight()))
+                .findFirst()
+                .orElse(null);
     }
 }

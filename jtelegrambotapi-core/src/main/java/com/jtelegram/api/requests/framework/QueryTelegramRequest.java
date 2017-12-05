@@ -35,7 +35,7 @@ public abstract class QueryTelegramRequest<T> extends AbstractTelegramRequest {
     /**
      * Checks validity of this request. Internal method used before sending.
      *
-     * @return
+     * @return If it's valid
      */
     protected abstract boolean isValid();
 }

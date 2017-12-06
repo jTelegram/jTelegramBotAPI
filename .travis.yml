@@ -11,7 +11,7 @@ deploy:
     script: .travis/deploy.sh
     skip_cleanup: true
     on:
-      repo: jTelegram/jTelegramBotAPI
+      repo: chmod +x .travis/deploy.sh && jTelegram/jTelegramBotAPI
       tags: true
   - provider: script
     script: chmod +x .travis/deploy.sh && .travis/deploy.sh

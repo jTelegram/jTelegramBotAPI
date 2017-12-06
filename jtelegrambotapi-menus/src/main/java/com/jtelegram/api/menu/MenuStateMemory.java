@@ -1,11 +1,9 @@
 package com.jtelegram.api.menu;
 
 import com.jtelegram.api.TelegramBot;
-import com.jtelegram.api.menu.exception.NoSuchStateException;
-import com.jtelegram.api.menu.exception.StateMemoryDepletedException;
-import com.jtelegram.api.message.impl.TextMessage;
 import java.util.List;
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * Handles the current and previous states of a menu.
@@ -43,7 +41,7 @@ public interface MenuStateMemory {
      *
      * @param menuState The new state
      *
-     * @see Menu#update(TelegramBot, TextMessage)
+     * @see BoundMenu#update(TelegramBot)
      */
     void pushState(@Nonnull MenuState menuState);
 
@@ -56,28 +54,25 @@ public interface MenuStateMemory {
      * @return The state
      *
      * @throws IllegalArgumentException If {@code stepsBack < 0}
-     * @throws NoSuchStateException If there aren't {@code stepsBack >= getSize()}
      */
-    @Nonnull
-    MenuState peekState(int stepsBack) throws NoSuchStateException;
+    @Nullable
+    MenuState peekState(int stepsBack);
 
     /**
      * Gets the current state of the menu.
      *
      * @return The current state
      */
-    @Nonnull
+    @Nullable
     MenuState peekState();
 
     /**
      * Removes the current state, and sets the previous state as the new state.
      *
      * @return The old state.
-     *
-     * @throws StateMemoryDepletedException If there are no previous states.
      */
-    @Nonnull
-    MenuState popState() throws StateMemoryDepletedException;
+    @Nullable
+    MenuState popState();
 
     /**
      * Deletes {@code count} states, going that far back "in time".
@@ -85,10 +80,8 @@ public interface MenuStateMemory {
      * @param count The number of states to delete
      *
      * @return The states deleted
-     *
-     * @throws StateMemoryDepletedException If {@code count >= getSize()}
      */
     @Nonnull
-    List<? extends MenuState> popState(int count) throws StateMemoryDepletedException; // max: getSize() - 1
+    List<? extends MenuState> popState(int count); // max: getSize() - 1
 
 }

@@ -2,11 +2,10 @@ package com.jtelegram.api.menu.impl;
 
 import com.jtelegram.api.TelegramBot;
 import com.jtelegram.api.inline.keyboard.InlineKeyboardButton;
-import com.jtelegram.api.menu.Menu;
+import com.jtelegram.api.menu.BoundMenu;
 import com.jtelegram.api.menu.MenuButton;
 import com.jtelegram.api.menu.MenuButtonResponse;
 import com.jtelegram.api.menu.OnClickHandler;
-import com.jtelegram.api.message.impl.TextMessage;
 import com.jtelegram.api.user.User;
 import java.util.function.Consumer;
 import javax.annotation.Nonnull;
@@ -32,8 +31,8 @@ public class MenuButtonImpl implements MenuButton {
 
     @Nullable
     @Override
-    public MenuButtonResponse onClick(@Nonnull TelegramBot bot, @Nonnull Menu menu, @Nonnull TextMessage message, @Nonnull User user) {
-        return onClickHandler.onClick(bot, menu, message, user);
+    public MenuButtonResponse onClick(@Nonnull TelegramBot bot, @Nonnull BoundMenu menu, @Nonnull User user) {
+        return onClickHandler.onClick(bot, menu, user);
     }
 
 }

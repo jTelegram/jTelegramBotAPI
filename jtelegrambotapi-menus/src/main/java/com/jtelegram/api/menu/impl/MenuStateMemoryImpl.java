@@ -2,20 +2,19 @@ package com.jtelegram.api.menu.impl;
 
 import com.jtelegram.api.menu.MenuState;
 import com.jtelegram.api.menu.MenuStateMemory;
-import com.jtelegram.api.menu.exception.StateMemoryDepletedException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Stack;
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class MenuStateMemoryImpl implements MenuStateMemory {
 
-    private final MenuImpl menu;
     private final Stack<MenuStateImpl> stateStack;
     private int capacity;
 
-    MenuStateMemoryImpl(@Nonnull MenuImpl menu, @Nonnull MenuStateImpl initialState) {
-        this.menu = menu;
+    MenuStateMemoryImpl(@Nonnull MenuStateImpl initialState) {
         this.capacity = MenuStateMemory.DEFAULT_CAPACITY;
         this.stateStack = new Stack<>();
         this.stateStack.ensureCapacity(capacity);
@@ -57,7 +56,7 @@ public class MenuStateMemoryImpl implements MenuStateMemory {
         fixStackSizes();
     }
 
-    @Nonnull
+    @Nullable
     @Override
     public MenuStateImpl peekState(int stepsBack) {
         if (stepsBack < 1) {
@@ -70,15 +69,15 @@ public class MenuStateMemoryImpl implements MenuStateMemory {
         return stateStack.elementAt(size - stepsBack);
     }
 
-    @Nonnull
+    @Nullable
     @Override
     public MenuStateImpl peekState() {
         return stateStack.peek();
     }
 
-    private List<MenuStateImpl> popState0(int count) throws StateMemoryDepletedException {
-        if (stateStack.size() <= count) {
-            throw new StateMemoryDepletedException();
+    private List<MenuStateImpl> popState0(int count) {
+        if (count < 0 || stateStack.size() <= count) {
+            return Collections.singletonList(null);
         }
         List<MenuStateImpl> menuStateList = new ArrayList<>(count);
         for (int i = 0; i < count; i++) {
@@ -89,15 +88,15 @@ public class MenuStateMemoryImpl implements MenuStateMemory {
         return menuStateList;
     }
 
-    @Nonnull
+    @Nullable
     @Override
-    public MenuStateImpl popState() throws StateMemoryDepletedException {
+    public MenuStateImpl popState() {
         return popState0(1).get(0);
     }
 
     @Nonnull
     @Override
-    public List<MenuStateImpl> popState(int count) throws StateMemoryDepletedException {
+    public List<MenuStateImpl> popState(int count) {
         return popState0(count);
     }
 

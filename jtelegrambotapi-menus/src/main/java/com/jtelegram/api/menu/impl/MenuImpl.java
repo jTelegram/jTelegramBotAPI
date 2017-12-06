@@ -10,7 +10,6 @@ import com.jtelegram.api.menu.Menu;
 import com.jtelegram.api.menu.MenuButton;
 import com.jtelegram.api.menu.MenuButtonResponse;
 import com.jtelegram.api.menu.MenuContext;
-import com.jtelegram.api.menu.MenuState;
 import com.jtelegram.api.menu.OnClickHandler;
 import com.jtelegram.api.message.impl.TextMessage;
 import com.jtelegram.api.requests.inline.AnswerCallbackQuery;
@@ -19,11 +18,9 @@ import com.jtelegram.api.requests.message.framework.ParseMode;
 import com.jtelegram.api.requests.message.send.SendText;
 import com.jtelegram.api.user.User;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
+import java.util.Objects;
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
@@ -32,31 +29,27 @@ import javax.annotation.Nullable;
 
 public class MenuImpl implements Menu {
 
-    private static final AtomicInteger menuIdCounter = new AtomicInteger(0);
-    private static final Set<Integer> messages = new HashSet<>();
-    private static final Map<Integer, MenuImpl> menusById = new HashMap<>();
+    private static final Map<Integer, BoundMenuImpl> menusByMessageId = new HashMap<>();
 
     public static void handleEvent(CallbackQueryEvent event) {
-        if (!messages.contains(event.getQuery().getMessage().getMessageId())) {
+        BoundMenuImpl boundMenu = menusByMessageId.get(event.getQuery().getMessage().getMessageId());
+        if (boundMenu == null) {
             return;
         }
         TelegramBot bot = event.getBot();
-        TextMessage message = (TextMessage) event.getQuery().getMessage();
         User user = event.getQuery().getFrom();
         String[] callbackData = event.getQuery().getData().split(" ");
-        int menuId, stateId, row, col;
+        int stateId, row, col;
         try {
-            menuId = Integer.parseInt(callbackData[0], 36);
-            stateId = Integer.parseInt(callbackData[1], 36);
-            row = Integer.parseInt(callbackData[2], 36);
-            col = Integer.parseInt(callbackData[3], 36);
+            stateId = Integer.parseInt(callbackData[0], 36);
+            row = Integer.parseInt(callbackData[1], 36);
+            col = Integer.parseInt(callbackData[2], 36);
         } catch (ArrayIndexOutOfBoundsException | NumberFormatException ex) {
             return; // invalid format, best not to try
         }
-        MenuImpl menu = menusById.get(menuId);
-        if (menu == null)
-            return;
-        if (menu.getState().stateId != stateId) {
+        // shouldn't happen
+        MenuStateImpl state = boundMenu.getMenu().getState();
+        if (state.stateId != stateId) {
             // user clicking an outdated menu
             // tell them, and update it
             bot.perform(AnswerCallbackQuery.builder()
@@ -64,14 +57,14 @@ public class MenuImpl implements Menu {
                     .text("The menu you clicked on is out of date!\nI'm updating it now for you.")
                     .showAlert(true)
                     .build());
-            menu.update(bot, message);
+            boundMenu.update(bot);
             return;
         }
-        MenuGridImpl grid = menu.getState().getGrid();
+        MenuGridImpl grid = state.getGrid();
         MenuButtonResponse response;
         try {
             MenuButton button = grid.getButton(row, col);
-            response = button.onClick(bot, menu, message, user);
+            response = button.onClick(bot, boundMenu, user);
         } catch (Exception ignored) {
             // best to ignore
             return;
@@ -85,27 +78,19 @@ public class MenuImpl implements Menu {
                     .url(response.getURL() != null ? response.getURL().toString() : null)
                     .build());
         }
-        menu.update(bot, message);
+        boundMenu.update(bot);
     }
 
-    private final int menuId;
-    private final MenuContext context;
-    private final MenuStateMemoryImpl stateMemory;
     private final String loadingMessage;
+    private final MenuStateImpl initialState;
+    private final MenuStateMemoryImpl stateMemory;
+    private final MenuContext context;
 
     public MenuImpl(@Nonnull String loadingMessage, @Nonnull Supplier<String> textSupplier, @Nullable ParseMode parseMode) {
-        this.menuId = MenuImpl.menuIdCounter.get();
-        this.context = new MenuContext();
-        this.stateMemory = new MenuStateMemoryImpl(this, new MenuStateImpl(textSupplier, parseMode));
         this.loadingMessage = loadingMessage;
-
-        MenuImpl.menusById.put(this.menuId, this);
-    }
-
-    @Nonnull
-    @Override
-    public MenuContext getContext() {
-        return this.context;
+        this.initialState = new MenuStateImpl(textSupplier, parseMode);
+        this.stateMemory = new MenuStateMemoryImpl(initialState);
+        this.context = new MenuContext();
     }
 
     @Nonnull
@@ -116,20 +101,8 @@ public class MenuImpl implements Menu {
 
     @Nonnull
     @Override
-    public MenuStateImpl getState() {
-        return this.stateMemory.peekState();
-    }
-
-    @Nonnull
-    @Override
-    public MenuState createState(@Nonnull Supplier<String> textSupplier, @Nullable ParseMode parseMode) {
-        return new MenuStateImpl(textSupplier, parseMode);
-    }
-
-    @Nonnull
-    @Override
-    public MenuButton createButton(@Nonnull Consumer<InlineKeyboardButton.InlineKeyboardButtonBuilder> buttonCreator, @Nonnull OnClickHandler onClickHandler) {
-        return new MenuButtonImpl(buttonCreator, onClickHandler);
+    public MenuStateImpl getInitialState() {
+        return this.initialState;
     }
 
     @Nonnull
@@ -140,7 +113,31 @@ public class MenuImpl implements Menu {
 
     @Nonnull
     @Override
-    public TextMessage send(@Nonnull TelegramBot bot, @Nonnull Chat chat, @Nullable Integer replyToMessageId) throws TelegramException {
+    public MenuStateImpl getState() {
+        return Objects.requireNonNull(this.stateMemory.peekState(), "unexpected null state");
+    }
+
+    @Nonnull
+    @Override
+    public MenuContext getContext() {
+        return this.context;
+    }
+
+    @Nonnull
+    @Override
+    public MenuStateImpl createState(@Nonnull Supplier<String> textSupplier, @Nullable ParseMode parseMode) {
+        return new MenuStateImpl(textSupplier, parseMode);
+    }
+
+    @Nonnull
+    @Override
+    public MenuButtonImpl createButton(@Nonnull Consumer<InlineKeyboardButton.InlineKeyboardButtonBuilder> buttonCreator, @Nonnull OnClickHandler onClickHandler) {
+        return new MenuButtonImpl(buttonCreator, onClickHandler);
+    }
+
+    @Nonnull
+    @Override
+    public BoundMenuImpl send(@Nonnull TelegramBot bot, @Nonnull Chat chat, @Nullable Integer replyToMessageId) throws TelegramException {
         AtomicReference<Object> messageOrError = new AtomicReference<>();
         CountDownLatch countDownLatch = new CountDownLatch(1);
         bot.perform(SendText.builder()
@@ -164,34 +161,20 @@ public class MenuImpl implements Menu {
         Object moe = messageOrError.get();
         if (moe instanceof TextMessage) {
             TextMessage message = (TextMessage) moe;
-            messages.add(message.getMessageId());
-            MenuStateImpl state = getState();
+            BoundMenuImpl boundMenu = new BoundMenuImpl(this, message);
+            menusByMessageId.put(message.getMessageId(), boundMenu);
+            MenuStateImpl state = getInitialState();
             bot.perform(EditTextMessage.builder()
                     .chatId(ChatId.of(chat))
                     .messageId(message.getMessageId())
                     .text(state.getText())
                     .parseMode(state.getParseMode())
-                    .replyMarkup(state.getGrid().toReplyMarkup(this.menuId, getState().stateId))
+                    .replyMarkup(state.getGrid().toReplyMarkup(state.stateId))
                     .errorHandler(Throwable::printStackTrace)
                     .build());
-            return message;
+            return boundMenu;
         }
         throw (TelegramException) moe;
-    }
-
-    @Override
-    public void update(@Nonnull TelegramBot bot, @Nonnull TextMessage message) {
-        if (message.getSender().getId() != bot.getBotInfo().getId()) {
-            throw new IllegalArgumentException("Message was not sent by me!");
-        }
-        MenuStateImpl state = getState();
-        bot.perform(EditTextMessage.builder()
-                .chatId(ChatId.of(message))
-                .messageId(message.getMessageId())
-                .text(state.getText())
-                .parseMode(state.getParseMode())
-                .replyMarkup(state.getGrid().toReplyMarkup(this.menuId, state.stateId))
-                .build());
     }
 
 }

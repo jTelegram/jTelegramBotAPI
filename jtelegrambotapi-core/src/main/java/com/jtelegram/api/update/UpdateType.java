@@ -1,6 +1,6 @@
 package com.jtelegram.api.update;
 
-import com.google.gson.*;
+import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import com.jtelegram.api.events.Event;
@@ -122,7 +122,7 @@ public class UpdateType<T extends Update> {
             }
     );
 
-    public static final UpdateType<? extends Update>[] ALL = new UpdateType[] { MESSAGE, EDITED_MESSAGE, CALLBACK_QUERY, CHANNEL_POST, EDITED_CHANNEL_POST, INLINE_QUERY, CHOSEN_INLINE_RESULT, SHIPPING_QUERY, PRE_CHECKOUT_QUERY };
+    public static final UpdateType<?>[] ALL = new UpdateType<?>[] { MESSAGE, EDITED_MESSAGE, CALLBACK_QUERY, CHANNEL_POST, EDITED_CHANNEL_POST, INLINE_QUERY, CHOSEN_INLINE_RESULT, SHIPPING_QUERY, PRE_CHECKOUT_QUERY };
 
     private String name;
     private Class<T> updateClass;

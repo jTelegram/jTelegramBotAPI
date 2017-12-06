@@ -29,17 +29,25 @@ public interface TelegramRequest {
 
     /**
      * Get the appropriate endpoint for this request.
+     *
+     * @return The endpoint
      */
     String getEndPoint();
 
     /**
      * Handle the response from the server, call any
      * relevant callbacks and do error validation
+     *
+     * @param response The response
+     *
+     * @throws IOException If any I/O error occurred
      */
     void handleResponse(Response response) throws IOException;
 
     /**
-     * Handle an exception in the case that a network error occured
+     * Handle an exception in the case that an I/O error occured
+     *
+     * @param ex The exception
      */
     void handleException(IOException ex);
 

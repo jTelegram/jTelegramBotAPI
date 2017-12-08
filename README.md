@@ -33,4 +33,3 @@ We can provide support in English, French (Français), and Persian (فارسی).
 ## Licensing
 
 This project is under the MIT license, please consult [this link](https://github.com/jTelegram/jTelegramBotAPI/blob/master/LICENSE) for more information.
-

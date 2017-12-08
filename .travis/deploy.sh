@@ -28,6 +28,7 @@ then
 else
     echo "not on a tag -> keep snapshot version in pom.xml"
     mvn clean deploy --settings .travis/settings.xml -DskipTests=true --batch-mode --update-snapshots -Possrh
+fi
 
 if [ ! -z "$SSH_KEY" ]
 then
@@ -57,5 +58,4 @@ then
     git push --force --quiet
 
     rm -rf .git
-fi
 fi

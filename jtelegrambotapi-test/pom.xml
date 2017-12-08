@@ -11,7 +11,7 @@
     </parent>
 
     <artifactId>jtelegrambotapi-test</artifactId>
-    <name>jTelegramBotAPI Test Repository</name>
+    <name>jTelegramBotAPI Test</name>
 
     <dependencies>
         <dependency>

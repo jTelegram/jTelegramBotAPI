@@ -12,6 +12,9 @@
     <name>jTelegramBotAPI Parent</name>
     <inceptionYear>2017</inceptionYear>
 
+    <url>https://github.com/jTelegram/jTelegramBotAPI</url>
+    <description>Java wrapper for the Telegram Bot API</description>
+
     <issueManagement>
         <system>GitHub</system>
         <url>https://github.com/jTelegram/jTelegramBotAPI/issues</url>

@@ -58,3 +58,4 @@ then
 
     rm -rf .git
 fi
+fi

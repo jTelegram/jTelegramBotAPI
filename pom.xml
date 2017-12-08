@@ -67,8 +67,8 @@
 
     <modules>
         <module>jtelegrambotapi-core</module>
-        <module>jtelegrambotapi-webhooks</module>
         <module>jtelegrambotapi-test</module>
+        <module>jtelegrambotapi-webhooks</module>
     </modules>
 
     <dependencyManagement>

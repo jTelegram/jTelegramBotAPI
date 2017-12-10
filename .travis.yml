@@ -8,7 +8,7 @@ before_install:
   - if [ ! -z "$GPG_OWNERTRUST" ]; then echo $GPG_OWNERTRUST | base64 --decode | $GPG_EXECUTABLE --import-ownertrust; fi
 deploy:
   - provider: script
-    script: .travis/deploy.sh
+    script: chmod +x .travis/deploy.sh && .travis/deploy.sh
     skip_cleanup: true
     on:
       repo: jTelegram/jTelegramBotAPI

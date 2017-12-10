@@ -16,6 +16,9 @@
     <name>jTelegramBotAPI Parent</name>
     <inceptionYear>2017</inceptionYear>
 
+    <url>https://github.com/jTelegram/jTelegramBotAPI</url>
+    <description>Java wrapper for the Telegram Bot API</description>
+
     <issueManagement>
         <system>GitHub</system>
         <url>https://github.com/jTelegram/jTelegramBotAPI/issues</url>
@@ -71,9 +74,9 @@
 
     <modules>
         <module>jtelegrambotapi-core</module>
-        <module>jtelegrambotapi-webhooks</module>
         <module>jtelegrambotapi-menus</module>
         <module>jtelegrambotapi-test</module>
+        <module>jtelegrambotapi-webhooks</module>
     </modules>
 
     <dependencyManagement>
@@ -179,7 +182,7 @@
                 <configuration>
                     <serverId>ossrh</serverId>
                     <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                    <autoReleaseAfterClose>false</autoReleaseAfterClose>
                 </configuration>
             </plugin>
         </plugins>

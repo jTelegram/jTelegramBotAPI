@@ -32,7 +32,10 @@ public class BoundMenuImpl implements BoundMenu {
     @Override
     public void update(@Nonnull TelegramBot bot) {
         if (message.getSender().getId() != bot.getBotInfo().getId()) {
-            throw new IllegalArgumentException("Message was not sent by me!");
+            String senderName = message.getSender().isBot()
+                    ? message.getSender().getUsername()
+                    : "a human";
+            throw new IllegalArgumentException("Message was not sent by me! (sent by " + senderName + ")");
         }
         MenuStateImpl state = menu.getState();
         bot.perform(EditTextMessage.builder()

@@ -29,10 +29,14 @@ import javax.annotation.Nullable;
 
 public class MenuImpl implements Menu {
 
-    private static final Map<Integer, BoundMenuImpl> menusByMessageId = new HashMap<>();
+    private static final Map<Long, Map<Integer, BoundMenuImpl>> menusByChatMessageId = new HashMap<>();
 
     public static void handleEvent(CallbackQueryEvent event) {
-        BoundMenuImpl boundMenu = menusByMessageId.get(event.getQuery().getMessage().getMessageId());
+        Map<Integer, BoundMenuImpl> menus = menusByChatMessageId.get(event.getQuery().getMessage().getChat().getId());
+        if (menus == null) {
+            return;
+        }
+        BoundMenuImpl boundMenu = menus.get(event.getQuery().getMessage().getMessageId());
         if (boundMenu == null) {
             return;
         }
@@ -162,7 +166,9 @@ public class MenuImpl implements Menu {
         if (moe instanceof TextMessage) {
             TextMessage message = (TextMessage) moe;
             BoundMenuImpl boundMenu = new BoundMenuImpl(this, message);
-            menusByMessageId.put(message.getMessageId(), boundMenu);
+            Map<Integer, BoundMenuImpl> menus = menusByChatMessageId.computeIfAbsent(message.getChat().getId(), l -> new HashMap<>());
+            menus.put(message.getMessageId(), boundMenu);
+            menusByChatMessageId.put(message.getChat().getId(), menus);
             MenuStateImpl state = getInitialState();
             bot.perform(EditTextMessage.builder()
                     .chatId(ChatId.of(chat))

@@ -12,11 +12,6 @@ import javax.annotation.Nullable;
 public interface MenuButton {
 
     /**
-     * A default back button to be used by anyone to go back a menu layer.
-     */
-    MenuButton BACK_BUTTON = new BackButton();
-
-    /**
      * Gets a button builder based off how this button should be represented.
      *
      * @return The button builder

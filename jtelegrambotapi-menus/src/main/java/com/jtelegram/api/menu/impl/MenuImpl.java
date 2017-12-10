@@ -10,6 +10,7 @@ import com.jtelegram.api.menu.Menu;
 import com.jtelegram.api.menu.MenuButton;
 import com.jtelegram.api.menu.MenuButtonResponse;
 import com.jtelegram.api.menu.MenuContext;
+import com.jtelegram.api.menu.MenuState;
 import com.jtelegram.api.menu.OnClickHandler;
 import com.jtelegram.api.message.impl.TextMessage;
 import com.jtelegram.api.requests.inline.AnswerCallbackQuery;
@@ -17,12 +18,14 @@ import com.jtelegram.api.requests.message.edit.EditTextMessage;
 import com.jtelegram.api.requests.message.framework.ParseMode;
 import com.jtelegram.api.requests.message.send.SendText;
 import com.jtelegram.api.user.User;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
+import java.util.function.Predicate;
 import java.util.function.Supplier;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -64,6 +67,16 @@ public class MenuImpl implements Menu {
             boundMenu.update(bot);
             return;
         }
+        boolean canUse = boundMenu.getMenu().userPredicates.isEmpty(); // if no registered predicates, allow anyone
+        for (Predicate<User> userPredicate : boundMenu.getMenu().userPredicates) {
+            if (userPredicate.test(user)) {
+                canUse = true;
+                break;
+            }
+        }
+        if (!canUse) {
+            return;
+        }
         MenuGridImpl grid = state.getGrid();
         MenuButtonResponse response;
         try {
@@ -85,15 +98,24 @@ public class MenuImpl implements Menu {
         boundMenu.update(bot);
     }
 
+    @Nonnull
     private final String loadingMessage;
+
+    @Nonnull
     private final MenuStateImpl initialState;
-    private final MenuStateMemoryImpl stateMemory;
+
+    @Nonnull
     private final MenuContext context;
+
+    @Nonnull
+    private MenuStateImpl currentState;
+
+    private List<Predicate<User>> userPredicates = new ArrayList<>();
 
     public MenuImpl(@Nonnull String loadingMessage, @Nonnull Supplier<String> textSupplier, @Nullable ParseMode parseMode) {
         this.loadingMessage = loadingMessage;
         this.initialState = new MenuStateImpl(textSupplier, parseMode);
-        this.stateMemory = new MenuStateMemoryImpl(initialState);
+        this.currentState = this.initialState;
         this.context = new MenuContext();
     }
 
@@ -111,20 +133,24 @@ public class MenuImpl implements Menu {
 
     @Nonnull
     @Override
-    public MenuStateMemoryImpl getStateMemory() {
-        return this.stateMemory;
+    public MenuStateImpl getState() {
+        return this.currentState;
     }
 
-    @Nonnull
     @Override
-    public MenuStateImpl getState() {
-        return Objects.requireNonNull(this.stateMemory.peekState(), "unexpected null state");
+    public void setState(@Nonnull MenuState state) {
+        this.currentState = (MenuStateImpl) state;
     }
 
     @Nonnull
     @Override
     public MenuContext getContext() {
         return this.context;
+    }
+
+    @Override
+    public void addUserPredicate(@Nonnull Predicate<User> userPredicate) {
+        this.userPredicates.add(userPredicate);
     }
 
     @Nonnull

@@ -5,7 +5,9 @@ import com.jtelegram.api.chat.Chat;
 import com.jtelegram.api.ex.TelegramException;
 import com.jtelegram.api.inline.keyboard.InlineKeyboardButton;
 import com.jtelegram.api.requests.message.framework.ParseMode;
+import com.jtelegram.api.user.User;
 import java.util.function.Consumer;
+import java.util.function.Predicate;
 import java.util.function.Supplier;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -34,20 +36,22 @@ public interface Menu {
     MenuState getInitialState();
 
     /**
-     * Gets this menu's {@link MenuStateMemory state memory}
-     *
-     * @return The state memory
-     */
-    @Nonnull
-    MenuStateMemory getStateMemory();
-
-    /**
-     * Gets the current state of the menu. Equivalent to {@code getStateMemory().peekState()}.
+     * Gets the current state of the menu.
      *
      * @return The current state
      */
     @Nonnull
     MenuState getState();
+
+    /**
+     * Sets the state of the menu. Does not update the menu itself.
+     * <br><i>Note: After a button click is finished handled, the menu is automatically updated.</i>
+     *
+     * @param state The new state.
+     *
+     * @see BoundMenu#update(TelegramBot)
+     */
+    void setState(@Nonnull MenuState state);
 
     /**
      * Gets the key-value storage, or context, associated with this menu, persistent across states.
@@ -56,6 +60,13 @@ public interface Menu {
      */
     @Nonnull
     MenuContext getContext();
+
+    /**
+     * Adds a predicate to check who can interact with buttons on the menu, called prior to handling clicks.
+     *
+     * @param userPredicate The predicate
+     */
+    void addUserPredicate(@Nonnull Predicate<User> userPredicate);
 
     /**
      * Creates a new state, ready for use. It is not automatically set to this new state,

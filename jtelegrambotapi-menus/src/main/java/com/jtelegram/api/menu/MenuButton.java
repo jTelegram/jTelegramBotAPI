@@ -7,7 +7,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 /**
- * Represents a single button on a single state of a menu.
+ * Represents a single button on a single screen of a menu.
  */
 public interface MenuButton {
 

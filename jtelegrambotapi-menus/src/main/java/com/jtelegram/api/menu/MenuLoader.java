@@ -25,9 +25,9 @@ public class MenuLoader {
     /**
      * Creates a new menu, ready for use.
      *
-     * @param loadingMessage The message to display while loading the first state
+     * @param loadingMessage The message to display while loading the first screen
      * @param textSupplier The text supplier
-     * @param parseMode The parse mode used by the first state
+     * @param parseMode The parse mode used by the first screen
      *
      * @return The new menu
      */

@@ -6,7 +6,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 /**
- * A simple key-value store across states of a menu.
+ * A simple key-value store across screens of a menu.
  * Not persistent over restarts of the bot.
  */
 public class MenuContext {

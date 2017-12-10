@@ -14,7 +14,7 @@ import javax.annotation.Nullable;
 
 /**
  * Represents a state-less menu.<br>
- * {@link MenuState Menu states} represent "menus" in the sense of sets of buttons with a message.<br>
+ * {@link MenuScreen Menu screens} represent "menus" in the sense of sets of buttons with a message.<br>
  * {@link BoundMenu Bound menus} represent a Menu attached to a specific message.
  */
 public interface Menu {
@@ -28,33 +28,33 @@ public interface Menu {
     String getLoadingMessage();
 
     /**
-     * Gets the initial state of the menu, when it is first sent to a chat.
+     * Gets the initial screen of the menu, when it is first sent to a chat.
      *
-     * @return The initial state
+     * @return The initial screen
      */
     @Nonnull
-    MenuState getInitialState();
+    MenuScreen getInitialScreen();
 
     /**
-     * Gets the current state of the menu.
+     * Gets the screen currently being displayed on the menu.
      *
-     * @return The current state
+     * @return The current screen
      */
     @Nonnull
-    MenuState getState();
+    MenuScreen getScreen();
 
     /**
-     * Sets the state of the menu. Does not update the menu itself.
+     * Sets the screen of the menu. Does not update the menu itself.
      * <br><i>Note: After a button click is finished handled, the menu is automatically updated.</i>
      *
-     * @param state The new state.
+     * @param screen The new screen.
      *
      * @see BoundMenu#update(TelegramBot)
      */
-    void setState(@Nonnull MenuState state);
+    void setScreen(@Nonnull MenuScreen screen);
 
     /**
-     * Gets the key-value storage, or context, associated with this menu, persistent across states.
+     * Gets the key-value storage, or context, associated with this menu, persistent across screens.
      *
      * @return The key-value storage
      */
@@ -69,19 +69,19 @@ public interface Menu {
     void addUserPredicate(@Nonnull Predicate<User> userPredicate);
 
     /**
-     * Creates a new state, ready for use. It is not automatically set to this new state,
-     * you must use {@code getStateMemory().pushState(state)} to accomplish that.
+     * Creates a new screen, ready for use. It is not automatically set to this new screen,
+     * you must use {@link Menu#setScreen(MenuScreen)} to accomplish that.
      *
      * @param textSupplier The supplier that generates the message text
      * @param parseMode The parse mode used for the text
      *
-     * @return The new state
+     * @return The new screen
      */
     @Nonnull
-    MenuState createState(@Nonnull Supplier<String> textSupplier, @Nullable ParseMode parseMode);
+    MenuScreen createScreen(@Nonnull Supplier<String> textSupplier, @Nullable ParseMode parseMode);
 
     /**
-     * Creates a new button for a state to use. The button is not automatically added.
+     * Creates a new button for a screen to use. The button is not automatically added.
      *
      * @param buttonCreator The consumer used to generate buttons when they are required to be made.
      * @param onClickHandler The handler for when this button is clicked.

@@ -26,7 +26,7 @@ public interface BoundMenu {
     TextMessage getMessage();
 
     /**
-     * Updates a given message with the latest state from this menu.
+     * Updates a given message with the latest screen from this menu.
      * This is done automatically when a user clicks on a button, and
      * when they click on an out-of-date menu.
      *

@@ -37,13 +37,13 @@ public class BoundMenuImpl implements BoundMenu {
                     : "a human";
             throw new IllegalArgumentException("Message was not sent by me! (sent by " + senderName + ")");
         }
-        MenuStateImpl state = menu.getState();
+        MenuScreenImpl screen = menu.getScreen();
         bot.perform(EditTextMessage.builder()
                 .chatId(ChatId.of(message))
                 .messageId(message.getMessageId())
-                .text(state.getText())
-                .parseMode(state.getParseMode())
-                .replyMarkup(state.getGrid().toReplyMarkup(state.stateId))
+                .text(screen.getText())
+                .parseMode(screen.getParseMode())
+                .replyMarkup(screen.getGrid().toReplyMarkup(screen.screenId))
                 .build());
     }
 

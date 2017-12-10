@@ -1,6 +1,6 @@
 package com.jtelegram.api.menu.impl;
 
-import com.jtelegram.api.menu.MenuState;
+import com.jtelegram.api.menu.MenuScreen;
 import com.jtelegram.api.requests.message.framework.ParseMode;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -8,17 +8,17 @@ import java.util.function.Supplier;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class MenuStateImpl implements MenuState {
+public class MenuScreenImpl implements MenuScreen {
 
-    private static final AtomicInteger stateIdCounter = new AtomicInteger();
+    private static final AtomicInteger screenIdCounter = new AtomicInteger();
 
-    final int stateId;
+    final int screenId;
     private final Supplier<String> textSupplier;
     private final ParseMode parseMode;
     private final MenuGridImpl grid;
 
-    MenuStateImpl(@Nonnull Supplier<String> textSupplier, @Nullable ParseMode parseMode) {
-        this.stateId = MenuStateImpl.stateIdCounter.getAndIncrement();
+    MenuScreenImpl(@Nonnull Supplier<String> textSupplier, @Nullable ParseMode parseMode) {
+        this.screenId = MenuScreenImpl.screenIdCounter.getAndIncrement();
         this.textSupplier = textSupplier;
         this.parseMode = parseMode;
         this.grid = new MenuGridImpl();

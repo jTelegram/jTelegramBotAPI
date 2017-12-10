@@ -5,12 +5,12 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 /**
- * Represents a single state of a menu
+ * Represents a single screen of a menu
  */
-public interface MenuState {
+public interface MenuScreen {
 
     /**
-     * Gets the text displayed on this state.
+     * Gets the text displayed on this screen.
      *
      * @return The text
      */
@@ -18,7 +18,7 @@ public interface MenuState {
     String getText();
 
     /**
-     * Gets the parse mode of this state.
+     * Gets the parse mode of this screen.
      *
      * @return The parse mode
      */
@@ -26,7 +26,7 @@ public interface MenuState {
     ParseMode getParseMode();
 
     /**
-     * Gets the grid of buttons on this state.
+     * Gets the grid of buttons on this screen.
      *
      * @return The grid of buttons
      */

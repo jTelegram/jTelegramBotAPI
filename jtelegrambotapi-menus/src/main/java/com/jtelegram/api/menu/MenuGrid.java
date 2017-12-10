@@ -4,7 +4,7 @@ import java.util.List;
 import javax.annotation.Nonnull;
 
 /**
- * Represents the layout of buttons on the menu's state.
+ * Represents the layout of buttons on the menu's screen.
  */
 public interface MenuGrid {
 

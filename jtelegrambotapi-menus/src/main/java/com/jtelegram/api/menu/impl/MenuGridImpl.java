@@ -70,8 +70,8 @@ public class MenuGridImpl implements MenuGrid {
         grid.get(row).remove(column);
     }
 
-    InlineKeyboardMarkup toReplyMarkup(int stateId) {
-        String prefix = Integer.toString(stateId, 36) + " ";
+    InlineKeyboardMarkup toReplyMarkup(int screenId) {
+        String prefix = Integer.toString(screenId, 36) + " ";
 
         List<InlineKeyboardRow> rows = new ArrayList<>();
         for (int i = 0; i < grid.size(); i++) {

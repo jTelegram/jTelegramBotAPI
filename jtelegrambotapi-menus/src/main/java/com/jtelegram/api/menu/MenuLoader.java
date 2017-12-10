@@ -4,6 +4,7 @@ import com.jtelegram.api.TelegramBot;
 import com.jtelegram.api.events.inline.keyboard.CallbackQueryEvent;
 import com.jtelegram.api.menu.impl.MenuImpl;
 import com.jtelegram.api.requests.message.framework.ParseMode;
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -26,14 +27,12 @@ public class MenuLoader {
      * Creates a new menu, ready for use.
      *
      * @param loadingMessage The message to display while loading the first screen
-     * @param textSupplier The text supplier
-     * @param parseMode The parse mode used by the first screen
      *
      * @return The new menu
      */
     @Nonnull
-    public static Menu createMenu(@Nonnull String loadingMessage, @Nonnull Supplier<String> textSupplier, @Nullable ParseMode parseMode) {
-        return new MenuImpl(loadingMessage, textSupplier, parseMode);
+    public static Menu createMenu(@Nonnull String loadingMessage) {
+        return new MenuImpl(loadingMessage);
     }
 
 }

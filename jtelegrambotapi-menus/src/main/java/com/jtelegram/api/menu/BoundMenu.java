@@ -10,12 +10,35 @@ import javax.annotation.Nonnull;
 public interface BoundMenu {
 
     /**
+     * Gets the telegram bot who sent this menu.
+     *
+     * @return The bot instance
+     */
+    @Nonnull
+    TelegramBot getBot();
+
+    /**
      * Gets the menu that this bound menu represents.
      *
      * @return The menu
      */
     @Nonnull
     Menu getMenu();
+
+    /**
+     * Gets the screen currently being displayed on the menu.
+     *
+     * @return The current screen
+     */
+    @Nonnull
+    MenuScreen getScreen();
+
+    /**
+     * Sets the screen of the menu.
+     *
+     * @param screen The new screen.
+     */
+    void setScreen(@Nonnull MenuScreen screen);
 
     /**
      * Gets the message that this bound menu has been sent in.
@@ -26,12 +49,17 @@ public interface BoundMenu {
     TextMessage getMessage();
 
     /**
-     * Updates a given message with the latest screen from this menu.
-     * This is done automatically when a user clicks on a button, and
-     * when they click on an out-of-date menu.
+     * Gets the key-value storage, or context, associated with this menu, persistent across screens.
      *
-     * @param bot The bot instance
+     * @return The key-value storage
      */
-    void update(@Nonnull TelegramBot bot);
+    @Nonnull
+    MenuContext getContext();
+
+    /**
+     * Updates this bound menu's message with the latest screen from the owning menu.
+     * This is done automatically when a user clicks on a button, and when they click on an out-of-date menu.
+     */
+    void update();
 
 }

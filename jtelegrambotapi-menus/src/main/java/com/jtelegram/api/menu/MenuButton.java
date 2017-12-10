@@ -1,6 +1,5 @@
 package com.jtelegram.api.menu;
 
-import com.jtelegram.api.TelegramBot;
 import com.jtelegram.api.inline.keyboard.InlineKeyboardButton;
 import com.jtelegram.api.user.User;
 import javax.annotation.Nonnull;
@@ -22,13 +21,12 @@ public interface MenuButton {
     /**
      * Handles a click on this button by a user.
      *
-     * @param bot The bot instance owning the button
      * @param menu The menu this button belongs to
      * @param user The user who clicked the button
      *
      * @return The response of clicking this button
      */
     @Nullable
-    MenuButtonResponse onClick(@Nonnull TelegramBot bot, @Nonnull BoundMenu menu, @Nonnull User user);
+    MenuButtonResponse onClick(@Nonnull BoundMenu menu, @Nonnull User user);
 
 }

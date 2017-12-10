@@ -28,40 +28,6 @@ public interface Menu {
     String getLoadingMessage();
 
     /**
-     * Gets the initial screen of the menu, when it is first sent to a chat.
-     *
-     * @return The initial screen
-     */
-    @Nonnull
-    MenuScreen getInitialScreen();
-
-    /**
-     * Gets the screen currently being displayed on the menu.
-     *
-     * @return The current screen
-     */
-    @Nonnull
-    MenuScreen getScreen();
-
-    /**
-     * Sets the screen of the menu. Does not update the menu itself.
-     * <br><i>Note: After a button click is finished handled, the menu is automatically updated.</i>
-     *
-     * @param screen The new screen.
-     *
-     * @see BoundMenu#update(TelegramBot)
-     */
-    void setScreen(@Nonnull MenuScreen screen);
-
-    /**
-     * Gets the key-value storage, or context, associated with this menu, persistent across screens.
-     *
-     * @return The key-value storage
-     */
-    @Nonnull
-    MenuContext getContext();
-
-    /**
      * Adds a predicate to check who can interact with buttons on the menu, called prior to handling clicks.
      *
      * @param userPredicate The predicate
@@ -70,7 +36,7 @@ public interface Menu {
 
     /**
      * Creates a new screen, ready for use. It is not automatically set to this new screen,
-     * you must use {@link Menu#setScreen(MenuScreen)} to accomplish that.
+     * you must use {@link BoundMenu#setScreen(MenuScreen)} to accomplish that.
      *
      * @param textSupplier The supplier that generates the message text
      * @param parseMode The parse mode used for the text

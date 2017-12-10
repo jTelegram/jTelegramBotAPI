@@ -9,12 +9,9 @@ import com.jtelegram.api.inline.keyboard.InlineKeyboardButton;
 import com.jtelegram.api.menu.Menu;
 import com.jtelegram.api.menu.MenuButton;
 import com.jtelegram.api.menu.MenuButtonResponse;
-import com.jtelegram.api.menu.MenuContext;
-import com.jtelegram.api.menu.MenuScreen;
 import com.jtelegram.api.menu.OnClickHandler;
 import com.jtelegram.api.message.impl.TextMessage;
 import com.jtelegram.api.requests.inline.AnswerCallbackQuery;
-import com.jtelegram.api.requests.message.edit.EditTextMessage;
 import com.jtelegram.api.requests.message.framework.ParseMode;
 import com.jtelegram.api.requests.message.send.SendText;
 import com.jtelegram.api.user.User;
@@ -55,7 +52,7 @@ public class MenuImpl implements Menu {
             return; // invalid format, best not to try
         }
         // shouldn't happen
-        MenuScreenImpl screen = boundMenu.getMenu().getScreen();
+        MenuScreenImpl screen = boundMenu.getScreen();
         if (screen.screenId != screenId) {
             // user clicking an outdated menu
             // tell them, and update it
@@ -64,7 +61,7 @@ public class MenuImpl implements Menu {
                     .text("The menu you clicked on is out of date!\nI'm updating it now for you.")
                     .showAlert(true)
                     .build());
-            boundMenu.update(bot);
+            boundMenu.update();
             return;
         }
         boolean canUse = boundMenu.getMenu().userPredicates.isEmpty(); // if no registered predicates, allow anyone
@@ -81,7 +78,7 @@ public class MenuImpl implements Menu {
         MenuButtonResponse response;
         try {
             MenuButton button = grid.getButton(row, col);
-            response = button.onClick(bot, boundMenu, user);
+            response = button.onClick(boundMenu, user);
         } catch (Exception ignored) {
             // best to ignore
             return;
@@ -95,57 +92,23 @@ public class MenuImpl implements Menu {
                     .url(response.getURL() != null ? response.getURL().toString() : null)
                     .build());
         }
-        boundMenu.update(bot);
+        boundMenu.update();
     }
 
-    @Nonnull
     private final String loadingMessage;
-
-    @Nonnull
     private final MenuScreenImpl initialScreen;
-
-    @Nonnull
-    private final MenuContext context;
-
-    @Nonnull
-    private MenuScreenImpl currentScreen;
 
     private List<Predicate<User>> userPredicates = new ArrayList<>();
 
-    public MenuImpl(@Nonnull String loadingMessage, @Nonnull Supplier<String> textSupplier, @Nullable ParseMode parseMode) {
+    public MenuImpl(@Nonnull String loadingMessage) {
         this.loadingMessage = loadingMessage;
-        this.initialScreen = new MenuScreenImpl(textSupplier, parseMode);
-        this.currentScreen = this.initialScreen;
-        this.context = new MenuContext();
+        this.initialScreen = new MenuScreenImpl(() -> loadingMessage, ParseMode.NONE);
     }
 
     @Nonnull
     @Override
     public String getLoadingMessage() {
         return this.loadingMessage;
-    }
-
-    @Nonnull
-    @Override
-    public MenuScreenImpl getInitialScreen() {
-        return this.initialScreen;
-    }
-
-    @Nonnull
-    @Override
-    public MenuScreenImpl getScreen() {
-        return this.currentScreen;
-    }
-
-    @Override
-    public void setScreen(@Nonnull MenuScreen screen) {
-        this.currentScreen = (MenuScreenImpl) screen;
-    }
-
-    @Nonnull
-    @Override
-    public MenuContext getContext() {
-        return this.context;
     }
 
     @Override
@@ -191,19 +154,11 @@ public class MenuImpl implements Menu {
         Object moe = messageOrError.get();
         if (moe instanceof TextMessage) {
             TextMessage message = (TextMessage) moe;
-            BoundMenuImpl boundMenu = new BoundMenuImpl(this, message);
+            BoundMenuImpl boundMenu = new BoundMenuImpl(bot, this, message);
             Map<Integer, BoundMenuImpl> menus = menusByChatMessageId.computeIfAbsent(message.getChat().getId(), l -> new HashMap<>());
             menus.put(message.getMessageId(), boundMenu);
             menusByChatMessageId.put(message.getChat().getId(), menus);
-            MenuScreenImpl screen = getInitialScreen();
-            bot.perform(EditTextMessage.builder()
-                    .chatId(ChatId.of(chat))
-                    .messageId(message.getMessageId())
-                    .text(screen.getText())
-                    .parseMode(screen.getParseMode())
-                    .replyMarkup(screen.getGrid().toReplyMarkup(screen.screenId))
-                    .errorHandler(Throwable::printStackTrace)
-                    .build());
+            boundMenu.setScreen(initialScreen);
             return boundMenu;
         }
         throw (TelegramException) moe;

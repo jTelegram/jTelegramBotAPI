@@ -3,11 +3,7 @@ package com.jtelegram.api.menu;
 import com.jtelegram.api.TelegramBot;
 import com.jtelegram.api.events.inline.keyboard.CallbackQueryEvent;
 import com.jtelegram.api.menu.impl.MenuImpl;
-import com.jtelegram.api.requests.message.framework.ParseMode;
-import java.util.function.Consumer;
-import java.util.function.Supplier;
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 /**
  * Bootstraps the creation of menus.

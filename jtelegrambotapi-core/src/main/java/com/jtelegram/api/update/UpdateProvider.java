@@ -15,13 +15,13 @@ import com.jtelegram.api.TelegramBot;
 public interface UpdateProvider {
     /**
      * Begin listening for updates for this bot
-     * @param bot
+     * @param bot The bot instance
      */
     void listenFor(TelegramBot bot);
 
     /**
      * Stop listening for updates for this bot
-     * @param bot
+     * @param bot The bot instance
      */
     void stopListening(TelegramBot bot);
 }

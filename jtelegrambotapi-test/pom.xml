@@ -11,7 +11,7 @@
     </parent>
 
     <artifactId>jtelegrambotapi-test</artifactId>
-    <name>jTelegramBotAPI Test Repository</name>
+    <name>jTelegramBotAPI Test</name>
 
     <dependencies>
         <dependency>
@@ -31,18 +31,4 @@
             <artifactId>lombok</artifactId>
         </dependency>
     </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
 </project>

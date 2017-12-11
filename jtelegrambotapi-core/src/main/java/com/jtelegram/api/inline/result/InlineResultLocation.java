@@ -14,7 +14,7 @@ public class InlineResultLocation extends DimensionalThumbableInlineResult imple
     private String title;
     private Integer livePeriod;
     private Float latitude;
-    private Float longtitude;
+    private Float longitude;
 
     @Builder
     private InlineResultLocation(String id, InlineKeyboardMarkup replyMarkup, InputMessageContent inputMessageContent, String thumbUrl, Integer thumbWidth,

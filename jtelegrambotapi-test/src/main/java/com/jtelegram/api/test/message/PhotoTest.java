@@ -14,7 +14,7 @@ import java.net.URL;
 
 public class PhotoTest extends ResourceTestModule {
     public PhotoTest(TelegramBot bot) {
-        super(bot, "test-photo.jpg");
+        super(bot, "/test-photo.jpg");
     }
 
     @Override

@@ -8,6 +8,7 @@ import com.jtelegram.api.message.input.file.ExternalInputFile;
 import com.jtelegram.api.message.input.file.IdInputFile;
 import com.jtelegram.api.message.input.file.LocalInputFile;
 import com.jtelegram.api.requests.message.send.SendPhoto;
+import com.jtelegram.api.test.ResourceTestModule;
 
 import java.net.MalformedURLException;
 import java.net.URL;

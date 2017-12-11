@@ -4,6 +4,7 @@ import com.jtelegram.api.TelegramBot;
 import com.jtelegram.api.chat.id.ChatId;
 import com.jtelegram.api.commands.Command;
 import com.jtelegram.api.requests.message.send.SendVenue;
+import com.jtelegram.api.test.AbstractTestModule;
 
 public class VenueTest extends AbstractTestModule {
     public VenueTest(TelegramBot bot) {

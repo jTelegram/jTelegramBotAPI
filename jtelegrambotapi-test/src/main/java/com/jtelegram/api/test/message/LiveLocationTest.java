@@ -7,7 +7,7 @@ import com.jtelegram.api.commands.Command;
 import com.jtelegram.api.message.Message;
 import com.jtelegram.api.requests.message.edit.EditMessageLiveLocation;
 import com.jtelegram.api.requests.message.send.SendLocation;
-import com.jtelegram.api.test.TestModule;
+import com.jtelegram.api.test.AbstractTestModule;
 import lombok.RequiredArgsConstructor;
 
 import java.util.Timer;

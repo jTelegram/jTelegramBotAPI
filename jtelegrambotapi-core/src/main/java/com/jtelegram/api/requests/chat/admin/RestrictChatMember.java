@@ -19,7 +19,7 @@ public class RestrictChatMember extends UserAdminChatRequest {
     private final Boolean canAddWebPagePreviews;
 
     @Builder
-    public RestrictChatMember(Consumer<TelegramException> errorHandler, Runnable callback, ChatId chatId, Integer userId, Long untilDate, Boolean canSendMessages, Boolean canSendMediaMessages, Boolean canSendOtherMessages, Boolean canAddWebPagePreviews) {
+    public RestrictChatMember(Consumer<TelegramException> errorHandler, Runnable callback, ChatId chatId, Long userId, Long untilDate, Boolean canSendMessages, Boolean canSendMediaMessages, Boolean canSendOtherMessages, Boolean canAddWebPagePreviews) {
         super("restrictChatMember", errorHandler, callback, chatId, userId);
         this.untilDate = untilDate;
         this.canSendMessages = canSendMessages;

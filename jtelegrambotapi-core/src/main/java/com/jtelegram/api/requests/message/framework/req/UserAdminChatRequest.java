@@ -8,9 +8,9 @@ import java.util.function.Consumer;
 
 @Getter
 public class UserAdminChatRequest extends UpdatableChatRequest {
-    private final Integer userId;
+    private final Long userId;
 
-    public UserAdminChatRequest(String endPoint, Consumer<TelegramException> errorHandler, Runnable callback, ChatId chatId, Integer userId) {
+    public UserAdminChatRequest(String endPoint, Consumer<TelegramException> errorHandler, Runnable callback, ChatId chatId, Long userId) {
         super(endPoint, errorHandler, callback, chatId);
         this.userId = userId;
     }

@@ -14,10 +14,10 @@ import java.util.function.Consumer;
 @ToString
 public class GetChatMember extends QueryTelegramRequest<ChatMember> {
     private ChatId chatId;
-    private Integer userId;
+    private Long userId;
 
     @Builder
-    protected GetChatMember(Consumer<ChatMember> callback, Consumer<TelegramException> errorHandler, ChatId chatId, Integer userId) {
+    protected GetChatMember(Consumer<ChatMember> callback, Consumer<TelegramException> errorHandler, ChatId chatId, Long userId) {
         super("getChatMember", ChatMember.class, callback, errorHandler);
         this.chatId = chatId;
         this.userId = userId;

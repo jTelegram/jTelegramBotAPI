@@ -13,7 +13,7 @@ import java.util.function.Consumer;
 @ToString
 public class UnbanChatMember extends UserAdminChatRequest {
     @Builder
-    public UnbanChatMember(Consumer<TelegramException> errorHandler, Runnable callback, ChatId chatId, Integer userId) {
+    public UnbanChatMember(Consumer<TelegramException> errorHandler, Runnable callback, ChatId chatId, Long userId) {
         super("unbanChatMember", errorHandler, callback, chatId, userId);
     }
 }

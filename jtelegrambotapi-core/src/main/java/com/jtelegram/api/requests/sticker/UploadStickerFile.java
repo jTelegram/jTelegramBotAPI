@@ -15,12 +15,12 @@ import java.util.function.Consumer;
 @Getter
 @ToString
 public class UploadStickerFile extends QueryTelegramRequest<TelegramFile> {
-    private Integer userId;
+    private Long userId;
     @SerializedName("png_sticker")
     private InputFile sticker;
 
     @Builder
-    protected UploadStickerFile(Consumer<TelegramFile> callback, Consumer<TelegramException> errorHandler, Integer userId, InputFile sticker) {
+    protected UploadStickerFile(Consumer<TelegramFile> callback, Consumer<TelegramException> errorHandler, Long userId, InputFile sticker) {
         super("uploadSticker", TelegramFile.class, callback, errorHandler);
         this.userId = userId;
         this.sticker = sticker;

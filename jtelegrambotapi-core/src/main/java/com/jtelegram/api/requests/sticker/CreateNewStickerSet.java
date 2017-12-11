@@ -6,16 +6,19 @@ import com.jtelegram.api.message.sticker.MaskPosition;
 import com.jtelegram.api.requests.framework.UpdateTelegramRequest;
 import com.jtelegram.api.message.input.file.InputFile;
 import com.jtelegram.api.message.sticker.Sticker;
+import com.jtelegram.api.requests.message.framework.req.InputFileMessageUpdate;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.function.Consumer;
 
 @Getter
 @ToString
-public class CreateNewStickerSet extends UpdateTelegramRequest {
-    private Integer userId;
+public class CreateNewStickerSet extends InputFileMessageUpdate {
+    private Long userId;
     private String name;
     private String title;
     @SerializedName("png_sticker")
@@ -25,7 +28,7 @@ public class CreateNewStickerSet extends UpdateTelegramRequest {
     private MaskPosition maskPosition;
 
     @Builder
-    private CreateNewStickerSet(Consumer<TelegramException> errorHandler, Runnable callback, Integer userId,
+    private CreateNewStickerSet(Consumer<TelegramException> errorHandler, Runnable callback, Long userId,
                                 String name, String title, InputFile sticker, String emojis, Boolean containsMasks,
                                 MaskPosition maskPosition) {
         super("createNewStickerSet", errorHandler, callback);
@@ -42,5 +45,10 @@ public class CreateNewStickerSet extends UpdateTelegramRequest {
     protected boolean isValid() {
         return userId != null && name != null && title != null && sticker != null &&
                 Sticker.verifySize(sticker) && emojis != null;
+    }
+
+    @Override
+    public List<InputFile> getInputFiles() {
+        return Collections.singletonList(sticker);
     }
 }

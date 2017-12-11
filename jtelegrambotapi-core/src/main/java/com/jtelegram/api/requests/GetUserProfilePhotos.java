@@ -12,12 +12,12 @@ import java.util.function.Consumer;
 @Getter
 @ToString
 public class GetUserProfilePhotos extends QueryTelegramRequest<UserProfilePhotos> {
-    private Integer userId;
+    private Long userId;
     private Integer offset;
     private Integer limit;
 
     @Builder
-    protected GetUserProfilePhotos(Consumer<UserProfilePhotos> callback, Consumer<TelegramException> errorHandler, Integer userId, Integer offset, Integer limit) {
+    protected GetUserProfilePhotos(Consumer<UserProfilePhotos> callback, Consumer<TelegramException> errorHandler, Long userId, Integer offset, Integer limit) {
         super("getUserProfilePhotos", UserProfilePhotos.class, callback, errorHandler);
         this.userId = userId;
         this.offset = offset;

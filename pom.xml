@@ -20,6 +20,10 @@
         <url>https://github.com/jTelegram/jTelegramBotAPI/issues</url>
     </issueManagement>
 
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
     <distributionManagement>
         <snapshotRepository>
             <id>ossrh</id>
@@ -109,7 +113,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.6.1</version>
+                <version>3.7.0</version>
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>
@@ -122,6 +126,7 @@
                 <executions>
                     <execution>
                         <id>attach-sources</id>
+                        <phase>generate-sources</phase>
                         <goals>
                             <goal>jar</goal>
                         </goals>
@@ -131,10 +136,10 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.10.4</version>
+                <version>3.0.0-M1</version>
                 <configuration>
-                    <quiet>true</quiet>
-                    <aggregate>true</aggregate>
+                    <quiet>false</quiet>
+                    <sourcepath>${project.basedir}/src/main/delombok</sourcepath>
                 </configuration>
                 <executions>
                     <execution>
@@ -146,16 +151,25 @@
                 </executions>
             </plugin>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-gpg-plugin</artifactId>
-                <version>1.5</version>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok-maven-plugin</artifactId>
+                <version>1.16.18.1</version>
+                <configuration>
+                    <sourceDirectory>${project.basedir}/src/main/java</sourceDirectory>
+                    <outputDirectory>${project.basedir}/src/main/delombok</outputDirectory>
+                </configuration>
                 <executions>
                     <execution>
-                        <id>sign-artifacts</id>
-                        <phase>verify</phase>
+                        <id>delombok</id>
+                        <phase>process-classes</phase>
+
                         <goals>
-                            <goal>sign</goal>
+                            <goal>delombok</goal>
                         </goals>
+                        <configuration>
+                            <encoding>UTF-8</encoding>
+                            <verbose>true</verbose>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>

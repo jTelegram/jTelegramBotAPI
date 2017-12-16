@@ -24,7 +24,7 @@ import com.jtelegram.api.requests.message.send.SendText;
 public class TextBuilder {
     private final StringBuilder message = new StringBuilder();
 
-    public TextBuilder create() {
+    public static TextBuilder create() {
         return new TextBuilder();
     }
 

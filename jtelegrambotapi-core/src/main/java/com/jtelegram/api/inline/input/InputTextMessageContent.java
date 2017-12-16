@@ -20,5 +20,10 @@ public class InputTextMessageContent extends InputMessageContent {
             this.messageText = builder.toHtml();
             return this;
         }
+
+        public InputTextMessageContentBuilder messageText(String str) {
+            this.messageText = str;
+            return this;
+        }
     }
 }

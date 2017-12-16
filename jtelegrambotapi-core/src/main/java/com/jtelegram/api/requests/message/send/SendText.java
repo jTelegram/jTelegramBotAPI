@@ -34,6 +34,11 @@ public class SendText extends SendableMessageRequest<TextMessage> {
             this.text = builder.toHtml();
             return this;
         }
+
+        public SendTextBuilder text(String text) {
+            this.text = text;
+            return this;
+        }
     }
 
     @Override

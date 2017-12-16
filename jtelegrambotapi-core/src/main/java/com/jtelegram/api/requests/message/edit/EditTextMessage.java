@@ -34,6 +34,11 @@ public class EditTextMessage extends EditMessageRequest<TextMessage> {
             this.text = builder.toHtml();
             return this;
         }
+
+        public EditTextMessageBuilder text(String text) {
+            this.text = text;
+            return this;
+        }
     }
 
     @Override

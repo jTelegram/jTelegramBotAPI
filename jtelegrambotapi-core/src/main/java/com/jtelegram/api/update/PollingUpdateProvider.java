@@ -20,8 +20,7 @@ public class PollingUpdateProvider implements UpdateProvider {
     @Builder.Default
     private int timeout = 10;
     @Singular
-    @Builder.Default
-    private List<UpdateType> allowedUpdates = new ArrayList<>();
+    private List<UpdateType> allowedUpdates;
 
     @Override
     public void listenFor(TelegramBot bot) {

@@ -53,10 +53,14 @@ public class TelegramBotRegistry {
     private final UpdateProvider updateProvider;
     private String apiUrl = "https://api.telegram.org/bot";
     private OkHttpClient client = new OkHttpClient();
+    // <1 is a dynamic thread pool
+    // 1 is a single thread pool
+    // >1 is a multi thread pool
+    private int eventThreadCount = 1;
     private final Set<TelegramBot> bots = new HashSet<>();
 
     @Builder
-    private TelegramBotRegistry(UpdateProvider updateProvider, String apiUrl, OkHttpClient client) {
+    private TelegramBotRegistry(UpdateProvider updateProvider, String apiUrl, OkHttpClient client, Integer eventThreadCount) {
         this.updateProvider = updateProvider;
 
         if (apiUrl != null) {
@@ -65,6 +69,10 @@ public class TelegramBotRegistry {
 
         if (client != null) {
             this.client = client;
+        }
+
+        if (eventThreadCount != null) {
+            this.eventThreadCount = eventThreadCount;
         }
     }
 

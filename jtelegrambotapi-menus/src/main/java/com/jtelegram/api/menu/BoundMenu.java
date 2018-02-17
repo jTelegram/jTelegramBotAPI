@@ -1,6 +1,5 @@
 package com.jtelegram.api.menu;
 
-import com.jtelegram.api.TelegramBot;
 import com.jtelegram.api.message.impl.TextMessage;
 import javax.annotation.Nonnull;
 
@@ -8,14 +7,6 @@ import javax.annotation.Nonnull;
  * Represents a menu bound to a message
  */
 public interface BoundMenu {
-
-    /**
-     * Gets the telegram bot who sent this menu.
-     *
-     * @return The bot instance
-     */
-    @Nonnull
-    TelegramBot getBot();
 
     /**
      * Gets the menu that this bound menu represents.

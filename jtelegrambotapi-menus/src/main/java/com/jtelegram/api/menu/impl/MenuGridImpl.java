@@ -10,6 +10,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
 
@@ -70,16 +71,17 @@ public class MenuGridImpl implements MenuGrid {
         grid.get(row).remove(column);
     }
 
-    InlineKeyboardMarkup toReplyMarkup(int screenId) {
-        String prefix = Integer.toString(screenId, 36) + " ";
+    InlineKeyboardMarkup toReplyMarkup(UUID screenId) {
+        String prefix = screenId.toString() + MenuImpl.CALLBACK_DATA_SEPARATOR;
 
         List<InlineKeyboardRow> rows = new ArrayList<>();
         for (int i = 0; i < grid.size(); i++) {
             List<InlineKeyboardButton> row = new ArrayList<>();
             List<MenuButton> buttonList = this.grid.get(i);
+            String rowPrefix = prefix + Integer.toString(i, MenuImpl.CALLBACK_DATA_RADIX) + MenuImpl.CALLBACK_DATA_SEPARATOR;
             for (int j = 0; j < buttonList.size(); j++) {
                 MenuButton button = buttonList.get(j);
-                String buttonPrefix = prefix + Integer.toString(i, 36) + " " + Integer.toString(j, 36);
+                String buttonPrefix = rowPrefix + Integer.toString(j, MenuImpl.CALLBACK_DATA_RADIX);
                 row.add(button.toButtonBuilder().callbackData(buttonPrefix).build());
             }
             rows.add(InlineKeyboardRow.builder().buttons(row).build());

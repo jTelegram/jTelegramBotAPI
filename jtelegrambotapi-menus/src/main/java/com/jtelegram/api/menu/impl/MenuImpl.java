@@ -3,22 +3,18 @@ package com.jtelegram.api.menu.impl;
 import com.jtelegram.api.TelegramBot;
 import com.jtelegram.api.chat.Chat;
 import com.jtelegram.api.chat.id.ChatId;
-import com.jtelegram.api.events.inline.keyboard.CallbackQueryEvent;
 import com.jtelegram.api.ex.TelegramException;
 import com.jtelegram.api.inline.keyboard.InlineKeyboardButton;
+import com.jtelegram.api.menu.BoundMenu;
 import com.jtelegram.api.menu.Menu;
-import com.jtelegram.api.menu.MenuButton;
-import com.jtelegram.api.menu.MenuButtonResponse;
 import com.jtelegram.api.menu.OnClickHandler;
 import com.jtelegram.api.message.impl.TextMessage;
-import com.jtelegram.api.requests.inline.AnswerCallbackQuery;
 import com.jtelegram.api.requests.message.framework.ParseMode;
 import com.jtelegram.api.requests.message.send.SendText;
 import com.jtelegram.api.user.User;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
@@ -29,80 +25,27 @@ import javax.annotation.Nullable;
 
 public class MenuImpl implements Menu {
 
-    private static final Map<Long, Map<Integer, BoundMenuImpl>> menusByChatMessageId = new HashMap<>();
+    static final String CALLBACK_DATA_SEPARATOR = ",";
+    static final int CALLBACK_DATA_RADIX = 36;
 
-    public static void handleEvent(CallbackQueryEvent event) {
-        Map<Integer, BoundMenuImpl> menus = menusByChatMessageId.get(event.getQuery().getMessage().getChat().getId());
-        if (menus == null) {
-            return;
-        }
-        BoundMenuImpl boundMenu = menus.get(event.getQuery().getMessage().getMessageId());
-        if (boundMenu == null) {
-            return;
-        }
-        TelegramBot bot = event.getBot();
-        User user = event.getQuery().getFrom();
-        String[] callbackData = event.getQuery().getData().split(" ");
-        int screenId, row, col;
-        try {
-            screenId = Integer.parseInt(callbackData[0], 36);
-            row = Integer.parseInt(callbackData[1], 36);
-            col = Integer.parseInt(callbackData[2], 36);
-        } catch (ArrayIndexOutOfBoundsException | NumberFormatException ex) {
-            return; // invalid format, best not to try
-        }
-        // shouldn't happen
-        MenuScreenImpl screen = boundMenu.getScreen();
-        if (screen.screenId != screenId) {
-            // user clicking an outdated menu
-            // tell them, and update it
-            bot.perform(AnswerCallbackQuery.builder()
-                    .queryId(event.getQuery().getId())
-                    .text("The menu you clicked on is out of date!\nI'm updating it now for you.")
-                    .showAlert(true)
-                    .build());
-            boundMenu.update();
-            return;
-        }
-        boolean canUse = boundMenu.getMenu().userPredicates.isEmpty(); // if no registered predicates, allow anyone
-        for (Predicate<User> userPredicate : boundMenu.getMenu().userPredicates) {
-            if (userPredicate.test(user)) {
-                canUse = true;
-                break;
-            }
-        }
-        if (!canUse) {
-            return;
-        }
-        MenuGridImpl grid = screen.getGrid();
-        MenuButtonResponse response;
-        try {
-            MenuButton button = grid.getButton(row, col);
-            response = button.onClick(boundMenu, user);
-        } catch (Exception ignored) {
-            // best to ignore
-            return;
-        }
-        if (response != null) {
-            bot.perform(AnswerCallbackQuery.builder()
-                    .queryId(event.getQuery().getId())
-                    .text(response.getText())
-                    .showAlert(response.isShowAlert())
-                    .cacheTime(response.getCacheTime())
-                    .url(response.getURL() != null ? response.getURL().toString() : null)
-                    .build());
-        }
-        boundMenu.update();
-    }
-
+    private final TelegramBot bot;
     private final String loadingMessage;
     private final MenuScreenImpl initialScreen;
 
+    private String refreshingText = Menu.DEFAULT_REFRESHING_TEXT;
     private List<Predicate<User>> userPredicates = new ArrayList<>();
+    private List<Consumer<BoundMenu>> menuConsumers = new ArrayList<>();
 
-    public MenuImpl(@Nonnull String loadingMessage) {
+    public MenuImpl(@Nonnull TelegramBot bot, @Nonnull String loadingMessage) {
+        this.bot = bot;
         this.loadingMessage = loadingMessage;
-        this.initialScreen = new MenuScreenImpl(() -> loadingMessage, ParseMode.NONE);
+        this.initialScreen = new MenuScreenImpl(bot, () -> loadingMessage, ParseMode.NONE);
+    }
+
+    @Nonnull
+    @Override
+    public TelegramBot getBot() {
+        return bot;
     }
 
     @Nonnull
@@ -111,20 +54,57 @@ public class MenuImpl implements Menu {
         return this.loadingMessage;
     }
 
+    @Nonnull
+    @Override
+    public String getRefreshingText() {
+        return refreshingText;
+    }
+
+    @Override
+    public void setRefreshingText(@Nonnull String refreshingText) {
+        this.refreshingText = refreshingText;
+    }
+
     @Override
     public void addUserPredicate(@Nonnull Predicate<User> userPredicate) {
         this.userPredicates.add(userPredicate);
     }
 
-    @Nonnull
     @Override
-    public MenuScreenImpl createScreen(@Nonnull Supplier<String> textSupplier, @Nullable ParseMode parseMode) {
-        return new MenuScreenImpl(textSupplier, parseMode);
+    public List<Predicate<User>> getUserPredicates() {
+        return userPredicates;
+    }
+
+    @Override
+    public void addContextLoadListener(Consumer<BoundMenu> menuConsumer) {
+        this.menuConsumers.add(menuConsumer);
+    }
+
+    List<Consumer<BoundMenu>> getMenuConsumers() {
+        return menuConsumers;
     }
 
     @Nonnull
     @Override
-    public MenuButtonImpl createButton(@Nonnull Consumer<InlineKeyboardButton.InlineKeyboardButtonBuilder> buttonCreator, @Nonnull OnClickHandler onClickHandler) {
+    public MenuScreenImpl createScreen(@Nonnull UUID uniqueId, @Nonnull Supplier<String> textSupplier, @Nullable ParseMode parseMode) {
+        if (uniqueId.version() != 3) {
+            throw new IllegalArgumentException("UUID must be type 3 (user-set)");
+        }
+        MenuHandler handler = MenuHandler.getFor(this.bot);
+        MenuScreenImpl menuScreen = new MenuScreenImpl(bot, uniqueId, textSupplier, parseMode);
+        handler.menusByMenuScreenId.put(menuScreen.getUniqueId(), this);
+        return menuScreen;
+    }
+
+    @Nonnull
+    @Override
+    public MenuScreenImpl createScreen(@Nonnull Supplier<String> textSupplier, @Nullable ParseMode parseMode) {
+        return new MenuScreenImpl(bot, textSupplier, parseMode);
+    }
+
+    @Nonnull
+    @Override
+    public MenuButtonImpl createButton(@Nonnull Consumer<InlineKeyboardButton.InlineKeyboardButtonBuilder> buttonCreator, @Nullable OnClickHandler onClickHandler) {
         return new MenuButtonImpl(buttonCreator, onClickHandler);
     }
 
@@ -154,14 +134,11 @@ public class MenuImpl implements Menu {
         Object moe = messageOrError.get();
         if (moe instanceof TextMessage) {
             TextMessage message = (TextMessage) moe;
-            BoundMenuImpl boundMenu = new BoundMenuImpl(bot, this, message);
-            Map<Integer, BoundMenuImpl> menus = menusByChatMessageId.computeIfAbsent(message.getChat().getId(), l -> new HashMap<>());
-            menus.put(message.getMessageId(), boundMenu);
-            menusByChatMessageId.put(message.getChat().getId(), menus);
+            BoundMenuImpl boundMenu = new BoundMenuImpl(this, message);
+            MenuHandler.registerMenu(message, boundMenu);
             boundMenu.setScreen(initialScreen);
             return boundMenu;
         }
         throw (TelegramException) moe;
     }
-
 }

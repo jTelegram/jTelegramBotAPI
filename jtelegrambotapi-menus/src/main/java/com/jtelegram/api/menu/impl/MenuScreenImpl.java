@@ -1,27 +1,44 @@
 package com.jtelegram.api.menu.impl;
 
+import com.jtelegram.api.TelegramBot;
 import com.jtelegram.api.menu.MenuScreen;
 import com.jtelegram.api.requests.message.framework.ParseMode;
 import java.util.Objects;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.UUID;
 import java.util.function.Supplier;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class MenuScreenImpl implements MenuScreen {
 
-    private static final AtomicInteger screenIdCounter = new AtomicInteger();
-
-    final int screenId;
+    private final UUID uuid;
     private final Supplier<String> textSupplier;
     private final ParseMode parseMode;
     private final MenuGridImpl grid;
 
-    MenuScreenImpl(@Nonnull Supplier<String> textSupplier, @Nullable ParseMode parseMode) {
-        this.screenId = MenuScreenImpl.screenIdCounter.getAndIncrement();
+    MenuScreenImpl(@Nonnull TelegramBot bot, @Nonnull Supplier<String> textSupplier, @Nullable ParseMode parseMode) {
+        this(bot, null, textSupplier, parseMode);
+    }
+
+    MenuScreenImpl(@Nonnull TelegramBot bot, @Nullable UUID uniqueId, Supplier<String> textSupplier, ParseMode parseMode) {
+        MenuHandler handler = MenuHandler.getFor(bot);
+        if (uniqueId == null) {
+            do {
+                uniqueId = UUID.randomUUID();
+            } while (handler.menuScreensByUniqueId.containsKey(uniqueId));
+        }
+        handler.menuScreensByUniqueId.put(uniqueId, this);
+
+        this.uuid = uniqueId;
         this.textSupplier = textSupplier;
         this.parseMode = parseMode;
         this.grid = new MenuGridImpl();
+    }
+
+    @Nonnull
+    @Override
+    public UUID getUniqueId() {
+        return uuid;
     }
 
     @Nonnull

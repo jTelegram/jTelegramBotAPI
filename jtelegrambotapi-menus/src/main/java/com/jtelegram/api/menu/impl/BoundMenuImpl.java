@@ -11,23 +11,27 @@ import javax.annotation.Nonnull;
 
 public class BoundMenuImpl implements BoundMenu {
 
-    private final TelegramBot bot;
     private final MenuImpl menu;
     private final TextMessage message;
     private final MenuContext context;
     private MenuScreenImpl currentScreen;
 
-    BoundMenuImpl(TelegramBot bot, MenuImpl menu, TextMessage message) {
-        this.bot = bot;
+    BoundMenuImpl(MenuImpl menu, TextMessage message) {
         this.menu = menu;
         this.message = message;
         this.context = new MenuContext();
+        this.menu.getMenuConsumers().forEach(consumer -> {
+            try {
+                consumer.accept(this);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
     }
 
     @Nonnull
-    @Override
     public TelegramBot getBot() {
-        return this.bot;
+        return this.menu.getBot();
     }
 
     @Nonnull
@@ -62,19 +66,19 @@ public class BoundMenuImpl implements BoundMenu {
 
     @Override
     public void update() {
-        if (message.getSender().getId() != bot.getBotInfo().getId()) {
+        if (message.getSender().getId() != menu.getBot().getBotInfo().getId()) {
             String senderName = message.getSender().isBot()
                     ? message.getSender().getUsername()
                     : "a human";
             throw new IllegalArgumentException("Message was not sent by me! (sent by " + senderName + ")");
         }
         MenuScreenImpl screen = currentScreen;
-        bot.perform(EditTextMessage.builder()
+        menu.getBot().perform(EditTextMessage.builder()
                 .chatId(ChatId.of(message))
                 .messageId(message.getMessageId())
                 .text(screen.getText())
                 .parseMode(screen.getParseMode())
-                .replyMarkup(screen.getGrid().toReplyMarkup(screen.screenId))
+                .replyMarkup(screen.getGrid().toReplyMarkup(screen.getUniqueId()))
                 .build());
     }
 

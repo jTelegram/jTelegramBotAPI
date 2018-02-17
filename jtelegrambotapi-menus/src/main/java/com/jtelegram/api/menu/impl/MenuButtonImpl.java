@@ -15,7 +15,7 @@ public class MenuButtonImpl implements MenuButton {
     private final Consumer<InlineKeyboardButton.InlineKeyboardButtonBuilder> buttonCreator;
     private final OnClickHandler onClickHandler;
 
-    public MenuButtonImpl(@Nonnull Consumer<InlineKeyboardButton.InlineKeyboardButtonBuilder> buttonCreator, @Nonnull OnClickHandler onClickHandler) {
+    public MenuButtonImpl(@Nonnull Consumer<InlineKeyboardButton.InlineKeyboardButtonBuilder> buttonCreator, @Nullable OnClickHandler onClickHandler) {
         this.buttonCreator = buttonCreator;
         this.onClickHandler = onClickHandler;
     }
@@ -31,7 +31,7 @@ public class MenuButtonImpl implements MenuButton {
     @Nullable
     @Override
     public MenuButtonResponse onClick(@Nonnull BoundMenu menu, @Nonnull User user) {
-        return onClickHandler.onClick(menu, user);
+        return onClickHandler != null ? onClickHandler.onClick(menu, user) : null;
     }
 
 }

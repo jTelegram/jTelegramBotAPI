@@ -12,12 +12,12 @@ import java.util.function.Consumer;
 @Getter
 @ToString
 public class GetGameHighScores extends QueryTelegramRequest<GameHighScore[]> {
-    private Integer userId;
+    private Long userId;
     private LongChatId chatId;
     private Integer messageId;
     private String inlineMessageId;
 
-    public GetGameHighScores(Consumer<GameHighScore[]> callback, Consumer<TelegramException> errorHandler, Integer userId, LongChatId chatId, Integer messageId, String inlineMessageId) {
+    public GetGameHighScores(Consumer<GameHighScore[]> callback, Consumer<TelegramException> errorHandler, Long userId, LongChatId chatId, Integer messageId, String inlineMessageId) {
         super("getGameHighScores", GameHighScore[].class, callback, errorHandler);
         this.userId = userId;
         this.chatId = chatId;

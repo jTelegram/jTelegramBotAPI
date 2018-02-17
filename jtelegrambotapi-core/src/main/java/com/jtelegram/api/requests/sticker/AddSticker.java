@@ -17,7 +17,7 @@ import java.util.function.Consumer;
 @Getter
 @ToString
 public class AddSticker extends InputFileMessageUpdate {
-    private Integer userId;
+    private Long userId;
     private String name;
     @SerializedName("png_sticker")
     private InputFile sticker;
@@ -25,7 +25,7 @@ public class AddSticker extends InputFileMessageUpdate {
     private MaskPosition maskPosition;
 
     @Builder
-    protected AddSticker(Consumer<TelegramException> errorHandler, Runnable callback, Integer userId,
+    protected AddSticker(Consumer<TelegramException> errorHandler, Runnable callback, Long userId,
                          String name, InputFile sticker, String emojis, MaskPosition maskPosition) {
         super("addStickerToSet", errorHandler, callback);
         this.userId = userId;

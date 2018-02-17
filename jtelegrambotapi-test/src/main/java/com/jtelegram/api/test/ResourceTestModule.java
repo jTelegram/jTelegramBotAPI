@@ -1,4 +1,4 @@
-package com.jtelegram.api.test.message;
+package com.jtelegram.api.test;
 
 import com.jtelegram.api.TelegramBot;
 import lombok.Getter;

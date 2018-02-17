@@ -4,14 +4,12 @@ import com.jtelegram.api.TelegramBot;
 import com.jtelegram.api.TelegramBotRegistry;
 import com.jtelegram.api.chat.id.ChatId;
 import com.jtelegram.api.commands.Command;
-import com.jtelegram.api.commands.CommandHandler;
 import com.jtelegram.api.commands.filters.TextFilter;
 import com.jtelegram.api.events.message.TextMessageEvent;
 import com.jtelegram.api.requests.message.framework.ParseMode;
 import com.jtelegram.api.requests.message.send.SendText;
-import com.jtelegram.api.test.message.LiveLocationTest;
-import com.jtelegram.api.test.message.LocationMessageTest;
-import com.jtelegram.api.test.message.ResourceTestModule;
+import com.jtelegram.api.test.message.*;
+import com.jtelegram.api.test.misc.UserProfilePhotosTest;
 import com.jtelegram.api.update.PollingUpdateProvider;
 import com.jtelegram.api.update.UpdateProvider;
 import com.jtelegram.api.webhooks.WebhookUpdateProvider;
@@ -135,6 +133,11 @@ public class BotMainTest {
     private void registerModules() {
         registerModule(new LiveLocationTest(bot));
         registerModule(new LocationMessageTest(bot));
+        registerModule(new ForwardMessageTest(bot));
+        registerModule(new PhotoTest(bot));
+        registerModule(new VenueTest(bot));
+        registerModule(new UserProfilePhotosTest(bot));
+        registerModule(new TextBuilderTest(bot));
 
         prepareResources();
     }

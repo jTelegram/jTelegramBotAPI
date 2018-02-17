@@ -6,6 +6,7 @@ import com.jtelegram.api.message.impl.TextMessage;
 import com.jtelegram.api.requests.message.framework.ReplyMarkup;
 import com.jtelegram.api.requests.message.framework.req.EditMessageRequest;
 import com.jtelegram.api.requests.message.framework.ParseMode;
+import com.jtelegram.api.util.TextBuilder;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
@@ -25,6 +26,19 @@ public class EditTextMessage extends EditMessageRequest<TextMessage> {
         this.text = text;
         this.parseMode = parseMode;
         this.disableWebPagePreview = disableWebPagePreview;
+    }
+
+    public static class EditTextMessageBuilder {
+        public EditTextMessageBuilder text(TextBuilder builder) {
+            this.parseMode = ParseMode.HTML;
+            this.text = builder.toHtml();
+            return this;
+        }
+
+        public EditTextMessageBuilder text(String text) {
+            this.text = text;
+            return this;
+        }
     }
 
     @Override

@@ -13,7 +13,7 @@ import java.util.function.Consumer;
 @Getter
 @ToString
 public class SetGameScore extends QueryTelegramRequest<Message> {
-    private Integer userId;
+    private Long userId;
     private Integer score;
     private Boolean force;
     private Boolean disableEditMessage;
@@ -22,7 +22,7 @@ public class SetGameScore extends QueryTelegramRequest<Message> {
     private String inlineMessageId;
 
     @Builder
-    private SetGameScore(Consumer<Message> callback, Consumer<TelegramException> errorHandler, Integer userId,
+    private SetGameScore(Consumer<Message> callback, Consumer<TelegramException> errorHandler, Long userId,
                         Integer score, Boolean force, Boolean disableEditMessage, LongChatId chatId, Integer messageId,
                         String inlineMessageId) {
         super("setGameScore", Message.class, callback, errorHandler);

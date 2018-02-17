@@ -26,7 +26,9 @@ public abstract class UpdateTelegramRequest extends AbstractTelegramRequest {
         String body = getBody(response);
 
         if (body != null && validate(body) != null) {
-            callback.run();
+            if (callback != null) {
+                callback.run();
+            }
         }
     }
 

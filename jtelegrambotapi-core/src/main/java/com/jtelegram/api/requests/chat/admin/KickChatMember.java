@@ -15,7 +15,7 @@ public class KickChatMember extends UserAdminChatRequest {
     private final Long untilDate;
 
     @Builder
-    public KickChatMember(Consumer<TelegramException> errorHandler, Runnable callback, ChatId chatId, Integer userId, Long untilDate) {
+    public KickChatMember(Consumer<TelegramException> errorHandler, Runnable callback, ChatId chatId, Long userId, Long untilDate) {
         super("kickChatMember", errorHandler, callback, chatId, userId);
         this.untilDate = untilDate;
     }

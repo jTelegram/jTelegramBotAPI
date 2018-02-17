@@ -6,7 +6,7 @@ import lombok.Builder;
 
 public class PhotoInputMedia extends InputMedia {
     @Builder
-    public PhotoInputMedia(InputFile media, String caption, ParseMode parseMode) {
+    protected PhotoInputMedia(InputFile media, String caption, ParseMode parseMode) {
         super(InputMediaType.PHOTO, media, caption, parseMode);
     }
 }

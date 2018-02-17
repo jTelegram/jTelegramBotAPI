@@ -28,11 +28,11 @@ public class TelegramBot {
     private User botInfo;
 
     TelegramBot(TelegramBotRegistry registry, String apiKey) {
-        this.eventRegistry = new EventRegistry(this);
-        this.commandRegistry = new CommandRegistry(this);
         this.registry = registry;
         this.apiKey = apiKey;
         this.requestQueue = new BotRequestQueue(registry.getClient());
+        this.eventRegistry = new EventRegistry(this);
+        this.commandRegistry = new CommandRegistry(this);
         requestQueue.start();
     }
 

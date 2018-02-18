@@ -33,8 +33,6 @@ public class TelegramBot {
         this.eventRegistry = new EventRegistry(this);
         this.commandRegistry = new CommandRegistry(this);
         this.requestQueue = new BotRequestQueue(registry.getClient());
-        this.eventRegistry = new EventRegistry(this);
-        this.commandRegistry = new CommandRegistry(this);
         requestQueue.start();
     }
 

@@ -30,6 +30,8 @@ public class TelegramBot {
     TelegramBot(TelegramBotRegistry registry, String apiKey) {
         this.registry = registry;
         this.apiKey = apiKey;
+        this.eventRegistry = new EventRegistry(this);
+        this.commandRegistry = new CommandRegistry(this);
         this.requestQueue = new BotRequestQueue(registry.getClient());
         this.eventRegistry = new EventRegistry(this);
         this.commandRegistry = new CommandRegistry(this);

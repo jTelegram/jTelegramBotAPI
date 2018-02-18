@@ -1,8 +1,10 @@
 package com.jtelegram.api.requests.framework;
 
 import lombok.Getter;
+import lombok.ToString;
 
 @Getter
+@ToString
 public class ResponseParameters {
     // in the case that the group the bot
     // is trying to send a message to has

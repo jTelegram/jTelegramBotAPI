@@ -8,6 +8,7 @@
 
 # Others
 target/
+**/src/main/delombok/
 dependency-reduced-pom.xml
 
 # Windows

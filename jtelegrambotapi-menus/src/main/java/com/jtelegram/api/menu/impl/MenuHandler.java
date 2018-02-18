@@ -15,9 +15,6 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.function.Predicate;
 
-/**
- * @author Nick Robson
- */
 public class MenuHandler {
 
     private static final Map<Long, MenuHandler> menuHandlers = new HashMap<>();

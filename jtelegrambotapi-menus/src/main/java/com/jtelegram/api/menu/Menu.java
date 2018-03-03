@@ -2,17 +2,19 @@ package com.jtelegram.api.menu;
 
 import com.jtelegram.api.TelegramBot;
 import com.jtelegram.api.chat.Chat;
+import com.jtelegram.api.chat.id.ChatId;
 import com.jtelegram.api.ex.TelegramException;
 import com.jtelegram.api.inline.keyboard.InlineKeyboardButton;
 import com.jtelegram.api.requests.message.framework.ParseMode;
 import com.jtelegram.api.user.User;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.List;
 import java.util.UUID;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 /**
  * Represents a state-less menu.<br>
@@ -79,10 +81,9 @@ public interface Menu {
      * Creates a new screen, ready for use. It is not automatically set to this new screen,
      * you must use {@link BoundMenu#setScreen(MenuScreen)} to accomplish that.
      *
-     * @param uniqueId A type 3 (user-set) UUID to uniquely identify this MenuScreen
+     * @param uniqueId     A type 3 (user-set) UUID to uniquely identify this MenuScreen
      * @param textSupplier The supplier that generates the message text
-     * @param parseMode The parse mode used for the text
-     *
+     * @param parseMode    The parse mode used for the text
      * @return The new screen
      */
     @Nonnull
@@ -93,8 +94,7 @@ public interface Menu {
      * you must use {@link BoundMenu#setScreen(MenuScreen)} to accomplish that.
      *
      * @param textSupplier The supplier that generates the message text
-     * @param parseMode The parse mode used for the text
-     *
+     * @param parseMode    The parse mode used for the text
      * @return The new screen
      */
     @Nonnull
@@ -103,9 +103,8 @@ public interface Menu {
     /**
      * Creates a new button for a screen to use. The button is not automatically added.
      *
-     * @param buttonCreator The consumer used to generate buttons when they are required to be made.
+     * @param buttonCreator  The consumer used to generate buttons when they are required to be made.
      * @param onClickHandler The handler for when this button is clicked.
-     *
      * @return The new button
      */
     @Nonnull
@@ -114,17 +113,27 @@ public interface Menu {
     /**
      * Sends this menu to a new chat
      *
-     * @param bot The bot instance
-     * @param chat The chat
+     * @param bot              The bot instance
+     * @param chat             The chat
      * @param replyToMessageId The message to reply to (or null)
-     *
      * @return The text message
-     *
      * @throws TelegramException If an error occurred while sending it
-     *
      * @see TelegramBot#perform(com.jtelegram.api.requests.framework.TelegramRequest)
      * @see com.jtelegram.api.requests.message.send.SendText
      */
     @Nonnull
     BoundMenu send(@Nonnull TelegramBot bot, @Nonnull Chat chat, @Nullable Integer replyToMessageId) throws TelegramException;
+
+    /**
+     * Sends this menu to a new chat
+     *
+     * @param bot              The bot instance
+     * @param chatId           The chat ID
+     * @param replyToMessageId The message to reply to (or null)
+     * @return The text message
+     * @throws TelegramException If an error occurred while sending it
+     * @see TelegramBot#perform(com.jtelegram.api.requests.framework.TelegramRequest)
+     * @see com.jtelegram.api.requests.message.send.SendText
+     */
+    BoundMenu send(@Nonnull TelegramBot bot, @Nonnull ChatId chatId, @Nullable Integer replyToMessageId) throws TelegramException;
 }

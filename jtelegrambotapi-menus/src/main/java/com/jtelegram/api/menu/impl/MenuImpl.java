@@ -12,6 +12,9 @@ import com.jtelegram.api.message.impl.TextMessage;
 import com.jtelegram.api.requests.message.framework.ParseMode;
 import com.jtelegram.api.requests.message.send.SendText;
 import com.jtelegram.api.user.User;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -20,8 +23,6 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 public class MenuImpl implements Menu {
 
@@ -111,10 +112,15 @@ public class MenuImpl implements Menu {
     @Nonnull
     @Override
     public BoundMenuImpl send(@Nonnull TelegramBot bot, @Nonnull Chat chat, @Nullable Integer replyToMessageId) throws TelegramException {
+        return send(bot, chat.getChatId(), replyToMessageId);
+    }
+
+    @Override
+    public BoundMenuImpl send(@Nonnull TelegramBot bot, @Nonnull ChatId chatId, @Nullable Integer replyToMessageId) throws TelegramException {
         AtomicReference<Object> messageOrError = new AtomicReference<>();
         CountDownLatch countDownLatch = new CountDownLatch(1);
         bot.perform(SendText.builder()
-                .chatId(ChatId.of(chat))
+                .chatId(chatId)
                 .replyToMessageID(replyToMessageId)
                 .text(getLoadingMessage())
                 .errorHandler(e -> {

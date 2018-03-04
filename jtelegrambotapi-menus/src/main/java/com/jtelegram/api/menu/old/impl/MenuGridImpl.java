@@ -1,10 +1,10 @@
-package com.jtelegram.api.menu.impl;
+package com.jtelegram.api.menu.old.impl;
 
 import com.jtelegram.api.inline.keyboard.InlineKeyboardButton;
 import com.jtelegram.api.inline.keyboard.InlineKeyboardMarkup;
 import com.jtelegram.api.inline.keyboard.InlineKeyboardRow;
-import com.jtelegram.api.menu.MenuButton;
-import com.jtelegram.api.menu.MenuGrid;
+import com.jtelegram.api.menu.old.MenuButton;
+import com.jtelegram.api.menu.old.MenuGrid;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;

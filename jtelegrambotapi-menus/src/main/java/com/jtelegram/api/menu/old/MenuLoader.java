@@ -1,9 +1,9 @@
-package com.jtelegram.api.menu;
+package com.jtelegram.api.menu.old;
 
 import com.jtelegram.api.TelegramBot;
 import com.jtelegram.api.events.inline.keyboard.CallbackQueryEvent;
-import com.jtelegram.api.menu.impl.MenuHandler;
-import com.jtelegram.api.menu.impl.MenuImpl;
+import com.jtelegram.api.menu.old.impl.MenuHandler;
+import com.jtelegram.api.menu.old.impl.MenuImpl;
 import java.util.Objects;
 import javax.annotation.Nonnull;
 

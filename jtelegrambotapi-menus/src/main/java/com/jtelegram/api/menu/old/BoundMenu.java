@@ -1,4 +1,4 @@
-package com.jtelegram.api.menu;
+package com.jtelegram.api.menu.old;
 
 import com.jtelegram.api.message.impl.TextMessage;
 import javax.annotation.Nonnull;

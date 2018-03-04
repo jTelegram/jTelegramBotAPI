@@ -1,10 +1,10 @@
-package com.jtelegram.api.menu.impl;
+package com.jtelegram.api.menu.old.impl;
 
 import com.jtelegram.api.inline.keyboard.InlineKeyboardButton;
-import com.jtelegram.api.menu.BoundMenu;
-import com.jtelegram.api.menu.MenuButton;
-import com.jtelegram.api.menu.MenuButtonResponse;
-import com.jtelegram.api.menu.OnClickHandler;
+import com.jtelegram.api.menu.old.BoundMenu;
+import com.jtelegram.api.menu.old.MenuButton;
+import com.jtelegram.api.menu.old.MenuButtonResponse;
+import com.jtelegram.api.menu.old.OnClickHandler;
 import com.jtelegram.api.user.User;
 import java.util.function.Consumer;
 import javax.annotation.Nonnull;

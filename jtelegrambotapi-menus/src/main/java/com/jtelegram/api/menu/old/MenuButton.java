@@ -1,4 +1,4 @@
-package com.jtelegram.api.menu;
+package com.jtelegram.api.menu.old;
 
 import com.jtelegram.api.inline.keyboard.InlineKeyboardButton;
 import com.jtelegram.api.user.User;

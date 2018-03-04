@@ -1,10 +1,10 @@
-package com.jtelegram.api.menu.impl;
+package com.jtelegram.api.menu.old.impl;
 
 import com.jtelegram.api.TelegramBot;
 import com.jtelegram.api.chat.id.ChatId;
-import com.jtelegram.api.menu.BoundMenu;
-import com.jtelegram.api.menu.MenuContext;
-import com.jtelegram.api.menu.MenuScreen;
+import com.jtelegram.api.menu.old.BoundMenu;
+import com.jtelegram.api.menu.old.MenuContext;
+import com.jtelegram.api.menu.old.MenuScreen;
 import com.jtelegram.api.message.impl.TextMessage;
 import com.jtelegram.api.requests.message.edit.EditTextMessage;
 import javax.annotation.Nonnull;

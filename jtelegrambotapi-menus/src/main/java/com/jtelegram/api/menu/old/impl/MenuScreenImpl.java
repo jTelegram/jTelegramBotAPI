@@ -1,7 +1,7 @@
-package com.jtelegram.api.menu.impl;
+package com.jtelegram.api.menu.old.impl;
 
 import com.jtelegram.api.TelegramBot;
-import com.jtelegram.api.menu.MenuScreen;
+import com.jtelegram.api.menu.old.MenuScreen;
 import com.jtelegram.api.requests.message.framework.ParseMode;
 import java.util.Objects;
 import java.util.UUID;

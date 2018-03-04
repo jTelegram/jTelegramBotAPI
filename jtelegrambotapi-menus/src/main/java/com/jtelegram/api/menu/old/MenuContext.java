@@ -1,4 +1,4 @@
-package com.jtelegram.api.menu;
+package com.jtelegram.api.menu.old;
 
 import java.util.HashMap;
 import java.util.Map;

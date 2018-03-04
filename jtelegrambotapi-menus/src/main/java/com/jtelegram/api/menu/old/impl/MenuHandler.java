@@ -1,12 +1,12 @@
-package com.jtelegram.api.menu.impl;
+package com.jtelegram.api.menu.old.impl;
 
 import com.jtelegram.api.TelegramBot;
 import com.jtelegram.api.events.inline.keyboard.CallbackQueryEvent;
 import com.jtelegram.api.inline.CallbackQuery;
-import com.jtelegram.api.menu.BoundMenu;
-import com.jtelegram.api.menu.MenuButton;
-import com.jtelegram.api.menu.MenuButtonResponse;
-import com.jtelegram.api.menu.MenuGrid;
+import com.jtelegram.api.menu.old.BoundMenu;
+import com.jtelegram.api.menu.old.MenuButton;
+import com.jtelegram.api.menu.old.MenuButtonResponse;
+import com.jtelegram.api.menu.old.MenuGrid;
 import com.jtelegram.api.message.impl.TextMessage;
 import com.jtelegram.api.requests.inline.AnswerCallbackQuery;
 import com.jtelegram.api.user.User;

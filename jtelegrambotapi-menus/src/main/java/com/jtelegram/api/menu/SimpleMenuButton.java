@@ -7,7 +7,6 @@ import java.util.function.BiFunction;
 
 public class SimpleMenuButton extends MenuButton {
     private String label;
-    private Menu menu;
     private BiFunction<SimpleMenuButton, CallbackQueryEvent, Boolean> onPress;
 
     @Builder
@@ -21,18 +20,10 @@ public class SimpleMenuButton extends MenuButton {
         return label;
     }
 
-    public void setString(String label) {
+    public void setLabel(String label) {
         this.label = label;
     }
 
-    @Override
-    public Menu getMenu() {
-        return menu;
-    }
-
-    public void setMenu(Menu menu) {
-        this.menu = menu;
-    }
 
     @Override
     public boolean onPress(CallbackQueryEvent event) {

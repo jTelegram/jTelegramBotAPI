@@ -6,10 +6,7 @@ import com.jtelegram.api.inline.keyboard.InlineKeyboardMarkup;
 import com.jtelegram.api.inline.keyboard.InlineKeyboardRow;
 import lombok.Getter;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Getter
 public abstract class Menu {
@@ -32,8 +29,23 @@ public abstract class Menu {
         viewers.forEach((viewer) -> viewer.sendMenu(this));
     }
 
+    public void update(MenuViewer viewer) {
+        viewer.sendMenu(this);
+    }
+
     public void addViewer(MenuViewer viewer) {
         viewers.add(viewer);
+        update(viewer);
+    }
+
+    public void addViewers(Collection<MenuViewer> viewers) {
+        this.viewers.addAll(viewers);
+        update();
+    }
+
+    public void migrateTo(Menu other) {
+        other.addViewers(viewers);
+        viewers.clear();
     }
 
     public InlineKeyboardMarkup toKeyboard() {
@@ -46,6 +58,7 @@ public abstract class Menu {
 
             for (int j = 0; j < row.getButtons().size(); j++) {
                 MenuButton button = row.getButtons().get(j);
+                button.setMenu(this);
 
                 rowBuilder.button(InlineKeyboardButton.builder()
                         .label(button.getLabel())

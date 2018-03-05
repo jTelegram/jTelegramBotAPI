@@ -16,7 +16,7 @@ public class MenuHandler {
     private static final List<TelegramBot> REGISTERED_BOTS = new CopyOnWriteArrayList<>();
 
     public static void registerMenu(Menu menu) {
-        if (REGISTERED_BOTS.contains(menu.getBot())) {
+        if (!REGISTERED_BOTS.contains(menu.getBot())) {
             menu.getBot().getEventRegistry().registerEvent(CallbackQueryEvent.class, (event) -> {
                 CallbackQuery query = event.getQuery();
                 String[] elements = query.getData().split(Menu.DATA_SEPARATOR);
@@ -63,6 +63,7 @@ public class MenuHandler {
         }
 
         MENUS.put(menu.getId(), menu);
+        menu.update();
     }
 
 }

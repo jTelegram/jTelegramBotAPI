@@ -4,7 +4,6 @@ import com.jtelegram.api.TelegramBot;
 import com.jtelegram.api.inline.keyboard.InlineKeyboardButton;
 import com.jtelegram.api.inline.keyboard.InlineKeyboardMarkup;
 import com.jtelegram.api.inline.keyboard.InlineKeyboardRow;
-import lombok.Builder;
 import lombok.Getter;
 
 import java.util.ArrayList;
@@ -14,6 +13,8 @@ import java.util.UUID;
 
 @Getter
 public abstract class Menu {
+    public static final InlineKeyboardMarkup KEYBOARD_MARKUP = InlineKeyboardMarkup.builder().keyboard(InlineKeyboardRow.builder().button(InlineKeyboardButton.builder().label("Placeholder").callbackData("Placeholder").build()).build()).build();
+
     public static final String DATA_SEPARATOR = "&";
     private UUID id;
     private List<MenuViewer> viewers;

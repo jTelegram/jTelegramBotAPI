@@ -1,5 +1,7 @@
-package com.jtelegram.api.menu;
+package com.jtelegram.api.menu.viewer;
 
+import com.jtelegram.api.menu.Menu;
+import com.jtelegram.api.menu.MenuViewer;
 import com.jtelegram.api.requests.message.edit.EditMessageReplyMarkup;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

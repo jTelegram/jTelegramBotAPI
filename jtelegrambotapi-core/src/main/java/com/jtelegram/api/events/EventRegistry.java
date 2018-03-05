@@ -1,6 +1,7 @@
 package com.jtelegram.api.events;
 
 import com.jtelegram.api.TelegramBot;
+import com.jtelegram.api.util.ExceptionThreadFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,6 +9,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadFactory;
 
 /**
  * EventRegistry
@@ -15,6 +17,7 @@ import java.util.concurrent.Executors;
  * Each TelegramBot instance SHOULD have its own instance of this EventRegistry
  */
 public class EventRegistry {
+    private final ThreadFactory factory = new ExceptionThreadFactory();
     private final TelegramBot bot;
     private final ExecutorService threadPool;
 
@@ -26,11 +29,11 @@ public class EventRegistry {
         int threadCount = bot.getRegistry().getEventThreadCount();
 
         if (threadCount < 1) {
-            this.threadPool = Executors.newCachedThreadPool();
+            this.threadPool = Executors.newCachedThreadPool(factory);
         } else if (threadCount == 1) {
-            this.threadPool = Executors.newSingleThreadExecutor();
+            this.threadPool = Executors.newSingleThreadExecutor(factory);
         } else {
-            this.threadPool = Executors.newFixedThreadPool(threadCount);
+            this.threadPool = Executors.newFixedThreadPool(threadCount, factory);
         }
     }
 

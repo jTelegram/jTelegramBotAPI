@@ -7,18 +7,21 @@ import com.jtelegram.api.inline.keyboard.InlineKeyboardRow;
 import lombok.Getter;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
 @Getter
 public abstract class Menu {
-    private static final String DATA_SEPARATOR = "||";
+    public static final String DATA_SEPARATOR = "\\|\\|";
     private UUID id;
     private List<MenuViewer> viewers;
     private TelegramBot bot;
 
-    Menu() {
+    Menu(TelegramBot bot) {
+        viewers = new LinkedList<>();
         id = UUID.randomUUID();
+        this.bot = bot;
     }
 
     public abstract List<MenuRow> getRows();

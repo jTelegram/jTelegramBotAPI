@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/jTelegram/jTelegramBotAPI.svg?branch=master)](https://travis-ci.org/jTelegram/jTelegramBotAPI)
 
-jTelegram is a Java API Wrapper for the Telegram Bot API. The wrapper supports all features implemented in v3.5, including:
+jTelegram is a Java API Wrapper for the Telegram Bot API. The wrapper supports all features implemented in v3.6, including:
 
 ✅ Multiple Concurrent Bots
 

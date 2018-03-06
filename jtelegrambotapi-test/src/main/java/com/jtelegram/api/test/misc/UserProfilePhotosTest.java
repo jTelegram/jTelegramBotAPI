@@ -33,7 +33,10 @@ public class UserProfilePhotosTest extends AbstractTestModule {
                             .map((e) -> e.stream().sorted(
                                     Comparator.comparingInt((s) -> s.getHeight() + s.getWidth())
                             ).findFirst().orElse(null))
-                            .map((photo) -> new PhotoInputMedia(IdInputFile.of(photo), "One of your profile photos"))
+                            .map((photo) -> PhotoInputMedia.builder()
+                                    .media(IdInputFile.of(photo))
+                                    .caption("One of your profile photos")
+                                    .build())
                             .collect(Collectors.toList());
 
                     if (media.size() > 10) {

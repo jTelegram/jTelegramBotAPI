@@ -137,6 +137,7 @@ public class BotMainTest {
         registerModule(new PhotoTest(bot));
         registerModule(new VenueTest(bot));
         registerModule(new UserProfilePhotosTest(bot));
+        registerModule(new TextBuilderTest(bot));
 
         prepareResources();
     }

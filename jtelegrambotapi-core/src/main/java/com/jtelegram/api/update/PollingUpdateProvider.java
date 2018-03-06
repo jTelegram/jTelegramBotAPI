@@ -15,10 +15,12 @@ public class PollingUpdateProvider implements UpdateProvider {
     private final Map<TelegramBot, Thread> botThreads = new ConcurrentHashMap<>();
     // THESE VALUES SHOULD NOT BE MODIFIED AFTER SET
     // DO NOT USE REFLECTION TO CHANGE THESE
+    @Builder.Default
     private int sleepInterval = 50;
+    @Builder.Default
     private int timeout = 10;
     @Singular
-    private List<UpdateType> allowedUpdates = new ArrayList<>();
+    private List<UpdateType> allowedUpdates;
 
     @Override
     public void listenFor(TelegramBot bot) {

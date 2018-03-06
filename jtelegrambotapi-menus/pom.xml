@@ -10,8 +10,8 @@
         <version>3.6.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>jtelegrambotapi-webhooks</artifactId>
-    <name>jTelegramBotAPI Webhooks</name>
+    <artifactId>jtelegrambotapi-menus</artifactId>
+    <name>jTelegramBotAPI Menus</name>
 
     <dependencies>
         <dependency>
@@ -19,15 +19,13 @@
             <artifactId>jtelegrambotapi-core</artifactId>
             <version>${project.version}</version>
         </dependency>
-
-        <dependency>
-            <groupId>io.vertx</groupId>
-            <artifactId>vertx-core</artifactId>
-        </dependency>
-
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.google.code.findbugs</groupId>
+            <artifactId>jsr305</artifactId>
         </dependency>
     </dependencies>
 </project>

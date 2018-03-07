@@ -17,7 +17,7 @@ public abstract class Menu {
     private List<MenuViewer> viewers;
     private TelegramBot bot;
 
-    Menu(TelegramBot bot) {
+    protected Menu(TelegramBot bot) {
         viewers = new LinkedList<>();
         id = UUID.randomUUID();
         this.bot = bot;

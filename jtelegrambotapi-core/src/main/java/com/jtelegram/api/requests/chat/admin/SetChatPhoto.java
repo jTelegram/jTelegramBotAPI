@@ -4,6 +4,7 @@ import com.jtelegram.api.chat.id.ChatId;
 import com.jtelegram.api.ex.TelegramException;
 import com.jtelegram.api.message.input.file.InputFile;
 import com.jtelegram.api.requests.message.framework.req.InputFileMessageUpdate;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
 
@@ -17,6 +18,7 @@ public class SetChatPhoto extends InputFileMessageUpdate {
     private ChatId chatId;
     private InputFile photo;
 
+    @Builder
     public SetChatPhoto(Consumer<TelegramException> errorHandler, Runnable callback, ChatId chatId, InputFile photo) {
         super("setChatPhoto", errorHandler, callback);
         this.chatId = chatId;

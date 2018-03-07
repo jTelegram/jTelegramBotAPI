@@ -4,6 +4,7 @@ import com.jtelegram.api.chat.id.LongChatId;
 import com.jtelegram.api.message.games.GameHighScore;
 import com.jtelegram.api.requests.framework.QueryTelegramRequest;
 import com.jtelegram.api.ex.TelegramException;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
 
@@ -17,6 +18,7 @@ public class GetGameHighScores extends QueryTelegramRequest<GameHighScore[]> {
     private Integer messageId;
     private String inlineMessageId;
 
+    @Builder
     public GetGameHighScores(Consumer<GameHighScore[]> callback, Consumer<TelegramException> errorHandler, Long userId, LongChatId chatId, Integer messageId, String inlineMessageId) {
         super("getGameHighScores", GameHighScore[].class, callback, errorHandler);
         this.userId = userId;

@@ -29,7 +29,7 @@ public class RegularMenuViewer implements MenuViewer {
                 .chatId(chatId)
                 .messageId(messageId)
                 .replyMarkup(menu.toKeyboard())
-                .errorHandler(e -> menu.handleException(e))
+                .errorHandler(menu::handleException)
                 .build());
     }
 }

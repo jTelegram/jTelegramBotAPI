@@ -22,7 +22,7 @@ public class InlineMenuViewer implements MenuViewer {
         menu.getBot().perform(EditMessageReplyMarkup.builder()
                 .inlineMessageId(inlineMessageId)
                 .replyMarkup(menu.toKeyboard())
-                .errorHandler(e -> menu.handleException(e))
+                .errorHandler(menu::handleException)
                 .build()
         );
     }

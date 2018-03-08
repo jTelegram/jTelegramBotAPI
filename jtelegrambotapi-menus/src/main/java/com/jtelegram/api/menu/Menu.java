@@ -1,12 +1,14 @@
 package com.jtelegram.api.menu;
 
 import com.jtelegram.api.TelegramBot;
+import com.jtelegram.api.ex.TelegramException;
 import com.jtelegram.api.inline.keyboard.InlineKeyboardButton;
 import com.jtelegram.api.inline.keyboard.InlineKeyboardMarkup;
 import com.jtelegram.api.inline.keyboard.InlineKeyboardRow;
 import lombok.Getter;
 
 import java.util.*;
+import java.util.function.Consumer;
 
 @Getter
 public abstract class Menu {
@@ -25,12 +27,14 @@ public abstract class Menu {
 
     public abstract List<MenuRow> getRows();
 
+    public abstract Consumer<TelegramException> getExceptionConsumer();
+
     public void update() {
-        viewers.forEach((viewer) -> viewer.sendMenu(this));
+        viewers.forEach((viewer) -> viewer.sendMenu(this, getExceptionConsumer()));
     }
 
     public void update(MenuViewer viewer) {
-        viewer.sendMenu(this);
+        viewer.sendMenu(this, getExceptionConsumer());
     }
 
     public void addViewer(MenuViewer viewer) {

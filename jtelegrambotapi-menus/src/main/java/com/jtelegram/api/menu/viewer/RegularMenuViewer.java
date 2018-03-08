@@ -24,12 +24,12 @@ public class RegularMenuViewer implements MenuViewer {
     }
 
     @Override
-    public void sendMenu(Menu menu, Consumer<TelegramException> consumer) {
+    public void sendMenu(Menu menu) {
         menu.getBot().perform(EditMessageReplyMarkup.builder()
                 .chatId(chatId)
                 .messageId(messageId)
                 .replyMarkup(menu.toKeyboard())
-                .errorHandler(consumer)
+                .errorHandler(e -> menu.handleException(e))
                 .build());
     }
 }

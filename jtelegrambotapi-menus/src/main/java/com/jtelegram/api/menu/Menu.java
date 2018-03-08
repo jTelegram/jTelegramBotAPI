@@ -27,14 +27,14 @@ public abstract class Menu {
 
     public abstract List<MenuRow> getRows();
 
-    public abstract Consumer<TelegramException> getExceptionConsumer();
+    public abstract void handleException(TelegramException exception);
 
     public void update() {
-        viewers.forEach((viewer) -> viewer.sendMenu(this, getExceptionConsumer()));
+        viewers.forEach((viewer) -> viewer.sendMenu(this));
     }
 
     public void update(MenuViewer viewer) {
-        viewer.sendMenu(this, getExceptionConsumer());
+        viewer.sendMenu(this);
     }
 
     public void addViewer(MenuViewer viewer) {

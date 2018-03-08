@@ -8,7 +8,6 @@ import lombok.Getter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.function.Consumer;
 
 public class SimpleMenu extends Menu {
     @Getter
@@ -21,10 +20,8 @@ public class SimpleMenu extends Menu {
     }
 
     @Override
-    public Consumer<TelegramException> getExceptionConsumer() {
-        return e -> {
-            //ignored
-        };
+    public void handleException(TelegramException exception) {
+        //ignored
     }
 
     public void addRow(MenuRow... rows) {

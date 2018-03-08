@@ -5,5 +5,5 @@ import com.jtelegram.api.ex.TelegramException;
 import java.util.function.Consumer;
 
 public interface MenuViewer {
-    void sendMenu(Menu menu, Consumer<TelegramException> consumer);
+    void sendMenu(Menu menu);
 }

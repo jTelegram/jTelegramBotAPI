@@ -9,7 +9,7 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 public class MenuRow {
-    private List<MenuButton> buttons;
+    private List<? extends MenuButton> buttons;
 
     public static MenuRow from(MenuButton... buttons) {
         return new MenuRow(Arrays.asList(buttons));

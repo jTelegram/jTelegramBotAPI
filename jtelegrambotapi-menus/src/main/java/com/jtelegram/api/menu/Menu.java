@@ -5,10 +5,10 @@ import com.jtelegram.api.ex.TelegramException;
 import com.jtelegram.api.inline.keyboard.InlineKeyboardButton;
 import com.jtelegram.api.inline.keyboard.InlineKeyboardMarkup;
 import com.jtelegram.api.inline.keyboard.InlineKeyboardRow;
+import com.jtelegram.api.util.TextBuilder;
 import lombok.Getter;
 
 import java.util.*;
-import java.util.function.Consumer;
 
 @Getter
 public abstract class Menu {
@@ -50,6 +50,15 @@ public abstract class Menu {
     public void migrateTo(Menu other) {
         other.addViewers(viewers);
         viewers.clear();
+    }
+
+    /**
+     * Use this so the bot can update the message of the menu as well.
+     *
+     * @return
+     */
+    public TextBuilder getMenuMessage() {
+        return null;
     }
 
     public InlineKeyboardMarkup toKeyboard() {

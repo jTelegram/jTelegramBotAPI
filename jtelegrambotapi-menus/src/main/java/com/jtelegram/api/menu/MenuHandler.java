@@ -15,6 +15,10 @@ public class MenuHandler {
     private static final Map<UUID, Menu> MENUS = new ConcurrentHashMap<>();
     private static final List<TelegramBot> REGISTERED_BOTS = new CopyOnWriteArrayList<>();
 
+    public static void removeMenu(Menu menu) {
+        MENUS.remove(menu.getId());
+    }
+
     public static void registerMenu(Menu menu) {
         if (!REGISTERED_BOTS.contains(menu.getBot())) {
             menu.getBot().getEventRegistry().registerEvent(CallbackQueryEvent.class, (event) -> {

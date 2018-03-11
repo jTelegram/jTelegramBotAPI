@@ -14,7 +14,7 @@ import java.util.function.Consumer;
  *
  */
 public abstract class UpdateTelegramRequest extends AbstractTelegramRequest {
-    private transient Runnable callback;
+    protected transient Runnable callback;
 
     protected UpdateTelegramRequest(String endPoint, Consumer<TelegramException> errorHandler, Runnable callback) {
         super(endPoint, errorHandler);

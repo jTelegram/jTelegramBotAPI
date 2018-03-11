@@ -1,6 +1,8 @@
 package com.jtelegram.api.events;
 
 import com.jtelegram.api.TelegramBot;
+import com.jtelegram.api.events.inline.ChosenInlineResultEvent;
+import com.jtelegram.api.requests.inline.AnswerInlineQuery;
 import com.jtelegram.api.util.ExceptionThreadFactory;
 
 import java.util.ArrayList;
@@ -35,6 +37,8 @@ public class EventRegistry {
         } else {
             this.threadPool = Executors.newFixedThreadPool(threadCount, factory);
         }
+
+        this.registerEvent(ChosenInlineResultEvent.class, AnswerInlineQuery.RESULT_LISTENER);
     }
 
     public <E extends Event> void registerEvent(Class<E> eventType, EventHandler<E> handler) {

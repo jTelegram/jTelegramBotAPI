@@ -1,14 +1,12 @@
 package com.jtelegram.api.user;
 
 import com.google.gson.annotations.SerializedName;
-import lombok.AccessLevel;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Getter
 @EqualsAndHashCode(of = "id")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@ToString
 public class User {
     private long id;
     @SerializedName("is_bot")

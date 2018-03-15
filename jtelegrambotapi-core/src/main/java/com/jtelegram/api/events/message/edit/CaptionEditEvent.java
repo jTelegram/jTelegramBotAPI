@@ -4,7 +4,9 @@ import com.jtelegram.api.TelegramBot;
 import com.jtelegram.api.events.Event;
 import com.jtelegram.api.message.CaptionableMessage;
 import lombok.Getter;
+import lombok.ToString;
 
+@ToString(callSuper = true)
 public class CaptionEditEvent extends Event {
     @Getter
     private CaptionableMessage message;

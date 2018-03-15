@@ -1,6 +1,7 @@
 package com.jtelegram.api.chat;
 
 import lombok.Getter;
+import lombok.ToString;
 
 public enum ChatType {
     PRIVATE(PrivateChat.class),

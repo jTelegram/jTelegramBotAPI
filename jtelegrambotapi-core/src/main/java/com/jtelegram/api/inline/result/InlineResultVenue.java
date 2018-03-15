@@ -8,8 +8,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
 
-@ToString
 @Getter
+@ToString(callSuper = true)
 public class InlineResultVenue extends DimensionalThumbableInlineResult implements InlineResult.Titled {
     private String title;
     private String address;

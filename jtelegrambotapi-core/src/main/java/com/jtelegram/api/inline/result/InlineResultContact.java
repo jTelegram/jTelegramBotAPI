@@ -8,7 +8,7 @@ import lombok.Getter;
 import lombok.ToString;
 
 @Getter
-@ToString
+@ToString(callSuper = true)
 public class InlineResultContact extends DimensionalThumbableInlineResult {
     private String phoneNumber;
     private String firstName;

@@ -1,6 +1,5 @@
-package com.jtelegram.api.message.impl;
+package com.jtelegram.api.message.impl.service;
 
-import com.jtelegram.api.message.impl.service.ServiceMessage;
 import lombok.Getter;
 import lombok.ToString;
 

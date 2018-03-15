@@ -10,9 +10,11 @@ import lombok.Singular;
 
 import java.lang.reflect.Type;
 import java.util.List;
+import lombok.ToString;
 
 @Getter
 @Builder
+@ToString
 public class InlineKeyboardRow {
     @Singular
     private List<InlineKeyboardButton> buttons;

@@ -3,8 +3,10 @@ package com.jtelegram.api.inline.result.framework;
 import com.jtelegram.api.inline.keyboard.InlineKeyboardMarkup;
 import com.jtelegram.api.inline.input.InputMessageContent;
 import lombok.Getter;
+import lombok.ToString;
 
 @Getter
+@ToString(callSuper = true)
 public abstract class ThumbableInlineResult extends InlineResult {
     private String thumbUrl;
 

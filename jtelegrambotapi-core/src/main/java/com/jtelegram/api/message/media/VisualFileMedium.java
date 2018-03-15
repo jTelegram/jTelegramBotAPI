@@ -1,6 +1,7 @@
 package com.jtelegram.api.message.media;
 
 import lombok.Getter;
+import lombok.ToString;
 
 /**
  * Similar to File medium, this type itself does
@@ -9,6 +10,7 @@ import lombok.Getter;
  * photos.
  */
 @Getter
+@ToString(callSuper = true)
 public abstract class VisualFileMedium extends FileMedium {
     private int width;
     private int height;

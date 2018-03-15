@@ -4,8 +4,10 @@ import com.jtelegram.api.inline.input.InputMessageContent;
 import com.jtelegram.api.inline.keyboard.InlineKeyboardMarkup;
 import com.jtelegram.api.message.input.file.IdInputFile;
 import lombok.Getter;
+import lombok.ToString;
 
 @Getter
+@ToString
 public abstract class InlineResult {
     private InlineResultType type = InlineResultType.typeFrom(getClass());
     private String id;

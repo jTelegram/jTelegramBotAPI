@@ -8,7 +8,7 @@ import lombok.ToString;
 import java.util.ArrayList;
 import java.util.List;
 
-@ToString
+@ToString(callSuper = true)
 public class TextMessage extends Message<String> {
     @Getter
     private String text;

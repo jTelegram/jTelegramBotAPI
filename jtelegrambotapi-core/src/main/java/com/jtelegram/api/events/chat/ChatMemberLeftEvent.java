@@ -5,8 +5,10 @@ import com.jtelegram.api.events.message.ServiceMessageEvent;
 import com.jtelegram.api.user.User;
 import com.jtelegram.api.message.impl.service.LeftChatMemberMessage;
 import lombok.Getter;
+import lombok.ToString;
 
 @Getter
+@ToString(callSuper = true)
 public class ChatMemberLeftEvent extends ServiceMessageEvent<LeftChatMemberMessage> {
     private User leftMember;
 

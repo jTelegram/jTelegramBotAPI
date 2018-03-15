@@ -9,7 +9,7 @@ import lombok.Getter;
 import lombok.ToString;
 
 @Getter
-@ToString
+@ToString(callSuper = true)
 public class Sticker extends VisualFileMedium {
     private PhotoSize thumb;
     private String emoji;

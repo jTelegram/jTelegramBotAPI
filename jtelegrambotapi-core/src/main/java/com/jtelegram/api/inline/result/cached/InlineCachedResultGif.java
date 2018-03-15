@@ -9,8 +9,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
 
-@ToString
 @Getter
+@ToString(callSuper = true)
 public class InlineCachedResultGif extends InlineResult implements InlineResult.Cached,
         InlineResult.Titled, InlineResult.Captioned {
     @SerializedName("gif_file_id")

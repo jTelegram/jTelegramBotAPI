@@ -9,7 +9,7 @@ import lombok.Getter;
 import lombok.ToString;
 
 @Getter
-@ToString
+@ToString(callSuper = true)
 public class InlineResultArticle extends DimensionalThumbableInlineResult implements InlineResult.Titled, InlineResult.Urlable, InlineResult.Describeable {
     private String title;
     private String url;

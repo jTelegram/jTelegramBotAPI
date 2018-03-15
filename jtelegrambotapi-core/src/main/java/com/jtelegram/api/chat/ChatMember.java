@@ -3,8 +3,8 @@ package com.jtelegram.api.chat;
 import com.jtelegram.api.user.User;
 import lombok.*;
 
-@ToString
 @Getter
+@ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EqualsAndHashCode(of = "user")
 public class ChatMember {

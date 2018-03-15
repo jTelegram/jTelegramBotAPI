@@ -7,8 +7,10 @@ import com.jtelegram.api.user.User;
 import lombok.Getter;
 
 import java.util.List;
+import lombok.ToString;
 
 @Getter
+@ToString(callSuper = true)
 public class ChatMemberJoinedEvent extends ServiceMessageEvent<NewChatMembersMessage> {
     private List<User> newMembers;
 

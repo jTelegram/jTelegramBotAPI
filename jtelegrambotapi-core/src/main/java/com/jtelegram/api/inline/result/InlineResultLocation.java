@@ -9,7 +9,7 @@ import lombok.Getter;
 import lombok.ToString;
 
 @Getter
-@ToString
+@ToString(callSuper = true)
 public class InlineResultLocation extends DimensionalThumbableInlineResult implements InlineResult.Titled {
     private String title;
     private Integer livePeriod;

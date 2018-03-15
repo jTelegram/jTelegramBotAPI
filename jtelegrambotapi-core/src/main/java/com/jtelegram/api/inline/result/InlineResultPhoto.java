@@ -10,7 +10,7 @@ import lombok.Getter;
 import lombok.ToString;
 
 @Getter
-@ToString
+@ToString(callSuper = true)
 public class InlineResultPhoto extends ThumbableInlineResult implements InlineResult.Visual,
         InlineResult.Titled, InlineResult.Captioned, InlineResult.Describeable {
     private String caption;

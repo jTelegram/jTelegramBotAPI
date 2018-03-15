@@ -5,7 +5,9 @@ import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
+import lombok.ToString;
 
+@ToString(callSuper = true)
 public abstract class CaptionableMessage<T> extends Message<T> {
     @Getter
     private String caption;

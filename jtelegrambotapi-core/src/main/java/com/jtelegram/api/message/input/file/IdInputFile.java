@@ -4,9 +4,11 @@ import com.jtelegram.api.message.media.FileMedium;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.ToString;
 
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
+@ToString
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class IdInputFile implements InputFile<String> {
     // this is the id
     private String data;

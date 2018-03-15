@@ -6,7 +6,7 @@ import com.jtelegram.api.message.Message;
 import lombok.Getter;
 import lombok.ToString;
 
-@ToString
+@ToString(callSuper = true)
 public class MessageEvent<T extends Message> extends Event {
     @Getter
     private T message;

@@ -3,7 +3,7 @@ package com.jtelegram.api.events.chat;
 import com.jtelegram.api.TelegramBot;
 import com.jtelegram.api.chat.Chat;
 import com.jtelegram.api.events.message.ServiceMessageEvent;
-import com.jtelegram.api.message.impl.MigrateToChatIdMessage;
+import com.jtelegram.api.message.impl.service.MigrateToChatIdMessage;
 import lombok.Getter;
 import lombok.ToString;
 

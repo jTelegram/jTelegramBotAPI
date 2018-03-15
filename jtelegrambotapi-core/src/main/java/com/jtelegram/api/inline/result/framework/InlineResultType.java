@@ -1,12 +1,28 @@
 package com.jtelegram.api.inline.result.framework;
 
-import com.jtelegram.api.inline.result.*;
-import com.jtelegram.api.inline.result.cached.*;
+import com.jtelegram.api.inline.result.InlineResultArticle;
+import com.jtelegram.api.inline.result.InlineResultAudio;
+import com.jtelegram.api.inline.result.InlineResultContact;
+import com.jtelegram.api.inline.result.InlineResultDocument;
+import com.jtelegram.api.inline.result.InlineResultGame;
+import com.jtelegram.api.inline.result.InlineResultGif;
+import com.jtelegram.api.inline.result.InlineResultLocation;
+import com.jtelegram.api.inline.result.InlineResultMpegGif;
+import com.jtelegram.api.inline.result.InlineResultPhoto;
+import com.jtelegram.api.inline.result.InlineResultVenue;
+import com.jtelegram.api.inline.result.InlineResultVideo;
+import com.jtelegram.api.inline.result.InlineResultVoice;
+import com.jtelegram.api.inline.result.cached.InlineCachedResultAudio;
+import com.jtelegram.api.inline.result.cached.InlineCachedResultDocument;
+import com.jtelegram.api.inline.result.cached.InlineCachedResultGif;
+import com.jtelegram.api.inline.result.cached.InlineCachedResultMpegGif;
+import com.jtelegram.api.inline.result.cached.InlineCachedResultPhoto;
+import com.jtelegram.api.inline.result.cached.InlineCachedResultSticker;
+import com.jtelegram.api.inline.result.cached.InlineCachedResultVideo;
+import com.jtelegram.api.inline.result.cached.InlineCachedResultVoice;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 
 @AllArgsConstructor
-@Getter
 public enum InlineResultType {
     CACHED_AUDIO(InlineCachedResultAudio.class),
     CACHED_DOCUMENT(InlineCachedResultDocument.class),

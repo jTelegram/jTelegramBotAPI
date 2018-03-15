@@ -10,7 +10,7 @@ import lombok.ToString;
  * When an inline query is sent to the bot
  */
 @Getter
-@ToString
+@ToString(callSuper = true)
 public class InlineQueryEvent extends Event {
     private InlineQuery query;
 

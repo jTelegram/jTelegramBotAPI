@@ -10,7 +10,7 @@ import lombok.ToString;
  * When a user has selected their inline result
  */
 @Getter
-@ToString
+@ToString(callSuper = true)
 public class ChosenInlineResultEvent extends Event {
     private ChosenInlineResult chosenResult;
 

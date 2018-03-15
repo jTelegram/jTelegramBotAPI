@@ -12,42 +12,51 @@ import lombok.Getter;
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
+import lombok.ToString;
 
 @Getter
+@ToString
 public class Update {
     private int updateId;
 
     @Getter
+    @ToString(callSuper = true)
     public static class ChannelPostUpdate extends Update {
         private Message channelPost;
     }
 
     @Getter
+    @ToString(callSuper = true)
     public static class ChosenInlineResultUpdate extends Update {
         private ChosenInlineResult chosenInlineResult;
     }
 
     @Getter
+    @ToString(callSuper = true)
     public static class EditedChannelPostUpdate extends Update {
         private Message editedChannelPost;
     }
 
     @Getter
+    @ToString(callSuper = true)
     public static class EditedMessageUpdate extends Update {
         private Message editedMessage;
     }
 
     @Getter
+    @ToString(callSuper = true)
     public static class InlineQueryUpdate extends Update {
         private InlineQuery inlineQuery;
     }
 
     @Getter
+    @ToString(callSuper = true)
     public static class CallbackQueryUpdate extends Update {
         private CallbackQuery callbackQuery;
     }
 
     @Getter
+    @ToString(callSuper = true)
     public static class MessageUpdate extends Update {
         private Message message;
     }

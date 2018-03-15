@@ -6,11 +6,15 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 import com.jtelegram.api.chat.id.ChatId;
 import com.jtelegram.api.chat.id.LongChatId;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 import java.lang.reflect.Type;
+import lombok.ToString;
 
 @Getter
+@ToString
+@EqualsAndHashCode(of = "id")
 public class Chat {
     private long id;
     private ChatType type;

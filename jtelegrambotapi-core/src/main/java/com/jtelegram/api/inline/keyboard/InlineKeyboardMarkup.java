@@ -6,9 +6,11 @@ import lombok.Getter;
 import lombok.Singular;
 
 import java.util.List;
+import lombok.ToString;
 
 @Getter
 @Builder
+@ToString
 public class InlineKeyboardMarkup implements ReplyMarkup {
     @Singular("keyboard")
     private List<InlineKeyboardRow> inlineKeyboard;

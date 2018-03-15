@@ -5,8 +5,10 @@ import com.jtelegram.api.requests.message.framework.ParseMode;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.ToString;
 
 @Getter
+@ToString
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 public abstract class InputMedia {
     private final InputMediaType type;

@@ -9,8 +9,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
 
-@ToString
 @Getter
+@ToString(callSuper = true)
 public class InlineCachedResultSticker extends InlineResult implements InlineResult.Cached {
     @SerializedName("sticker_file_id")
     private IdInputFile fileId;

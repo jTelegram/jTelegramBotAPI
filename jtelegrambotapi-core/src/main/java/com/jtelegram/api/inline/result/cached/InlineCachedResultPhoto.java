@@ -9,8 +9,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
 
-@ToString
 @Getter
+@ToString(callSuper = true)
 public class InlineCachedResultPhoto extends InlineResult implements InlineResult.Cached, InlineResult.Titled,
         InlineResult.Describeable, InlineResult.Captioned {
     @SerializedName("photo_file_id")

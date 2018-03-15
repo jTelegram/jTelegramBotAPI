@@ -10,7 +10,7 @@ import lombok.ToString;
  * When a message to a channel has been posted
  */
 @Getter
-@ToString
+@ToString(callSuper = true)
 public class ChannelPostEvent extends Event {
     private Message post;
 

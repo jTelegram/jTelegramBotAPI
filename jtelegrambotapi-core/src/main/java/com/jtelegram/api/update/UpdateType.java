@@ -29,8 +29,10 @@ import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.function.BiFunction;
+import lombok.ToString;
 
 @Getter
+@ToString
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class UpdateType<T extends Update> {
     public static final UpdateType<Update.ChannelPostUpdate> CHANNEL_POST = new UpdateType<>(

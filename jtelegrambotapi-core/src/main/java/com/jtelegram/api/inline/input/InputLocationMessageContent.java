@@ -5,8 +5,8 @@ import lombok.Getter;
 import lombok.ToString;
 
 @Getter
-@ToString
 @Builder
+@ToString
 public class InputLocationMessageContent extends InputMessageContent {
     private Float latitude;
     private Float longitude;

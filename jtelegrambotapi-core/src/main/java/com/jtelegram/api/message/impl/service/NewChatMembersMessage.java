@@ -7,7 +7,7 @@ import lombok.ToString;
 import java.util.List;
 
 @Getter
-@ToString
+@ToString(callSuper = true)
 public class NewChatMembersMessage extends ServiceMessage {
     private List<User> newChatMembers;
 }

@@ -9,7 +9,7 @@ import lombok.Getter;
 import lombok.ToString;
 
 @Getter
-@ToString
+@ToString(callSuper = true)
 public class InlineResultVoice extends InlineResult implements InlineResult.Urlable, InlineResult.Captioned,
         InlineResult.Titled, InlineResult.Duratable {
     private String title;

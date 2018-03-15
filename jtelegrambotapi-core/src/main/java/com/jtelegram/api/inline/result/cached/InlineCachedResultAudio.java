@@ -10,7 +10,7 @@ import lombok.Getter;
 import lombok.ToString;
 
 @Getter
-@ToString
+@ToString(callSuper = true)
 public class InlineCachedResultAudio extends InlineResult implements InlineResult.Cached, InlineResult.Captioned {
     @SerializedName("audio_file_id")
     private IdInputFile fileId;

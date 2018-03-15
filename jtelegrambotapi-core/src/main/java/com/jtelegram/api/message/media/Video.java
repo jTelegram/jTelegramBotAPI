@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.ToString;
 
 @Getter
-@ToString
+@ToString(callSuper = true)
 public class Video extends VisualFileMedium implements DuratableMedium, MimeableMedium, ThumbableMedium {
     private long duration;
     @SerializedName("thumb")

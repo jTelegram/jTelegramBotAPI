@@ -9,8 +9,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
 
-@ToString
 @Getter
+@ToString(callSuper = true)
 public class InlineCachedResultMpegGif extends InlineResult implements InlineResult.Cached,
         InlineResult.Titled, InlineResult.Captioned {
     @SerializedName("mpeg4_file_id")

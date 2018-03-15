@@ -4,8 +4,10 @@ import com.jtelegram.api.message.input.file.InputFile;
 import com.jtelegram.api.requests.message.framework.ParseMode;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.ToString;
 
 @Getter
+@ToString(callSuper = true)
 public class VideoInputMedia extends InputMedia {
     private boolean supportsStreaming;
     private int width;

@@ -10,7 +10,7 @@ import lombok.Getter;
 import lombok.ToString;
 
 @Getter
-@ToString
+@ToString(callSuper = true)
 public class InlineResultDocument extends DimensionalThumbableInlineResult implements InlineResult.Titled,
         InlineResult.Captioned, InlineResult.Describeable, InlineResult.Urlable {
     private String title;

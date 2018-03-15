@@ -3,12 +3,14 @@ package com.jtelegram.api.inline;
 import com.jtelegram.api.user.User;
 import com.jtelegram.api.message.Message;
 import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Getter
 @ToString
+@EqualsAndHashCode(of = "id")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class CallbackQuery {
     private String id;

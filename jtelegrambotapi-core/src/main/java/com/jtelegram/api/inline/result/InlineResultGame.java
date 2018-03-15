@@ -7,7 +7,7 @@ import lombok.Getter;
 import lombok.ToString;
 
 @Getter
-@ToString
+@ToString(callSuper = true)
 // this class is the only one which doesn't
 // allow for input message content, so it's
 // handled like the outlier that it is.

@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.ToString;
 
 @Getter
-@ToString
+@ToString(callSuper = true)
 public class Contact extends SendableMedium {
     private String phoneNumber;
     private String firstName;

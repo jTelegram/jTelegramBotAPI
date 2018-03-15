@@ -10,7 +10,7 @@ import java.util.Comparator;
 import java.util.List;
 
 @Getter
-@ToString
+@ToString(callSuper = true)
 public class PhotoMessage extends CaptionableMessage<List<PhotoSize>> {
     private List<PhotoSize> photo = new ArrayList<>();
     /**

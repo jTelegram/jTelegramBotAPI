@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.ToString;
 
 @Getter
-@ToString
+@ToString(callSuper = true)
 public class LeftChatMemberMessage extends ServiceMessage {
     private User leftChatMember;
 }

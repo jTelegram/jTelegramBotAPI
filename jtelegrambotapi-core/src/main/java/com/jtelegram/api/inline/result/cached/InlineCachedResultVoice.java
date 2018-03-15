@@ -10,7 +10,7 @@ import lombok.Getter;
 import lombok.ToString;
 
 @Getter
-@ToString
+@ToString(callSuper = true)
 public class InlineCachedResultVoice extends InlineResult implements InlineResult.Cached,
         InlineResult.Titled, InlineResult.Captioned {
     @SerializedName("voice_file_id")

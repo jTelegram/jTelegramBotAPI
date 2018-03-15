@@ -3,12 +3,14 @@ package com.jtelegram.api.message.games;
 import com.jtelegram.api.message.media.PhotoSize;
 import lombok.AccessLevel;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
-@RequiredArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
 @Builder
 @ToString
+@RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 public class Animation {
     private final String fileId;
     private final PhotoSize thumb;

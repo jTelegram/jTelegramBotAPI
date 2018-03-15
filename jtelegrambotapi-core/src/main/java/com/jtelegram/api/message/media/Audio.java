@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.ToString;
 
 @Getter
-@ToString
+@ToString(callSuper = true)
 public class Audio extends FileMedium implements DuratableMedium, MimeableMedium {
     private long duration;
     private String performer;

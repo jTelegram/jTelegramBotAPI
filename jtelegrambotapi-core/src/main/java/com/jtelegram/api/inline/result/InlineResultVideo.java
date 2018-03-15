@@ -9,8 +9,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
 
-@ToString
 @Getter
+@ToString(callSuper = true)
 public class InlineResultVideo extends ThumbableInlineResult implements InlineResult.Titled, InlineResult.Duratable,
         InlineResult.Visual, InlineResult.Describeable, InlineResult.Captioned, InlineResult.Urlable {
     private String description;

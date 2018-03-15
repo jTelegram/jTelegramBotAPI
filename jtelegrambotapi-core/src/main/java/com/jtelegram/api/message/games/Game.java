@@ -3,11 +3,13 @@ package com.jtelegram.api.message.games;
 import com.jtelegram.api.message.media.PhotoSize;
 import com.jtelegram.api.message.entity.MessageEntity;
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
 import java.util.List;
 
+@Getter
 @ToString
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 public class Game {

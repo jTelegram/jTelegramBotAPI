@@ -10,7 +10,7 @@ import lombok.ToString;
  * that this has happened.
  */
 @Getter
-@ToString
+@ToString(callSuper = true)
 public class UserLoggedInMessage extends ServiceMessage {
     /**
      * The domain of the website on which the user logged in

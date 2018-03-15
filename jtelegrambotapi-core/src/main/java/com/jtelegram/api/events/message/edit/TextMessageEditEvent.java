@@ -4,7 +4,9 @@ import com.jtelegram.api.message.impl.TextMessage;
 import com.jtelegram.api.TelegramBot;
 import com.jtelegram.api.events.Event;
 import lombok.Getter;
+import lombok.ToString;
 
+@ToString(callSuper = true)
 public class TextMessageEditEvent extends Event {
     @Getter
     private TextMessage newMessage;

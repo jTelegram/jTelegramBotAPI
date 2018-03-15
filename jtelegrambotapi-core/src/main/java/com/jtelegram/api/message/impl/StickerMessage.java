@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.ToString;
 
 @Getter
-@ToString
+@ToString(callSuper = true)
 public class StickerMessage extends Message<Sticker> {
     private Sticker sticker;
 

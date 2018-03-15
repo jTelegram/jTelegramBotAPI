@@ -4,8 +4,10 @@ import com.jtelegram.api.TelegramBot;
 import com.jtelegram.api.events.Event;
 import com.jtelegram.api.inline.CallbackQuery;
 import lombok.Getter;
+import lombok.ToString;
 
 @Getter
+@ToString(callSuper = true)
 public class CallbackQueryEvent extends Event {
     private CallbackQuery query;
 

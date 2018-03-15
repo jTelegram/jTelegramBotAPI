@@ -29,7 +29,10 @@ public enum MessageType {
     DELETE_CHAT_PHOTO(DeleteChatPhotoMessage.class, ChatPhotoDeletedEvent.class),
     GROUP_CHAT_CREATED(GroupChatCreatedMessage.class, GroupChatCreatedEvent.class),
     PINNED_MESSAGE(PinnedMessageMessage.class, PinnedMessageEvent.class),
-    CONNECTED_WEBSITE(UserLoggedInMessage.class, UserLoggedInEvent.class)
+    CONNECTED_WEBSITE(UserLoggedInMessage.class, UserLoggedInEvent.class),
+    SUPERGROUP_CHAT_CREATED(SupergroupChatCreatedMessage.class, GroupChatCreatedEvent.class),
+    MIGRATE_TO_CHAT_ID(MigrateToChatIdMessage.class, ChatMigratedToChatEvent.class),
+    MIGRATE_FROM_CHAT_ID(MigrateFromChatIdMessage.class, ChatMigratedFromChatEvent.class)
     ;
 
     @Getter

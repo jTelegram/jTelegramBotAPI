@@ -26,7 +26,9 @@ public enum MessageEntityType {
     @SerializedName("text_link")
     TEXT_LINK(TextLinkMessageEntity.class),
     @SerializedName("text_mention")
-    TEXT_MENTION(TextMentionMessageEntity.class);
+    TEXT_MENTION(TextMentionMessageEntity.class),
+    @SerializedName("@@unsupported_by_api@@")
+    UNSUPPORTED(UnsupportedMessageEntity.class);
 
     private Class<? extends MessageEntity> implementationClass;
 

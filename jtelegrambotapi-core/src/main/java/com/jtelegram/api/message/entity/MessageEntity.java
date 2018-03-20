@@ -14,10 +14,10 @@ import lombok.ToString;
 @ToString
 @EqualsAndHashCode
 public class MessageEntity {
-    private MessageEntityType type;
-    private int offset;
-    private int length;
-    private String content;
+    protected MessageEntityType type;
+    protected int offset;
+    protected int length;
+    protected String content;
 
     public void updateContent(String text) {
         this.content = text.substring(offset, offset + length);
@@ -30,10 +30,14 @@ public class MessageEntity {
         public MessageEntity deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
             JsonObject object = json.getAsJsonObject();
             MessageEntityType type = context.deserialize(object.get("type"), MessageEntityType.class);
-            if (type == null) {
-                throw new UnsupportedOperationException("This version of jTelegramBotAPI does not support '" + object.get("type").getAsString() + "' message entities.");
+            Class<? extends MessageEntity> implementationClass;
+            if (type != null) {
+                implementationClass = type.getImplementationClass();
+            } else {
+                implementationClass = UnsupportedMessageEntity.class;
+                System.err.println("UnsupportedMessageEntity found (type = '" + object.get("type").getAsString() + "'). Please report this to the jTelegram developers!");
             }
-            return context.deserialize(object, type.getImplementationClass());
+            return context.deserialize(object, implementationClass);
         }
 
     }

@@ -1,7 +1,9 @@
 package com.jtelegram.api.message.entity;
 
 import com.google.gson.annotations.SerializedName;
+import lombok.Getter;
 
+@Getter
 public enum MessageEntityType {
     @SerializedName("mention")
     MENTION,
@@ -22,7 +24,17 @@ public enum MessageEntityType {
     @SerializedName("pre")
     PRE,
     @SerializedName("text_link")
-    TEXT_LINK,
+    TEXT_LINK(TextLinkMessageEntity.class),
     @SerializedName("text_mention")
-    TEXT_MENTION
+    TEXT_MENTION(TextMentionMessageEntity.class);
+
+    private Class<? extends MessageEntity> implementationClass;
+
+    MessageEntityType() {
+        this.implementationClass = MessageEntity.DefaultMessageEntity.class;
+    }
+
+    MessageEntityType(Class<? extends MessageEntity> implementationClass) {
+        this.implementationClass = implementationClass;
+    }
 }

@@ -22,7 +22,7 @@ public interface InputFileRequest {
     default Request.Builder getBuilder(TelegramBot bot) {
         List<InputFile> inputFiles = getInputFiles();
 
-        if (inputFiles.stream().noneMatch((e) -> e instanceof LocalInputFile)) {
+        if (inputFiles.stream().noneMatch(InputFile::isAttachable)) {
             return superBuild(bot);
         }
 
@@ -43,11 +43,7 @@ public interface InputFileRequest {
             bodyBuilder.addFormDataPart(key, val);
         });
 
-        inputFiles.stream().filter((e) -> e instanceof LocalInputFile).forEach((inputFile) -> {
-            File file = ((LocalInputFile) inputFile).getData();
-            bodyBuilder.addFormDataPart(file.getName(), file.getName(), RequestBody.create(OCTET_STREAM_TYPE, file));
-        });
-
+        inputFiles.stream().filter(InputFile::isAttachable).forEach((inputFile) -> inputFile.attachTo(bodyBuilder));
         return superBuild(bot).post(bodyBuilder.build());
     }
 }

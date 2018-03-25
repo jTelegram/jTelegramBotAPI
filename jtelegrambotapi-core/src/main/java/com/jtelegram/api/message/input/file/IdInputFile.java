@@ -13,6 +13,11 @@ public class IdInputFile implements InputFile<String> {
     // this is the id
     private String data;
 
+    @Override
+    public String getIdentifier() {
+        return null;
+    }
+
     public static IdInputFile of(String data) {
         return new IdInputFile(data);
     }

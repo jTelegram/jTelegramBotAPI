@@ -11,4 +11,9 @@ import lombok.ToString;
 @AllArgsConstructor
 public class ExternalInputFile implements InputFile<URL> {
     private URL data;
+
+    @Override
+    public String getIdentifier() {
+        return null;
+    }
 }

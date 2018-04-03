@@ -26,6 +26,7 @@ public enum MessageType {
     NEW_CHAT_MEMBERS(NewChatMembersMessage.class, ChatMemberJoinedEvent.class),
     LEFT_CHAT_MEMBER(LeftChatMemberMessage.class, ChatMemberLeftEvent.class),
     NEW_CHAT_TITLE(NewChatTitleMessage.class, NewChatTitleEvent.class),
+    NEW_CHAT_PHOTO(NewChatPhotoMessage.class, NewChatPhotoEvent.class),
     DELETE_CHAT_PHOTO(DeleteChatPhotoMessage.class, ChatPhotoDeletedEvent.class),
     GROUP_CHAT_CREATED(GroupChatCreatedMessage.class, GroupChatCreatedEvent.class),
     PINNED_MESSAGE(PinnedMessageMessage.class, PinnedMessageEvent.class),

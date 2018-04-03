@@ -22,7 +22,11 @@ public class User {
      * @return The full name
      */
     public String getFullname() {
-        return new StringBuilder(firstName).append(" ").append(lastName).toString();
+        String fullName = firstName;
+        if (lastName != null) {
+            fullName += " " + lastName;
+        }
+        return fullName;
     }
 
     /**

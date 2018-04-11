@@ -2,9 +2,9 @@ package com.jtelegram.api.menu;
 
 import com.jtelegram.api.TelegramBot;
 import com.jtelegram.api.events.inline.keyboard.CallbackQueryEvent;
+import com.jtelegram.api.menu.events.UnregisteredMenuInteractionEvent;
 import com.jtelegram.api.inline.CallbackQuery;
 import com.jtelegram.api.requests.inline.AnswerCallbackQuery;
-
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -60,6 +60,16 @@ public class MenuHandler {
                     m.getBot().perform(AnswerCallbackQuery.builder()
                             .queryId(query.getId())
                             .build());
+                } else {
+                    menu.getBot().getEventRegistry().dispatch(
+                            new UnregisteredMenuInteractionEvent(
+                                    menu.getBot(),
+                                    event,
+                                    id,
+                                    rowIndex,
+                                    buttonIndex
+                            )
+                    );
                 }
             });
 

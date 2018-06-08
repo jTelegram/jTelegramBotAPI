@@ -28,8 +28,10 @@ public class PhotoMessage extends CaptionableMessage<List<PhotoSize>> {
     }
 
     public PhotoSize getHighestResolutionPhoto() {
+        Comparator<PhotoSize> comparator = Comparator.comparingInt((p) -> p.getWidth() + p.getHeight());
+
         return photo.stream()
-                .sorted(Comparator.comparingInt((p) -> p.getWidth() + p.getHeight()))
+                .sorted(comparator.reversed())
                 .findFirst()
                 .orElse(null);
     }

@@ -54,6 +54,7 @@ public class TelegramBotRegistry {
             .create();
     private final UpdateProvider updateProvider;
     private String apiUrl = "https://api.telegram.org/bot";
+    private String fileApiUrl = "https://api.telegram.org/file/bot";
     private OkHttpClient client = new OkHttpClient();
     // <1 is a dynamic thread pool
     // 1 is a single thread pool

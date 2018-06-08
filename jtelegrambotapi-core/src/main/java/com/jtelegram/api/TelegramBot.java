@@ -47,7 +47,7 @@ public class TelegramBot {
     public InputStream downloadFile(String filePath) throws IOException {
         ResponseBody body = registry.getClient().newCall(
                 new Request.Builder()
-                        .url(registry.getApiUrl() + apiKey + "/" + filePath)
+                        .url(registry.getFileApiUrl() + apiKey + "/" + filePath)
                         .get()
                         .build()
         ).execute().body();

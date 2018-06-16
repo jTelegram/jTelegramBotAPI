@@ -15,5 +15,5 @@ public class InlineKeyboardButton {
     private String switchInlineQuery;
     private String switchInlineQueryCurrentChat;
     private CallbackGame callbackGame;
-    private boolean pay;
+    private Boolean pay;
 }

@@ -11,9 +11,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
-import java.util.stream.Collectors;
 
 @Getter
 @ToString
@@ -33,7 +33,9 @@ public class SendMediaGroup extends InputFileMessageRequest<Message[]> {
 
     @Override
     public List<InputFile> getInputFiles() {
-        return media.stream().map(InputMedia::getMedia).collect(Collectors.toList());
+        List<InputFile> allInputFiles = new ArrayList<>();
+        media.stream().map(InputMedia::getAllMedia).forEach(allInputFiles::addAll);
+        return allInputFiles;
     }
 
 }

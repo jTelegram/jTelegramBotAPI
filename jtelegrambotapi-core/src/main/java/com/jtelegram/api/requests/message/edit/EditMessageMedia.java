@@ -33,6 +33,6 @@ public class EditMessageMedia extends SendableInputFileInlineRequest<Message> {
 
     @Override
     public List<InputFile> getInputFiles() {
-        return Collections.singletonList(media.getMedia());
+        return media.getAllMedia();
     }
 }

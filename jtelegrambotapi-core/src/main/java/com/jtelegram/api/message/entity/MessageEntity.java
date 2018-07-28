@@ -31,12 +31,14 @@ public class MessageEntity {
             JsonObject object = json.getAsJsonObject();
             MessageEntityType type = context.deserialize(object.get("type"), MessageEntityType.class);
             Class<? extends MessageEntity> implementationClass;
+
             if (type != null) {
                 implementationClass = type.getImplementationClass();
             } else {
                 implementationClass = UnsupportedMessageEntity.class;
                 System.err.println("UnsupportedMessageEntity found (type = '" + object.get("type").getAsString() + "'). Please report this to the jTelegram developers!");
             }
+
             return context.deserialize(object, implementationClass);
         }
 

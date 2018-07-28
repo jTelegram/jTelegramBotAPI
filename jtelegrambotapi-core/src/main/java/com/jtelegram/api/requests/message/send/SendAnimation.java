@@ -1,5 +1,6 @@
 package com.jtelegram.api.requests.message.send;
 
+import com.google.gson.annotations.SerializedName;
 import com.jtelegram.api.chat.id.ChatId;
 import com.jtelegram.api.ex.TelegramException;
 import com.jtelegram.api.message.impl.AnimationMessage;
@@ -23,6 +24,7 @@ public class SendAnimation extends InputFileMessageRequest<AnimationMessage> {
     // the thumbnail must be sent via attach protocol
     // thumbnail width/height must not exceed 90px
     // must be less than 200 kB
+    @SerializedName("thumb")
     private final LocalInputFile thumbnail;
     private final Long duration;
     private final Integer width;

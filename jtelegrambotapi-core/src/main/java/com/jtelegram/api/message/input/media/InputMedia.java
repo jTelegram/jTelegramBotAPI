@@ -7,6 +7,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.ToString;
 
+import java.util.Collections;
+import java.util.List;
+
 @Getter
 @ToString
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
@@ -15,4 +18,8 @@ public abstract class InputMedia {
     private InputFile media;
     private String caption;
     private ParseMode parseMode;
+
+    public List<InputFile> getAllMedia() {
+        return Collections.singletonList(media);
+    }
 }

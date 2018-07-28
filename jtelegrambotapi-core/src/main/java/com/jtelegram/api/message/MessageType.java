@@ -9,6 +9,7 @@ import lombok.Getter;
 
 public enum MessageType {
     TEXT(TextMessage.class, TextMessageEvent.class),
+    ANIMATION(AnimationMessage.class, AnimationMessageEvent.class),
     AUDIO(AudioMessage.class, AudioMessageEvent.class),
     DOCUMENT(DocumentMessage.class, DocumentMessageEvent.class),
     GAME(GameMessage.class, GameMessageEvent.class),

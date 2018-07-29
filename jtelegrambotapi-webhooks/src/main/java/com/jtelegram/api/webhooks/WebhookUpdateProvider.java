@@ -20,14 +20,18 @@ import lombok.SneakyThrows;
 
 import java.io.File;
 import java.net.URL;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CountDownLatch;
 
 @Getter
 public class WebhookUpdateProvider implements UpdateProvider {
     private final Vertx vertx = Vertx.vertx();
+    // all bots this webhook provider has ever seen
+    private Set<String> allBots = new HashSet<>();
     private Map<String, TelegramBot> requestPaths = new ConcurrentHashMap<>();
     private HttpServer server;
     private String baseUrl;
@@ -67,6 +71,8 @@ public class WebhookUpdateProvider implements UpdateProvider {
 
                 request.response().setStatusCode(200).end("OK");
                 return;
+            } else if (allBots.contains(path)) {
+                request.response().setStatusCode(401).end("Bot no longer exists");
             }
 
             HttpServerResponse response = request.response()
@@ -101,7 +107,10 @@ public class WebhookUpdateProvider implements UpdateProvider {
                 .allowedTypes(updateTypes)
                 .certificate(selfSignedCertificate)
                 .maxConnections(maxConnections)
-                .callback(() -> requestPaths.put(bot.getApiKey(), bot))
+                .callback(() -> {
+                    requestPaths.put(bot.getApiKey(), bot);
+                    allBots.add(bot.getApiKey());
+                })
                 .build());
     }
 

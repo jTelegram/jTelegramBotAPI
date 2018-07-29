@@ -10,4 +10,5 @@ public class Contact extends SendableMedium {
     private String firstName;
     private String lastName;
     private long userId;
+    private String vcard;
 }

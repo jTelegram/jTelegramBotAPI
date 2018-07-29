@@ -13,6 +13,7 @@ import io.vertx.core.AsyncResult;
 import io.vertx.core.Vertx;
 import io.vertx.core.http.HttpServer;
 import io.vertx.core.http.HttpServerOptions;
+import io.vertx.core.http.HttpServerResponse;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.SneakyThrows;
@@ -34,10 +35,11 @@ public class WebhookUpdateProvider implements UpdateProvider {
     private LocalInputFile selfSignedCertificate;
     private List<UpdateType> updateTypes;
     private Integer maxConnections;
+    private Integer retryAfter;
 
     @Builder
     public WebhookUpdateProvider(HttpServerOptions serverOptions, File selfSignedCertificate,
-                                 List<UpdateType> updateTypes, Integer maxConnections) throws InterruptedException, FailBindingException {
+                                 List<UpdateType> updateTypes, Integer maxConnections, Integer retryAfter) throws InterruptedException, FailBindingException {
         if (!serverOptions.isSsl()) {
             throw new IllegalArgumentException("Http Server must be SSL!");
         }
@@ -48,6 +50,7 @@ public class WebhookUpdateProvider implements UpdateProvider {
 
         this.updateTypes = updateTypes;
         this.maxConnections = maxConnections;
+        this.retryAfter = retryAfter;
         baseUrl = "https://" + serverOptions.getHost() + ":" + serverOptions.getPort() + "/";
         server = vertx.createHttpServer(serverOptions.setHost("0.0.0.0"));
 
@@ -66,7 +69,14 @@ public class WebhookUpdateProvider implements UpdateProvider {
                 return;
             }
 
-            request.response().setStatusCode(404).end("No bot found on this endpoint");
+            HttpServerResponse response = request.response()
+                    .setStatusCode(404);
+
+            if (retryAfter != null) {
+                response.putHeader("Retry-After", String.valueOf(this.retryAfter));
+            }
+
+            response.end("No bot found on this endpoint");
         });
 
         CountDownLatch latch = new CountDownLatch(1);

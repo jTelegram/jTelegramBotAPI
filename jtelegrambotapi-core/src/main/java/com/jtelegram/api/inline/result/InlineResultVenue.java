@@ -14,17 +14,19 @@ public class InlineResultVenue extends DimensionalThumbableInlineResult implemen
     private String title;
     private String address;
     private String foursquareId;
+    private String foursquareVenue;
     private Float latitude;
     private Float longitude;
 
     @Builder
     private InlineResultVenue(String id, InlineKeyboardMarkup replyMarkup, InputMessageContent inputMessageContent,
                               String thumbUrl, Integer thumbWidth, Integer thumbHeight, String title, String address,
-                              String foursquareId, Float latitude, Float longitude) {
+                              String foursquareId, String foursquareVenue, Float latitude, Float longitude) {
         super(id, replyMarkup, inputMessageContent, thumbUrl, thumbWidth, thumbHeight);
         this.title = title;
         this.address = address;
         this.foursquareId = foursquareId;
+        this.foursquareVenue = foursquareVenue;
         this.latitude = latitude;
         this.longitude = longitude;
     }

@@ -10,6 +10,7 @@ public class Venue extends SendableMedium {
     private String title;
     private String address;
     private String foursquareId;
+    private String foursquareType;
 
     public String getName() {
         return title;

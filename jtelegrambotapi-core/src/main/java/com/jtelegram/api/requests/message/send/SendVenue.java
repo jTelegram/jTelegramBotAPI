@@ -19,17 +19,19 @@ public class SendVenue extends SendableMessageRequest<VenueMessage> {
     private String title;
     private String address;
     private String foursquareId;
+    private String foursquareType;
 
     @Builder
     public SendVenue(Consumer<VenueMessage> callback, Consumer<TelegramException> errorHandler,
                      ChatId chatId, Integer replyToMessageId, Boolean disableNotification, ReplyMarkup replyMarkup,
-                     Float latitude, Float longitude, String title, String address, String foursquareId) {
+                     Float latitude, Float longitude, String title, String address, String foursquareId, String foursquareType) {
         super("sendVenue", VenueMessage.class, callback, errorHandler, chatId, replyToMessageId, disableNotification, replyMarkup);
         this.latitude = latitude;
         this.longitude = longitude;
         this.title = title;
         this.address = address;
         this.foursquareId = foursquareId;
+        this.foursquareType = foursquareType;
     }
 
     @Override

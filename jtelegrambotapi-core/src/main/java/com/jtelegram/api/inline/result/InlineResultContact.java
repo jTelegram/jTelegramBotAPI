@@ -13,14 +13,16 @@ public class InlineResultContact extends DimensionalThumbableInlineResult {
     private String phoneNumber;
     private String firstName;
     private String lastName;
+    private String vcard;
 
     @Builder
     private InlineResultContact(String id, InlineKeyboardMarkup replyMarkup, InputMessageContent inputMessageContent,
                                 String thumbUrl, Integer thumbWidth, Integer thumbHeight, String phoneNumber, String firstName,
-                                String lastName) {
+                                String lastName, String vcard) {
         super(id, replyMarkup, inputMessageContent, thumbUrl, thumbWidth, thumbHeight);
         this.phoneNumber = phoneNumber;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.vcard = vcard;
     }
 }

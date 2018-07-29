@@ -13,20 +13,25 @@ import io.vertx.core.AsyncResult;
 import io.vertx.core.Vertx;
 import io.vertx.core.http.HttpServer;
 import io.vertx.core.http.HttpServerOptions;
+import io.vertx.core.http.HttpServerResponse;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.SneakyThrows;
 
 import java.io.File;
 import java.net.URL;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CountDownLatch;
 
 @Getter
 public class WebhookUpdateProvider implements UpdateProvider {
     private final Vertx vertx = Vertx.vertx();
+    // all bots this webhook provider has ever seen
+    private Set<String> allBots = new HashSet<>();
     private Map<String, TelegramBot> requestPaths = new ConcurrentHashMap<>();
     private HttpServer server;
     private String baseUrl;
@@ -34,10 +39,11 @@ public class WebhookUpdateProvider implements UpdateProvider {
     private LocalInputFile selfSignedCertificate;
     private List<UpdateType> updateTypes;
     private Integer maxConnections;
+    private Integer retryAfter;
 
     @Builder
     public WebhookUpdateProvider(HttpServerOptions serverOptions, File selfSignedCertificate,
-                                 List<UpdateType> updateTypes, Integer maxConnections) throws InterruptedException, FailBindingException {
+                                 List<UpdateType> updateTypes, Integer maxConnections, Integer retryAfter) throws InterruptedException, FailBindingException {
         if (!serverOptions.isSsl()) {
             throw new IllegalArgumentException("Http Server must be SSL!");
         }
@@ -48,6 +54,7 @@ public class WebhookUpdateProvider implements UpdateProvider {
 
         this.updateTypes = updateTypes;
         this.maxConnections = maxConnections;
+        this.retryAfter = retryAfter;
         baseUrl = "https://" + serverOptions.getHost() + ":" + serverOptions.getPort() + "/";
         server = vertx.createHttpServer(serverOptions.setHost("0.0.0.0"));
 
@@ -64,9 +71,18 @@ public class WebhookUpdateProvider implements UpdateProvider {
 
                 request.response().setStatusCode(200).end("OK");
                 return;
+            } else if (allBots.contains(path)) {
+                request.response().setStatusCode(401).end("Bot no longer exists");
             }
 
-            request.response().setStatusCode(404).end("No bot found on this endpoint");
+            HttpServerResponse response = request.response()
+                    .setStatusCode(404);
+
+            if (retryAfter != null) {
+                response.putHeader("Retry-After", String.valueOf(this.retryAfter));
+            }
+
+            response.end("No bot found on this endpoint");
         });
 
         CountDownLatch latch = new CountDownLatch(1);
@@ -91,7 +107,10 @@ public class WebhookUpdateProvider implements UpdateProvider {
                 .allowedTypes(updateTypes)
                 .certificate(selfSignedCertificate)
                 .maxConnections(maxConnections)
-                .callback(() -> requestPaths.put(bot.getApiKey(), bot))
+                .callback(() -> {
+                    requestPaths.put(bot.getApiKey(), bot);
+                    allBots.add(bot.getApiKey());
+                })
                 .build());
     }
 

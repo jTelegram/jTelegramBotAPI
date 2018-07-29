@@ -1,6 +1,7 @@
 package com.jtelegram.api.message.input.media;
 
 import com.jtelegram.api.message.input.file.InputFile;
+import com.jtelegram.api.message.input.file.LocalInputFile;
 import com.jtelegram.api.requests.message.framework.ParseMode;
 import lombok.Builder;
 import lombok.Getter;
@@ -8,18 +9,13 @@ import lombok.ToString;
 
 @Getter
 @ToString(callSuper = true)
-public class VideoInputMedia extends InputMedia {
+public class VideoInputMedia extends AnimatedInputMedia {
     private boolean supportsStreaming;
-    private int width;
-    private int height;
-    private int duration;
 
     @Builder
-    public VideoInputMedia(InputFile media, boolean supportsStreaming, String caption, ParseMode parseMode, int width, int height, int duration) {
-        super(InputMediaType.VIDEO, media, caption, parseMode);
-        this.width = width;
-        this.height = height;
-        this.duration = duration;
+    public VideoInputMedia(InputFile media, String caption, ParseMode parseMode, LocalInputFile thumbnail,
+                           int width, int height, long duration, boolean supportsStreaming) {
+        super(InputMediaType.VIDEO, media, caption, parseMode, thumbnail, width, height, duration);
         this.supportsStreaming = supportsStreaming;
     }
 }

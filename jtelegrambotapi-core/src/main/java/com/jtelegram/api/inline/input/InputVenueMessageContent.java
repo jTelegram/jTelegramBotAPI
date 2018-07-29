@@ -13,4 +13,5 @@ public class InputVenueMessageContent extends InputMessageContent {
     private String title;
     private String address;
     private String foursquareId;
+    private String foursquareType;
 }

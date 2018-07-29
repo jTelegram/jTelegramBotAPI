@@ -23,6 +23,10 @@ public enum MessageEntityType {
     CODE,
     @SerializedName("pre")
     PRE,
+    @SerializedName("cashtag")
+    CASHTAG,
+    @SerializedName("phone_number")
+    PHONE_NUMBER,
     @SerializedName("text_link")
     TEXT_LINK(TextLinkMessageEntity.class),
     @SerializedName("text_mention")

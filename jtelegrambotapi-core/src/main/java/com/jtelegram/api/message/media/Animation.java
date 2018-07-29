@@ -6,11 +6,10 @@ import lombok.ToString;
 
 @Getter
 @ToString(callSuper = true)
-public class Audio extends FileMedium implements DuratableMedium, MimeableMedium {
+public class Animation extends VisualFileMedium implements DuratableMedium,
+        MimeableMedium, ThumbableMedium {
     private long duration;
-    private String performer;
-    private String title;
-    private String mimeType;
     @SerializedName("thumb")
     private PhotoSize thumbnail;
+    private String mimeType;
 }

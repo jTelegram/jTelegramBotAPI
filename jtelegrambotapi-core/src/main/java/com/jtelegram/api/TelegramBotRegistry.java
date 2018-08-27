@@ -11,6 +11,8 @@ import com.jtelegram.api.chat.id.ChatId;
 import com.jtelegram.api.inline.keyboard.InlineKeyboardRow;
 import com.jtelegram.api.inline.result.framework.InlineResultType;
 import com.jtelegram.api.message.entity.MessageEntity;
+import com.jtelegram.api.message.passport.element.EncryptedPassportElement;
+import com.jtelegram.api.message.passport.element.EncryptedPassportElementType;
 import com.jtelegram.api.update.Update;
 import com.jtelegram.api.update.UpdateProvider;
 import com.jtelegram.api.update.UpdateType;
@@ -27,6 +29,7 @@ import lombok.Getter;
 import okhttp3.OkHttpClient;
 
 import java.lang.reflect.Modifier;
+import java.text.DateFormat;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.function.BiConsumer;
@@ -43,6 +46,8 @@ public class TelegramBotRegistry {
             .registerTypeAdapter(ChatAction.class, new LowercaseEnumAdapter<>(ChatAction.class))
             .registerTypeAdapter(ChatMemberStatus.class, new LowercaseEnumAdapter<>(ChatMemberStatus.class))
             .registerTypeAdapter(InlineResultType.class, new LowercaseEnumAdapter<>(InlineResultType.class))
+            .registerTypeAdapter(EncryptedPassportElementType.class, new LowercaseEnumAdapter<>(EncryptedPassportElementType.class))
+            .registerTypeAdapter(EncryptedPassportElement.class, new EncryptedPassportElement.Deserializer())
             .registerTypeAdapter(InlineKeyboardRow.class, new InlineKeyboardRow.Serializer())
             .registerTypeAdapter(ReplyKeyboardRow.class, new ReplyKeyboardRow.Serializer())
             .registerTypeAdapter(Update.class, new Update.Deserializer())

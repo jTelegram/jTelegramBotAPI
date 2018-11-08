@@ -3,7 +3,9 @@ package com.jtelegram.api.requests.message.edit;
 import com.jtelegram.api.chat.id.ChatId;
 import com.jtelegram.api.message.Message;
 import com.jtelegram.api.ex.TelegramException;
+import com.jtelegram.api.message.impl.LocationMessage;
 import com.jtelegram.api.requests.message.framework.req.SendableInlineRequest;
+import java.util.Objects;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
@@ -25,7 +27,6 @@ public class EditMessageLiveLocation extends SendableInlineRequest<Message> {
         this.livePeriod = livePeriod;
     }
 
-
     @Override
     protected boolean isValid() {
         boolean valid = super.isValid() && latitude != null && longitude != null;
@@ -34,5 +35,17 @@ public class EditMessageLiveLocation extends SendableInlineRequest<Message> {
             valid = valid & livePeriod <= 86400;
         }
         return valid;
+    }
+
+    public static EditMessageLiveLocationBuilder forMessage(LocationMessage message) {
+        Objects.requireNonNull(message, "message cannot be null");
+        return builder()
+                .chatId(message.getChat().getChatId())
+                .messageId(message.getMessageId());
+    }
+
+    public static EditMessageLiveLocationBuilder forInlineMessage(String inlineMessageId) {
+        Objects.requireNonNull(inlineMessageId, "inline message ID cannot be null");
+        return builder().inlineMessageId(inlineMessageId);
     }
 }

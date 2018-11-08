@@ -2,11 +2,13 @@ package com.jtelegram.api.requests.message.edit;
 
 import com.jtelegram.api.chat.id.ChatId;
 import com.jtelegram.api.ex.TelegramException;
+import com.jtelegram.api.message.impl.GameMessage;
 import com.jtelegram.api.message.impl.TextMessage;
 import com.jtelegram.api.requests.message.framework.ReplyMarkup;
 import com.jtelegram.api.requests.message.framework.req.EditMessageRequest;
 import com.jtelegram.api.requests.message.framework.ParseMode;
 import com.jtelegram.api.util.TextBuilder;
+import java.util.Objects;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
@@ -28,6 +30,11 @@ public class EditTextMessage extends EditMessageRequest<TextMessage> {
         this.disableWebPagePreview = disableWebPagePreview;
     }
 
+    @Override
+    protected boolean isValid() {
+        return super.isValid() && text != null;
+    }
+
     public static class EditTextMessageBuilder {
         public EditTextMessageBuilder text(TextBuilder builder) {
             this.parseMode = ParseMode.HTML;
@@ -41,8 +48,22 @@ public class EditTextMessage extends EditMessageRequest<TextMessage> {
         }
     }
 
-    @Override
-    protected boolean isValid() {
-        return super.isValid() && text != null;
+    public static EditTextMessageBuilder forMessage(TextMessage message) {
+        Objects.requireNonNull(message, "text message cannot be null");
+        return builder()
+                .chatId(message.getChat().getChatId())
+                .messageId(message.getMessageId());
+    }
+
+    public static EditTextMessageBuilder forMessage(GameMessage message) {
+        Objects.requireNonNull(message, "game message cannot be null");
+        return builder()
+                .chatId(message.getChat().getChatId())
+                .messageId(message.getMessageId());
+    }
+
+    public static EditTextMessageBuilder forInlineMessage(String inlineMessageId) {
+        Objects.requireNonNull(inlineMessageId, "inline message ID cannot be null");
+        return builder().inlineMessageId(inlineMessageId);
     }
 }

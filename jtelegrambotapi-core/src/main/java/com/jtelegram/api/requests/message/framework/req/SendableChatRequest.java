@@ -3,11 +3,13 @@ package com.jtelegram.api.requests.message.framework.req;
 import com.jtelegram.api.chat.id.ChatId;
 import com.jtelegram.api.ex.TelegramException;
 import com.jtelegram.api.requests.framework.QueryTelegramRequest;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 import java.util.function.Consumer;
 
 @Getter
+@EqualsAndHashCode(callSuper = true)
 public class SendableChatRequest<T> extends QueryTelegramRequest<T> {
     private final ChatId chatId;
 

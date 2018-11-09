@@ -7,6 +7,7 @@ import com.jtelegram.api.message.impl.LocationMessage;
 import com.jtelegram.api.requests.message.framework.req.SendableInlineRequest;
 import java.util.Objects;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 
@@ -14,6 +15,7 @@ import java.util.function.Consumer;
 
 @Getter
 @ToString
+@EqualsAndHashCode(callSuper = true)
 public class EditMessageLiveLocation extends SendableInlineRequest<Message> {
     private final Float latitude;
     private final Float longitude;

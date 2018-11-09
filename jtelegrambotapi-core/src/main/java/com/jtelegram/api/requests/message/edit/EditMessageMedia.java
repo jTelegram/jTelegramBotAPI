@@ -14,11 +14,13 @@ import java.util.List;
 import java.util.Objects;
 import java.util.function.Consumer;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 
 @Getter
 @ToString
+@EqualsAndHashCode(callSuper = true)
 public class EditMessageMedia extends SendableInputFileInlineRequest<Message> {
     private InputMedia media;
 

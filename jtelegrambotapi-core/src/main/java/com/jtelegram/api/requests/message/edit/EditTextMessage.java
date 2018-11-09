@@ -10,6 +10,7 @@ import com.jtelegram.api.requests.message.framework.ParseMode;
 import com.jtelegram.api.util.TextBuilder;
 import java.util.Objects;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 
@@ -17,6 +18,7 @@ import java.util.function.Consumer;
 
 @Getter
 @ToString
+@EqualsAndHashCode(callSuper = true)
 public class EditTextMessage extends EditMessageRequest<TextMessage> {
     private String text;
     private ParseMode parseMode;

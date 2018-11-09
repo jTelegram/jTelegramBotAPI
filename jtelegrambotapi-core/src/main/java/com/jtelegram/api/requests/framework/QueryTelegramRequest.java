@@ -2,6 +2,7 @@ package com.jtelegram.api.requests.framework;
 
 import com.google.gson.JsonElement;
 import com.jtelegram.api.ex.TelegramException;
+import lombok.EqualsAndHashCode;
 import okhttp3.Response;
 
 import java.io.IOException;
@@ -11,6 +12,7 @@ import java.util.function.Consumer;
  * A generic telegram request class which
  * has a response beyond "OK"
  */
+@EqualsAndHashCode(callSuper = true)
 public abstract class QueryTelegramRequest<T> extends AbstractTelegramRequest {
     private transient final Consumer<T> callback;
     private transient final Class<T> callbackType;

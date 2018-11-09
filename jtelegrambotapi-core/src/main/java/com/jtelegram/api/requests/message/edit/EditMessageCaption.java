@@ -9,6 +9,7 @@ import com.jtelegram.api.requests.message.framework.req.EditMessageRequest;
 import com.jtelegram.api.requests.message.framework.ReplyMarkup;
 import java.util.Objects;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 
@@ -16,6 +17,7 @@ import java.util.function.Consumer;
 
 @Getter
 @ToString
+@EqualsAndHashCode(callSuper = true)
 public class EditMessageCaption extends EditMessageRequest<Message> {
     private String caption;
 

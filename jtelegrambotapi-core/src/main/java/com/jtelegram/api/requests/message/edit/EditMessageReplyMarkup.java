@@ -6,6 +6,7 @@ import com.jtelegram.api.message.Message;
 import com.jtelegram.api.requests.message.framework.req.EditMessageRequest;
 import com.jtelegram.api.requests.message.framework.ReplyMarkup;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 
@@ -13,6 +14,7 @@ import java.util.function.Consumer;
 
 @Getter
 @ToString
+@EqualsAndHashCode(callSuper = true)
 public class EditMessageReplyMarkup extends EditMessageRequest<Message> {
     @Builder
     public EditMessageReplyMarkup(Consumer<Message> callback, Consumer<TelegramException> errorHandler, ChatId chatId, int messageId, String inlineMessageId, ReplyMarkup replyMarkup) {

@@ -30,6 +30,11 @@ public class TextMessage extends Message<String> {
         return entities;
     }
 
+    /**
+     * Creates a request builder for editing the text of this message.
+     *
+     * @return the request builder
+     */
     public EditTextMessage.EditTextMessageBuilder toEditTextRequest() {
         return EditTextMessage.forMessage(this);
     }

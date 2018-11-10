@@ -16,6 +16,11 @@ public class LocationMessage extends Message<Location> {
         return location;
     }
 
+    /**
+     * Creates a request builder for editing the location represented by this message.
+     *
+     * @return the request builder
+     */
     public EditMessageLiveLocation.EditMessageLiveLocationBuilder toEditLiveLocationRequest() {
         return EditMessageLiveLocation.forMessage(this);
     }

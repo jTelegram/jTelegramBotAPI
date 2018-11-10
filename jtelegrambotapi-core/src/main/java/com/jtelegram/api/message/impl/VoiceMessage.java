@@ -16,6 +16,11 @@ public class VoiceMessage extends CaptionableMessage<Voice> {
         return voice;
     }
 
+    /**
+     * Creates a request builder for editing the caption of this message.
+     *
+     * @return the request builder
+     */
     public EditMessageCaption.EditMessageCaptionBuilder toEditCaptionRequest() {
         return EditMessageCaption.forMessage(this);
     }

@@ -16,6 +16,11 @@ public class VideoNoteMessage extends CaptionableMessage<VideoNote> {
         return videoNote;
     }
 
+    /**
+     * Creates a request builder for editing the caption of this message.
+     *
+     * @return the request builder
+     */
     public EditMessageCaption.EditMessageCaptionBuilder toEditCaptionRequest() {
         return EditMessageCaption.forMessage(this);
     }

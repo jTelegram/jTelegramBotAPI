@@ -6,7 +6,7 @@
 
     <groupId>com.jtelegram</groupId>
     <artifactId>jtelegrambotapi</artifactId>
-    <version>4.0.0-SNAPSHOT</version>
+    <version>4.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <properties>
@@ -103,7 +103,7 @@
             <dependency>
                 <groupId>io.vertx</groupId>
                 <artifactId>vertx-core</artifactId>
-                <version>3.5.0</version>
+                <version>3.5.4</version>
                 <scope>compile</scope>
             </dependency>
             <dependency>

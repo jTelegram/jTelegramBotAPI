@@ -41,6 +41,13 @@ public class EditMessageMedia extends SendableInputFileInlineRequest<Message> {
         return media.getAllMedia();
     }
 
+    /**
+     * Creates a request builder to edit the media of the specified message.
+     *
+     * @param message the message that will be edited when the request is executed
+     *
+     * @return the request builder
+     */
     public static EditMessageMediaBuilder forMessage(AudioMessage message) {
         Objects.requireNonNull(message, "audio message cannot be null");
         return builder()
@@ -48,6 +55,13 @@ public class EditMessageMedia extends SendableInputFileInlineRequest<Message> {
                 .messageId(message.getMessageId());
     }
 
+    /**
+     * Creates a request builder to edit the media of the specified message.
+     *
+     * @param message the message that will be edited when the request is executed
+     *
+     * @return the request builder
+     */
     public static EditMessageMediaBuilder forMessage(DocumentMessage message) {
         Objects.requireNonNull(message, "document message cannot be null");
         return builder()
@@ -55,6 +69,13 @@ public class EditMessageMedia extends SendableInputFileInlineRequest<Message> {
                 .messageId(message.getMessageId());
     }
 
+    /**
+     * Creates a request builder to edit the media of the specified message.
+     *
+     * @param message the message that will be edited when the request is executed
+     *
+     * @return the request builder
+     */
     public static EditMessageMediaBuilder forMessage(PhotoMessage message) {
         Objects.requireNonNull(message, "photo message cannot be null");
         return builder()
@@ -62,6 +83,13 @@ public class EditMessageMedia extends SendableInputFileInlineRequest<Message> {
                 .messageId(message.getMessageId());
     }
 
+    /**
+     * Creates a request builder to edit the media of the specified message.
+     *
+     * @param message the message that will be edited when the request is executed
+     *
+     * @return the request builder
+     */
     public static EditMessageMediaBuilder forMessage(VideoMessage message) {
         Objects.requireNonNull(message, "video message cannot be null");
         return builder()
@@ -69,6 +97,13 @@ public class EditMessageMedia extends SendableInputFileInlineRequest<Message> {
                 .messageId(message.getMessageId());
     }
 
+    /**
+     * Creates a request builder to edit the media of the specified message.
+     *
+     * @param inlineMessageId the ID of the inline message that will be edited when the request is executed
+     *
+     * @return the request builder
+     */
     public static EditMessageMediaBuilder forInlineMessage(String inlineMessageId) {
         Objects.requireNonNull(inlineMessageId, "inline message ID cannot be null");
         return builder().inlineMessageId(inlineMessageId);

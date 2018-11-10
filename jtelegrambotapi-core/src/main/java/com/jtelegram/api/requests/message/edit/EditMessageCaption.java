@@ -27,6 +27,13 @@ public class EditMessageCaption extends EditMessageRequest<Message> {
         this.caption = caption;
     }
 
+    /**
+     * Creates a request builder to edit the caption of the specified message.
+     *
+     * @param message the message that will be edited when the request is executed
+     *
+     * @return the request builder
+     */
     public static EditMessageCaptionBuilder forMessage(CaptionableMessage<?> message) {
         Objects.requireNonNull(message, "message cannot be null");
         return builder()
@@ -34,6 +41,13 @@ public class EditMessageCaption extends EditMessageRequest<Message> {
                 .messageId(message.getMessageId());
     }
 
+    /**
+     * Creates a request builder to edit the caption of the specified message.
+     *
+     * @param inlineMessageId the ID of the inline message that will be edited when the request is executed
+     *
+     * @return the request builder
+     */
     public static EditMessageCaptionBuilder forInlineMessage(String inlineMessageId) {
         Objects.requireNonNull(inlineMessageId, "inline message ID cannot be null");
         return builder().inlineMessageId(inlineMessageId);

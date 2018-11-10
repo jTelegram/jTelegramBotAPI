@@ -39,6 +39,13 @@ public class EditMessageLiveLocation extends SendableInlineRequest<Message> {
         return valid;
     }
 
+    /**
+     * Creates a request builder to edit the location represented by the specified message.
+     *
+     * @param message the message that will be edited when the request is executed
+     *
+     * @return the request builder
+     */
     public static EditMessageLiveLocationBuilder forMessage(LocationMessage message) {
         Objects.requireNonNull(message, "message cannot be null");
         return builder()

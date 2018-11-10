@@ -50,6 +50,13 @@ public class EditTextMessage extends EditMessageRequest<TextMessage> {
         }
     }
 
+    /**
+     * Creates a request builder to edit the text of the specified message.
+     *
+     * @param message the message that will be edited when the request is executed
+     *
+     * @return the request builder
+     */
     public static EditTextMessageBuilder forMessage(TextMessage message) {
         Objects.requireNonNull(message, "text message cannot be null");
         return builder()
@@ -57,6 +64,13 @@ public class EditTextMessage extends EditMessageRequest<TextMessage> {
                 .messageId(message.getMessageId());
     }
 
+    /**
+     * Creates a request builder to edit the text of the specified message.
+     *
+     * @param message the message that will be edited when the request is executed
+     *
+     * @return the request builder
+     */
     public static EditTextMessageBuilder forMessage(GameMessage message) {
         Objects.requireNonNull(message, "game message cannot be null");
         return builder()
@@ -64,6 +78,13 @@ public class EditTextMessage extends EditMessageRequest<TextMessage> {
                 .messageId(message.getMessageId());
     }
 
+    /**
+     * Creates a request builder to edit the text of the specified message.
+     *
+     * @param inlineMessageId the ID of the inline message that will be edited when the request is executed
+     *
+     * @return the request builder
+     */
     public static EditTextMessageBuilder forInlineMessage(String inlineMessageId) {
         Objects.requireNonNull(inlineMessageId, "inline message ID cannot be null");
         return builder().inlineMessageId(inlineMessageId);

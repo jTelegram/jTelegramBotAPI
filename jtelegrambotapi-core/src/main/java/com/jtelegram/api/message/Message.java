@@ -9,6 +9,7 @@ import com.jtelegram.api.chat.Chat;
 import com.jtelegram.api.requests.message.DeleteMessage;
 import com.jtelegram.api.requests.message.ForwardMessage;
 import com.jtelegram.api.requests.message.edit.EditMessageReplyMarkup;
+import com.jtelegram.api.update.UpdateContents;
 import com.jtelegram.api.user.User;
 import java.lang.reflect.Type;
 import lombok.Getter;
@@ -16,7 +17,7 @@ import lombok.ToString;
 
 @Getter
 @ToString
-public abstract class Message<T> {
+public abstract class Message<T> implements UpdateContents {
     private int messageId;
     private User from;
     private long date;

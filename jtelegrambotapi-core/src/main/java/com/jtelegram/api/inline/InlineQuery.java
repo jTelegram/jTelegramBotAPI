@@ -1,5 +1,6 @@
 package com.jtelegram.api.inline;
 
+import com.jtelegram.api.update.UpdateContents;
 import com.jtelegram.api.user.User;
 import com.jtelegram.api.message.media.Location;
 import lombok.*;
@@ -8,7 +9,7 @@ import lombok.*;
 @ToString
 @EqualsAndHashCode(of = "id")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class InlineQuery {
+public class InlineQuery implements UpdateContents {
     private String id;
     private User from;
     private Location location;

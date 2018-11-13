@@ -4,7 +4,6 @@ import com.jtelegram.api.TelegramBot;
 import com.jtelegram.api.events.inline.ChosenInlineResultEvent;
 import com.jtelegram.api.requests.inline.AnswerInlineQuery;
 import com.jtelegram.api.util.ExceptionThreadFactory;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -58,14 +57,20 @@ public class EventRegistry {
         }
 
         this.threadPool.submit(() -> {
-            List<EventHandler<? extends Event>> h = handlers.get(event.getType());
-
-            if (h != null) {
-                h.forEach(handler -> {
-                    EventHandler<E> eh = (EventHandler<E>) handler;
-                    eh.onEvent(event);
-                });
+            Class<?> eventClass = event.getClass();
+            List<EventHandler<? extends Event>> h = new ArrayList<>();
+            while (Event.class.isAssignableFrom(eventClass) && eventClass != Event.class) {
+                List<EventHandler<? extends Event>> handlerList = handlers.get(eventClass.asSubclass(Event.class));
+                if (handlerList != null) {
+                    h.addAll(handlerList);
+                }
+                eventClass = eventClass.getSuperclass();
             }
+
+            h.forEach(handler -> {
+                EventHandler<E> eh = (EventHandler<E>) handler;
+                eh.onEvent(event);
+            });
         });
     }
 }

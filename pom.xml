@@ -80,6 +80,7 @@
         <module>jtelegrambotapi-menus</module>
         <module>jtelegrambotapi-test</module>
         <module>jtelegrambotapi-webhooks</module>
+        <module>jtelegrambotapi-jtelegraf</module>
     </modules>
 
     <dependencyManagement>

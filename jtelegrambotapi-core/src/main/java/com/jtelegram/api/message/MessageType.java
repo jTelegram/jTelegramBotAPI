@@ -19,8 +19,8 @@ public enum MessageType {
     VOICE(VoiceMessage.class, VoiceMessageEvent.class),
     VIDEO_NOTE(VideoNoteMessage.class, VideoNoteMessageEvent.class),
     CONTACT(ContactMessage.class, ContactMessageEvent.class),
-    LOCATION(LocationMessage.class, LocationMessageEvent.class),
     VENUE(VenueMessage.class, VenueMessageEvent.class),
+    LOCATION(LocationMessage.class, LocationMessageEvent.class),
     INVOICE(InvoiceMessage.class, InvoiceMessageEvent.class),
     SUCCESSFUL_PAYMENT(SuccessfulPaymentMessage.class, SuccessfulPaymentEvent.class),
 

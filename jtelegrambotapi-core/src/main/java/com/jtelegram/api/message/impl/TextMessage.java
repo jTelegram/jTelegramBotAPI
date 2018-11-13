@@ -2,6 +2,7 @@ package com.jtelegram.api.message.impl;
 
 import com.jtelegram.api.message.Message;
 import com.jtelegram.api.message.entity.MessageEntity;
+import com.jtelegram.api.requests.message.edit.EditTextMessage;
 import lombok.Getter;
 import lombok.ToString;
 
@@ -27,5 +28,14 @@ public class TextMessage extends Message<String> {
         }
 
         return entities;
+    }
+
+    /**
+     * Creates a request builder for editing the text of this message.
+     *
+     * @return the request builder
+     */
+    public EditTextMessage.EditTextMessageBuilder toEditTextRequest() {
+        return EditTextMessage.forMessage(this);
     }
 }

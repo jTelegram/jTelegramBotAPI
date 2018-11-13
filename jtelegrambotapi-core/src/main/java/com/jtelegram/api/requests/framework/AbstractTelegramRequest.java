@@ -7,11 +7,13 @@ import com.jtelegram.api.ex.NetworkException;
 import com.jtelegram.api.ex.TelegramException;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import okhttp3.Response;
 
 import java.io.IOException;
 import java.util.function.Consumer;
 
+@EqualsAndHashCode
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 public abstract class AbstractTelegramRequest implements TelegramRequest {
     // utility field

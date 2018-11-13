@@ -3,19 +3,24 @@ package com.jtelegram.api.requests.message.edit;
 import com.jtelegram.api.chat.id.ChatId;
 import com.jtelegram.api.ex.TelegramException;
 import com.jtelegram.api.message.Message;
+import com.jtelegram.api.message.impl.AudioMessage;
+import com.jtelegram.api.message.impl.DocumentMessage;
+import com.jtelegram.api.message.impl.PhotoMessage;
+import com.jtelegram.api.message.impl.VideoMessage;
 import com.jtelegram.api.message.input.file.InputFile;
 import com.jtelegram.api.message.input.media.InputMedia;
 import com.jtelegram.api.requests.message.framework.req.SendableInputFileInlineRequest;
+import java.util.List;
+import java.util.Objects;
+import java.util.function.Consumer;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.function.Consumer;
-
 @Getter
 @ToString
+@EqualsAndHashCode(callSuper = true)
 public class EditMessageMedia extends SendableInputFileInlineRequest<Message> {
     private InputMedia media;
 
@@ -34,5 +39,73 @@ public class EditMessageMedia extends SendableInputFileInlineRequest<Message> {
     @Override
     public List<InputFile> getInputFiles() {
         return media.getAllMedia();
+    }
+
+    /**
+     * Creates a request builder to edit the media of the specified message.
+     *
+     * @param message the message that will be edited when the request is executed
+     *
+     * @return the request builder
+     */
+    public static EditMessageMediaBuilder forMessage(AudioMessage message) {
+        Objects.requireNonNull(message, "audio message cannot be null");
+        return builder()
+                .chatId(message.getChat().getChatId())
+                .messageId(message.getMessageId());
+    }
+
+    /**
+     * Creates a request builder to edit the media of the specified message.
+     *
+     * @param message the message that will be edited when the request is executed
+     *
+     * @return the request builder
+     */
+    public static EditMessageMediaBuilder forMessage(DocumentMessage message) {
+        Objects.requireNonNull(message, "document message cannot be null");
+        return builder()
+                .chatId(message.getChat().getChatId())
+                .messageId(message.getMessageId());
+    }
+
+    /**
+     * Creates a request builder to edit the media of the specified message.
+     *
+     * @param message the message that will be edited when the request is executed
+     *
+     * @return the request builder
+     */
+    public static EditMessageMediaBuilder forMessage(PhotoMessage message) {
+        Objects.requireNonNull(message, "photo message cannot be null");
+        return builder()
+                .chatId(message.getChat().getChatId())
+                .messageId(message.getMessageId());
+    }
+
+    /**
+     * Creates a request builder to edit the media of the specified message.
+     *
+     * @param message the message that will be edited when the request is executed
+     *
+     * @return the request builder
+     */
+    public static EditMessageMediaBuilder forMessage(VideoMessage message) {
+        Objects.requireNonNull(message, "video message cannot be null");
+        return builder()
+                .chatId(message.getChat().getChatId())
+                .messageId(message.getMessageId());
+    }
+
+    /**
+     * Creates a request builder to edit the media of the specified message.
+     *
+     * @param inlineMessageId the ID of the inline message that will be edited when the request is executed
+     *
+     * @return the request builder
+     */
+    public static EditMessageMediaBuilder forInlineMessage(String inlineMessageId) {
+        Objects.requireNonNull(inlineMessageId, "inline message ID cannot be null");
+        return builder().inlineMessageId(inlineMessageId);
     }
 }

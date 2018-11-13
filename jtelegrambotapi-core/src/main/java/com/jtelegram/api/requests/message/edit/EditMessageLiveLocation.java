@@ -3,8 +3,11 @@ package com.jtelegram.api.requests.message.edit;
 import com.jtelegram.api.chat.id.ChatId;
 import com.jtelegram.api.message.Message;
 import com.jtelegram.api.ex.TelegramException;
+import com.jtelegram.api.message.impl.LocationMessage;
 import com.jtelegram.api.requests.message.framework.req.SendableInlineRequest;
+import java.util.Objects;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 
@@ -12,6 +15,7 @@ import java.util.function.Consumer;
 
 @Getter
 @ToString
+@EqualsAndHashCode(callSuper = true)
 public class EditMessageLiveLocation extends SendableInlineRequest<Message> {
     private final Float latitude;
     private final Float longitude;
@@ -25,7 +29,6 @@ public class EditMessageLiveLocation extends SendableInlineRequest<Message> {
         this.livePeriod = livePeriod;
     }
 
-
     @Override
     protected boolean isValid() {
         boolean valid = super.isValid() && latitude != null && longitude != null;
@@ -34,5 +37,24 @@ public class EditMessageLiveLocation extends SendableInlineRequest<Message> {
             valid = valid & livePeriod <= 86400;
         }
         return valid;
+    }
+
+    /**
+     * Creates a request builder to edit the location represented by the specified message.
+     *
+     * @param message the message that will be edited when the request is executed
+     *
+     * @return the request builder
+     */
+    public static EditMessageLiveLocationBuilder forMessage(LocationMessage message) {
+        Objects.requireNonNull(message, "message cannot be null");
+        return builder()
+                .chatId(message.getChat().getChatId())
+                .messageId(message.getMessageId());
+    }
+
+    public static EditMessageLiveLocationBuilder forInlineMessage(String inlineMessageId) {
+        Objects.requireNonNull(inlineMessageId, "inline message ID cannot be null");
+        return builder().inlineMessageId(inlineMessageId);
     }
 }

@@ -7,7 +7,7 @@ import lombok.ToString;
  * Sharable class between all service messages
  */
 @ToString(callSuper = true)
-public abstract class ServiceMessage extends Message {
+public abstract class ServiceMessage extends Message<Object> {
     @Override
     public Object getContent() {
         return null;

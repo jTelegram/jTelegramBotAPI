@@ -1,18 +1,21 @@
 package com.jtelegram.api.update;
 
-import com.google.gson.*;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
 import com.jtelegram.api.inline.CallbackQuery;
 import com.jtelegram.api.inline.InlineQuery;
 import com.jtelegram.api.inline.result.ChosenInlineResult;
 import com.jtelegram.api.message.Message;
 import com.jtelegram.api.message.payments.PreCheckoutQuery;
 import com.jtelegram.api.message.payments.ShippingQuery;
-import javax.annotation.Nonnull;
-import lombok.Getter;
-
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
+import javax.annotation.Nonnull;
+import lombok.Getter;
 import lombok.NonNull;
 import lombok.ToString;
 
@@ -106,11 +109,11 @@ public abstract class Update<T extends UpdateContents> {
     @ToString(callSuper = true)
     public static class MessageUpdate extends Update<Message> {
         @NonNull
-        private Message message;
+        private Message<?> message;
 
         @Nonnull
         @Override
-        public Message getContents() {
+        public Message<?> getContents() {
             return message;
         }
     }

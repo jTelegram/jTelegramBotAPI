@@ -71,8 +71,8 @@ public abstract class Message<T> implements UpdateContents {
         public Message deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext context) throws JsonParseException {
             JsonObject object = jsonElement.getAsJsonObject();
 
-            for (MessageType messageType : MessageType.values()) {
-                if (object.has(messageType.name().toLowerCase())) {
+            for (MessageType messageType : MessageType.values) {
+                if (object.has(messageType.getName().toLowerCase())) {
                     return context.deserialize(object, messageType.getMessageClass());
                 }
             }

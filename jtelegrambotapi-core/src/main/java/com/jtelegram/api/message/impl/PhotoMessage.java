@@ -1,20 +1,19 @@
 package com.jtelegram.api.message.impl;
 
 import com.jtelegram.api.message.CaptionableMessage;
+import com.jtelegram.api.message.media.Photo;
 import com.jtelegram.api.message.media.PhotoSize;
 import com.jtelegram.api.requests.message.edit.EditMessageCaption;
 import com.jtelegram.api.requests.message.edit.EditMessageMedia;
+import java.util.ArrayList;
+import java.util.Comparator;
 import lombok.Getter;
 import lombok.ToString;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-
 @Getter
 @ToString(callSuper = true)
-public class PhotoMessage extends CaptionableMessage<List<PhotoSize>> {
-    private List<PhotoSize> photo = new ArrayList<>();
+public class PhotoMessage extends CaptionableMessage<Photo> {
+    private Photo photo = new Photo(new ArrayList<>());
     /**
      * This field does not exist in the Telegram Docs, however is
      * non-zero whenever a photo is a fragment of an album. Albums
@@ -25,7 +24,7 @@ public class PhotoMessage extends CaptionableMessage<List<PhotoSize>> {
     private long mediaGroupId;
 
     @Override
-    public List<PhotoSize> getContent() {
+    public Photo getContent() {
         return photo;
     }
 

@@ -8,7 +8,7 @@ import lombok.Getter;
 import lombok.ToString;
 
 @ToString(callSuper = true)
-public class MessageEvent<T extends Message> extends UpdateEvent<Update.MessageUpdate> {
+public class MessageEvent<T extends Message<?>> extends UpdateEvent<Update.MessageUpdate> {
     @Getter
     private T message;
 

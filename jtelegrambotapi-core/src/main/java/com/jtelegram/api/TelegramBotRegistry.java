@@ -11,6 +11,7 @@ import com.jtelegram.api.chat.id.ChatId;
 import com.jtelegram.api.inline.keyboard.InlineKeyboardRow;
 import com.jtelegram.api.inline.result.framework.InlineResultType;
 import com.jtelegram.api.message.entity.MessageEntity;
+import com.jtelegram.api.message.media.Photo;
 import com.jtelegram.api.update.Update;
 import com.jtelegram.api.update.UpdateProvider;
 import com.jtelegram.api.update.UpdateType;
@@ -46,6 +47,7 @@ public class TelegramBotRegistry {
             .registerTypeAdapter(InlineKeyboardRow.class, new InlineKeyboardRow.Serializer())
             .registerTypeAdapter(ReplyKeyboardRow.class, new ReplyKeyboardRow.Serializer())
             .registerTypeAdapter(Update.class, new Update.Deserializer())
+            .registerTypeAdapter(Photo.class, new Photo.Deserializer())
             .registerTypeAdapter(Chat.class, new Chat.Deserializer())
             .registerTypeAdapter(Message.class, new Message.Deserializer())
             .registerTypeAdapter(MessageEntity.class, new MessageEntity.Deserializer())

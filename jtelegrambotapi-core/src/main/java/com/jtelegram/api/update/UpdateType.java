@@ -80,7 +80,7 @@ public class UpdateType<T extends Update> {
             "MESSAGE",
             Update.MessageUpdate.class,
             (bot, update) -> {
-                MessageType type = MessageType.typeFrom(update.getMessage());
+                MessageType<?, ?, ?> type = MessageType.typeFrom(update.getMessage());
                 Class<? extends MessageEvent> eventClass = type.getReceiveEventClass();
                 Constructor<? extends MessageEvent> constructor;
 

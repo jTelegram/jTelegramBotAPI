@@ -8,6 +8,8 @@ import com.jtelegram.api.message.Message;
 import com.jtelegram.api.message.MessageType;
 import com.jtelegram.api.message.entity.MessageEntity;
 import com.jtelegram.api.message.entity.MessageEntityType;
+import com.jtelegram.api.message.entity.TextLinkMessageEntity;
+import com.jtelegram.api.message.entity.TextMentionMessageEntity;
 import com.jtelegram.api.message.impl.TextMessage;
 import com.jtelegram.api.requests.message.send.SendText;
 import com.jtelegram.api.update.Update;
@@ -394,6 +396,30 @@ public class TelegrafBot {
             List<MessageEntity.DefaultMessageEntity> entities = ctx.getEntities()
                     .stream()
                     .filter(e -> cashtag.equalsIgnoreCase(e.getContent()))
+                    .collect(Collectors.toList());
+            if (!entities.isEmpty()) {
+                listener.onMessageEntity(ctx.withEntities(entities));
+            }
+        });
+    }
+
+    public void textLink(String url, TelegrafMessageEntityListener<MessageEntityType<TextLinkMessageEntity>, TextLinkMessageEntity> listener) {
+        entity(MessageEntityType.TEXT_LINK, ctx -> {
+            List<TextLinkMessageEntity> entities = ctx.getEntities()
+                    .stream()
+                    .filter(e -> url.equalsIgnoreCase(e.getUrl()))
+                    .collect(Collectors.toList());
+            if (!entities.isEmpty()) {
+                listener.onMessageEntity(ctx.withEntities(entities));
+            }
+        });
+    }
+
+    public void textMention(long userId, TelegrafMessageEntityListener<MessageEntityType<TextMentionMessageEntity>, TextMentionMessageEntity> listener) {
+        entity(MessageEntityType.TEXT_MENTION, ctx -> {
+            List<TextMentionMessageEntity> entities = ctx.getEntities()
+                    .stream()
+                    .filter(e -> userId == e.getUser().getId())
                     .collect(Collectors.toList());
             if (!entities.isEmpty()) {
                 listener.onMessageEntity(ctx.withEntities(entities));

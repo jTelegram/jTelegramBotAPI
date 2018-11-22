@@ -8,7 +8,7 @@ import lombok.ToString;
 @Getter
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
-public class TextMentionMessageEntity extends MessageEntity {
+public class TextMentionMessageEntity extends MessageEntity<TextMentionMessageEntity> {
 
     private User user;
 

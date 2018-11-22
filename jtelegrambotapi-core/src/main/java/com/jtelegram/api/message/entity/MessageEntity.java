@@ -13,8 +13,8 @@ import lombok.ToString;
 @Getter
 @ToString
 @EqualsAndHashCode
-public class MessageEntity {
-    protected MessageEntityType type;
+public class MessageEntity<T extends MessageEntity<T>> {
+    protected MessageEntityType<T> type;
     protected int offset;
     protected int length;
     protected String content;
@@ -23,7 +23,10 @@ public class MessageEntity {
         this.content = text.substring(offset, offset + length);
     }
 
-    static class DefaultMessageEntity extends MessageEntity {}
+    public static final class DefaultMessageEntity extends MessageEntity<DefaultMessageEntity> {
+        private DefaultMessageEntity() {}
+    }
+
     public static class Deserializer implements JsonDeserializer<MessageEntity> {
 
         @Override
@@ -33,6 +36,7 @@ public class MessageEntity {
             Class<? extends MessageEntity> implementationClass;
 
             if (type != null) {
+                //noinspection unchecked
                 implementationClass = type.getImplementationClass();
             } else {
                 implementationClass = UnsupportedMessageEntity.class;

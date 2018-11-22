@@ -28,6 +28,12 @@ public class TextBuilder {
         return new TextBuilder();
     }
 
+    public static TextBuilder create(TextBuilder textBuilder) {
+        TextBuilder newTextBuilder = new TextBuilder();
+        newTextBuilder.message.append(textBuilder.message);
+        return newTextBuilder;
+    }
+
     private TextBuilder() {
     }
 

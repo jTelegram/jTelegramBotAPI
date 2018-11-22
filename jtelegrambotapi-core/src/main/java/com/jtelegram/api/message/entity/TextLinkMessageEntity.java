@@ -7,7 +7,7 @@ import lombok.ToString;
 @Getter
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
-public class TextLinkMessageEntity extends MessageEntity {
+public class TextLinkMessageEntity extends MessageEntity<TextLinkMessageEntity> {
 
     private String url;
 

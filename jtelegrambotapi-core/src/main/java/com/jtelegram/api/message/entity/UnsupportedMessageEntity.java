@@ -12,15 +12,13 @@ import java.lang.reflect.Type;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = false)
 @JsonAdapter(UnsupportedMessageEntity.Adapter.class)
-public class UnsupportedMessageEntity extends MessageEntity {
+public class UnsupportedMessageEntity extends MessageEntity<UnsupportedMessageEntity> {
 
     private Map<String, JsonElement> properties;
 

@@ -8,11 +8,16 @@ import javax.annotation.Nonnull;
 import lombok.Getter;
 
 /**
+ * A wrapper around a command, for use with a {@link TelegrafBot}.
+ *
  * @author Nick Robson
  */
 @Getter
-public class TelegrafCommandContext extends TelegrafMessageContext<TelegrafCommandContext, String, TextMessage> {
+public class TelegrafCommandContext extends TelegrafMessageContext<TelegrafCommandContext, TextMessage, String> {
 
+    /**
+     * The command object corresponding to the command received from a user.
+     */
     @Nonnull
     private final Command command;
 

@@ -16,10 +16,8 @@ import com.jtelegram.api.update.Update;
 import com.jtelegram.api.update.UpdateContents;
 import com.jtelegram.api.update.UpdateType;
 import com.jtelegram.api.util.TextBuilder;
-import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
@@ -30,22 +28,59 @@ import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 /**
+ * A wrapper around {@link TelegramBot} allowing usage of the jTelegramBotAPI in the same style as that of
+ * <a href="https://telegraf.js.org">telegraf</a>, a popular Telegram Bot API for JavaScript.
+ *
  * @author Nick Robson
  */
 @ParametersAreNonnullByDefault
 public class TelegrafBot {
 
+    /**
+     * Corresponds to the Telegram /start command
+     */
     public static final String COMMAND_START = "start";
+
+    /**
+     * Corresponds to the Telegram /help command
+     */
     public static final String COMMAND_HELP = "help";
+
+    /**
+     * Corresponds to the Telegram /settings command
+     */
     public static final String COMMAND_SETTINGS = "settings";
 
+    /**
+     * Tracks update listeners. i.e. listeners that are notified for different types of {@link Update updates}
+     */
     private final Map<Class<? extends Update>, List<TelegrafUpdateListener<?, ?, ?>>> updateListeners = new HashMap<>();
+
+    /**
+     * Tracks message listeners. i.e. listeners that are notified for different types of {@link Message messages}
+     */
     private final Map<Class<? extends Message>, List<TelegrafMessageListener<?, ?, ?>>> messageListeners = new HashMap<>();
+
+    /**
+     * Tracks message entity listeners. i.e. listeners that are notified for different
+     * {@link MessageEntityType types} of {@link MessageEntity message entity}
+     */
     private final Map<MessageEntityType, List<TelegrafMessageEntityListener<?, ?>>> messageEntityListeners = new HashMap<>();
 
-    private final List<Map.Entry<String, TelegrafMessageListener<?, String, TextMessage>>> hearsTextListeners = new LinkedList<>();
-    private final List<Map.Entry<Predicate<String>, TelegrafMessageListener<?, String, TextMessage>>> hearsPredicateListeners = new LinkedList<>();
-    private final List<Map.Entry<Pattern, TelegrafHeardMessageListener>> hearsPatternListeners = new LinkedList<>();
+    /**
+     * Tracks listeners that are notified when certain strings are mentioned in text messages
+     */
+    private final Map<String, List<TelegrafMessageListener<?, TextMessage, String>>> hearsTextListeners = new HashMap<>();
+
+    /**
+     * Tracks listeners that are notified when their corresponding predicates match the text of a text message
+     */
+    private final Map<Predicate<String>, List<TelegrafMessageListener<?, TextMessage, String>>> hearsPredicateListeners = new HashMap<>();
+
+    /**
+     * Tracks listeners that are notified when their corresponding patterns match the text of a text message
+     */
+    private final Map<Pattern, List<TelegrafHeardMessageListener>> hearsPatternListeners = new HashMap<>();
 
     @Nonnull
     private final TelegramBot bot;
@@ -53,11 +88,14 @@ public class TelegrafBot {
     @SuppressWarnings("unchecked")
     public TelegrafBot(@Nonnull TelegramBot bot) {
         this.bot = bot;
+        // register a general listener that will be called for all events that extend UpdateEvent
         bot.getEventRegistry().registerEvent(UpdateEvent.class, event -> {
             Update<?> update = event.getUpdate();
             Class<? extends Update> updateClass = update.getClass();
+            // e.g. if the Update is a MessageUpdate this will get all listeners that want to see MessageUpdates
             List<TelegrafUpdateListener<?, ?, ?>> listeners = updateListeners.get(updateClass);
             if (listeners != null) {
+                // create an update context for the update and propagate it to all listeners that want to listen to that type of update
                 TelegrafUpdateContext<?, ?, ?> context = new TelegrafUpdateContext<>(bot, update);
                 for (TelegrafUpdateListener listener : listeners) {
                     try {
@@ -69,13 +107,15 @@ public class TelegrafBot {
                 }
             }
         });
+        // register a general listener that will be called for all events that extend MessageEvent
         bot.getEventRegistry().registerEvent(MessageEvent.class, event -> {
             Update.MessageUpdate update = (Update.MessageUpdate) event.getUpdate();
             Message<?> message = update.getContents();
             Class<? extends Message> messageClass = message.getClass();
+            // e.g. if the Message is a TextMessage this will get all listeners that want to see text messages
             List<TelegrafMessageListener<?, ?, ?>> listeners = messageListeners.get(messageClass);
             if (listeners != null) {
-                //noinspection unchecked
+                // create an message context for the message and propagate it to all listeners that want to listen to that type of message
                 TelegrafMessageContext<?, ?, ?> context = new TelegrafMessageContext<>(bot, update, message);
                 for (TelegrafMessageListener listener : listeners) {
                     try {
@@ -87,42 +127,56 @@ public class TelegrafBot {
                 }
             }
         });
+        // register a general listener that will be called for all events that extend TextMessageEvent
         bot.getEventRegistry().registerEvent(TextMessageEvent.class, event -> {
             Update.MessageUpdate update = event.getUpdate();
             TextMessage message = event.getMessage();
 
+            // create an message context for the message
             TelegrafMessageContext context = new TelegrafMessageContext(bot, update, message);
             String text = message.getText();
-            hearsTextListeners.forEach(e -> {
+            hearsTextListeners.forEach((k, v) -> {
                 try {
-                    if (text.contains(e.getKey())) {
-                        e.getValue().onMessage(context);
+                    // call the listener if the message contains the desired text
+                    if (text.contains(k)) {
+                        v.forEach(l -> l.onMessage(context));
                     }
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
             });
-            hearsPredicateListeners.forEach(e -> {
+            hearsPredicateListeners.forEach((k, v) -> {
                 try {
-                    if (e.getKey().test(text)) {
-                        e.getValue().onMessage(context);
+                    // if the listener's predicate matches, call the listener
+                    if (k.test(text)) {
+                        v.forEach(l -> l.onMessage(context));
                     }
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
             });
-            hearsPatternListeners.forEach(e -> {
+            hearsPatternListeners.forEach((k, v) -> {
                 try {
-                    Matcher matcher = e.getKey().matcher(text);
+                    Matcher matcher = k.matcher(text);
+                    // call the listeners once each, if the text contains 1 or more matches
                     if (matcher.find()) {
                         TelegrafHeardMessageContext ctx = new TelegrafHeardMessageContext(bot, update, message, matcher);
-                        e.getValue().onMessage(ctx);
+                        v.forEach(l -> {
+                            l.onMessage(ctx);
+                            // reset() and find() reset it so if there are multiple listeners registered with the same
+                            // pattern they won't interfere with each other (i.e. one consuming all the pattern matches
+                            // won't screw over the other one)
+                            matcher.reset();
+                            matcher.find();
+                        });
                     }
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
             });
 
+            // collect all message entities into lists by the type of entity they are
+            // e.g. "@abc @def" would be grouped into a List<"abc", "def"> under the type of MessageEntityType.MENTION
             Map<MessageEntityType, List<MessageEntity>> entities = new HashMap<>();
             event.getMessage().getEntities().forEach(e ->
                     entities.compute(e.getType(), (k, v) -> {
@@ -133,21 +187,23 @@ public class TelegrafBot {
                         return v;
                     }
             ));
+            // for each (Type, List<Entity>) tuple, get all listeners for each type
+            // and call them with all the entities of that type
             entities.forEach((type, entity) -> {
-                        List<TelegrafMessageEntityListener<?, ?>> listeners = messageEntityListeners.get(type);
-                        if (listeners != null) {
+                List<TelegrafMessageEntityListener<?, ?>> listeners = messageEntityListeners.get(type);
+                if (listeners != null) {
+                    //noinspection unchecked
+                    TelegrafMessageEntityContext entityContext = new TelegrafMessageEntityContext(bot, update, message, type, entity);
+                    for (TelegrafMessageEntityListener listener : listeners) {
+                        try {
                             //noinspection unchecked
-                            TelegrafMessageEntityContext entityContext = new TelegrafMessageEntityContext(bot, update, message, type, entity);
-                            for (TelegrafMessageEntityListener listener : listeners) {
-                                try {
-                                    //noinspection unchecked
-                                    listener.onMessageEntity(entityContext);
-                                } catch (Exception ex) {
-                                    ex.printStackTrace();
-                                }
-                            }
+                            listener.onMessageEntity(entityContext);
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
                         }
-                    });
+                    }
+                }
+            });
         });
     }
 
@@ -160,8 +216,8 @@ public class TelegrafBot {
      * @param <U> the update content type
      * @param <T> the update type
      */
-    public <U extends UpdateContents, T extends Update<U>, UpdateContext extends TelegrafUpdateContext<UpdateContext, U, T>>
-    void on(UpdateType<T> updateType, TelegrafUpdateListener<UpdateContext, U, T> listener) {
+    public <U extends UpdateContents, T extends Update<U>, UpdateContext extends TelegrafUpdateContext<UpdateContext, T, U>>
+    void on(UpdateType<T> updateType, TelegrafUpdateListener<UpdateContext, T, U> listener) {
         Class<? extends Update> updateClass = updateType.getUpdateClass();
 
         //noinspection Duplicates
@@ -187,8 +243,8 @@ public class TelegrafBot {
      * @param <T> the message type, which must contain contents of type {@code <C>}
      * @param <E> the event type, which must contain a message of type {@code <T>}
      */
-    public <C, T extends Message<C>, E extends MessageEvent<T>, MessageContext extends TelegrafMessageContext<MessageContext, C, T>>
-    void on(MessageType<C, T, E> messageType, TelegrafMessageListener<MessageContext, C, T> listener) {
+    public <C, T extends Message<C>, E extends MessageEvent<T>, MessageContext extends TelegrafMessageContext<MessageContext, T, C>>
+    void on(MessageType<C, T, E> messageType, TelegrafMessageListener<MessageContext, T, C> listener) {
         Class<? extends Message> messageClass = messageType.getMessageClass();
 
         //noinspection Duplicates
@@ -212,8 +268,18 @@ public class TelegrafBot {
      * @param listener a listener to be called every time a message contains the given text
      */
     @SuppressWarnings("unchecked")
-    public void hears(String text, TelegrafMessageListener<? extends TelegrafMessageContext<?, String, TextMessage>, String, TextMessage> listener) {
-        hearsTextListeners.add(new AbstractMap.SimpleEntry(text, listener));
+    public void hears(String text, TelegrafMessageListener<? extends TelegrafMessageContext<?, TextMessage, String>, TextMessage, String> listener) {
+        //noinspection Duplicates
+        hearsTextListeners.compute(
+                text,
+                (k, v) -> {
+                    if (v == null) {
+                        v = new ArrayList<>();
+                    }
+                    v.add(listener);
+                    return v;
+                }
+        );
     }
 
     /**
@@ -224,8 +290,18 @@ public class TelegrafBot {
      * @param listener a listener to be called every time the predicate returns true on a message
      */
     @SuppressWarnings("unchecked")
-    public void hears(Predicate<String> predicate, TelegrafMessageListener<? extends TelegrafMessageContext<?, String, TextMessage>, String, TextMessage> listener) {
-        hearsPredicateListeners.add(new AbstractMap.SimpleEntry(predicate, listener));
+    public void hears(Predicate<String> predicate, TelegrafMessageListener<? extends TelegrafMessageContext<?, TextMessage, String>, TextMessage, String> listener) {
+        //noinspection Duplicates
+        hearsPredicateListeners.compute(
+                predicate,
+                (k, v) -> {
+                    if (v == null) {
+                        v = new ArrayList<>();
+                    }
+                    v.add(listener);
+                    return v;
+                }
+        );
     }
 
     /**
@@ -243,7 +319,17 @@ public class TelegrafBot {
      * @param listener a listener to be called every time the pattern matches a message
      */
     public void hears(Pattern pattern, TelegrafHeardMessageListener listener) {
-        hearsPatternListeners.add(new AbstractMap.SimpleEntry<>(pattern, listener));
+        //noinspection Duplicates
+        hearsPatternListeners.compute(
+                pattern,
+                (k, v) -> {
+                    if (v == null) {
+                        v = new ArrayList<>();
+                    }
+                    v.add(listener);
+                    return v;
+                }
+        );
     }
 
     /**
@@ -355,6 +441,12 @@ public class TelegrafBot {
         );
     }
 
+    /**
+     * Registers a mention listener, to be called whenever a user sends a text message containing a specific {@link MessageEntityType#MENTION}.
+     *
+     * @param mention the mention to listen for (case insensitive)
+     * @param listener a listener to be called when a matching mention is received
+     */
     public void mention(String mention, TelegrafMessageEntityListener<MessageEntityType<MessageEntity.DefaultMessageEntity>, MessageEntity.DefaultMessageEntity> listener) {
         entity(MessageEntityType.MENTION, ctx -> {
             List<MessageEntity.DefaultMessageEntity> entities = ctx.getEntities()
@@ -367,6 +459,12 @@ public class TelegrafBot {
         });
     }
 
+    /**
+     * Registers a phone number listener, to be called whenever a user sends a text message containing a specific {@link MessageEntityType#PHONE_NUMBER}.
+     *
+     * @param phone the phone number to listen for (case insensitive)
+     * @param listener a listener to be called when a matching phone number is received
+     */
     public void phone(String phone, TelegrafMessageEntityListener<MessageEntityType<MessageEntity.DefaultMessageEntity>, MessageEntity.DefaultMessageEntity> listener) {
         entity(MessageEntityType.PHONE_NUMBER, ctx -> {
             List<MessageEntity.DefaultMessageEntity> entities = ctx.getEntities()
@@ -379,6 +477,30 @@ public class TelegrafBot {
         });
     }
 
+    /**
+     * Registers a email listener, to be called whenever a user sends a text message containing a specific {@link MessageEntityType#EMAIL}.
+     *
+     * @param email the email to listen for (case insensitive)
+     * @param listener a listener to be called when a matching email is received
+     */
+    public void email(String email, TelegrafMessageEntityListener<MessageEntityType<MessageEntity.DefaultMessageEntity>, MessageEntity.DefaultMessageEntity> listener) {
+        entity(MessageEntityType.EMAIL, ctx -> {
+            List<MessageEntity.DefaultMessageEntity> entities = ctx.getEntities()
+                    .stream()
+                    .filter(e -> email.equalsIgnoreCase(e.getContent()))
+                    .collect(Collectors.toList());
+            if (!entities.isEmpty()) {
+                listener.onMessageEntity(ctx.withEntities(entities));
+            }
+        });
+    }
+
+    /**
+     * Registers a hashtag listener, to be called whenever a user sends a text message containing a specific {@link MessageEntityType#HASHTAG}.
+     *
+     * @param hashtag the hashtag to listen for (case insensitive)
+     * @param listener a listener to be called when a matching hashtag is received
+     */
     public void hashtag(String hashtag, TelegrafMessageEntityListener<MessageEntityType<MessageEntity.DefaultMessageEntity>, MessageEntity.DefaultMessageEntity> listener) {
         entity(MessageEntityType.HASHTAG, ctx -> {
             List<MessageEntity.DefaultMessageEntity> entities = ctx.getEntities()
@@ -391,6 +513,12 @@ public class TelegrafBot {
         });
     }
 
+    /**
+     * Registers a cashtag listener, to be called whenever a user sends a text message containing a specific {@link MessageEntityType#CASHTAG}.
+     *
+     * @param cashtag the cashtag to listen for (case insensitive)
+     * @param listener a listener to be called when a matching cashtag is received
+     */
     public void cashtag(String cashtag, TelegrafMessageEntityListener<MessageEntityType<MessageEntity.DefaultMessageEntity>, MessageEntity.DefaultMessageEntity> listener) {
         entity(MessageEntityType.CASHTAG, ctx -> {
             List<MessageEntity.DefaultMessageEntity> entities = ctx.getEntities()
@@ -403,6 +531,30 @@ public class TelegrafBot {
         });
     }
 
+    /**
+     * Registers a URL listener, to be called whenever a user sends a text message containing a specific {@link MessageEntityType#URL}.
+     *
+     * @param url the URL to listen for (case insensitive)
+     * @param listener a listener to be called when a matching URL is received
+     */
+    public void url(String url, TelegrafMessageEntityListener<MessageEntityType<MessageEntity.DefaultMessageEntity>, MessageEntity.DefaultMessageEntity> listener) {
+        entity(MessageEntityType.URL, ctx -> {
+            List<MessageEntity.DefaultMessageEntity> entities = ctx.getEntities()
+                    .stream()
+                    .filter(e -> url.equalsIgnoreCase(e.getContent()))
+                    .collect(Collectors.toList());
+            if (!entities.isEmpty()) {
+                listener.onMessageEntity(ctx.withEntities(entities));
+            }
+        });
+    }
+
+    /**
+     * Registers a text link listener, to be called whenever a user sends a text message containing a specific {@link MessageEntityType#TEXT_LINK URL}.
+     *
+     * @param url the URL to listen for (case insensitive)
+     * @param listener a listener to be called when a matching URL is received
+     */
     public void textLink(String url, TelegrafMessageEntityListener<MessageEntityType<TextLinkMessageEntity>, TextLinkMessageEntity> listener) {
         entity(MessageEntityType.TEXT_LINK, ctx -> {
             List<TextLinkMessageEntity> entities = ctx.getEntities()
@@ -415,6 +567,12 @@ public class TelegrafBot {
         });
     }
 
+    /**
+     * Registers a text mention listener, to be called whenever a user sends a text message containing a {@link MessageEntityType#TEXT_MENTION text mention} to a specific user.
+     *
+     * @param userId the user id to listen for (case insensitive)
+     * @param listener a listener to be called when a matching mention is received
+     */
     public void textMention(long userId, TelegrafMessageEntityListener<MessageEntityType<TextMentionMessageEntity>, TextMentionMessageEntity> listener) {
         entity(MessageEntityType.TEXT_MENTION, ctx -> {
             List<TextMentionMessageEntity> entities = ctx.getEntities()

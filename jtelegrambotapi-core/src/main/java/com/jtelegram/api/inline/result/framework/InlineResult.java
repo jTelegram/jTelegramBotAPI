@@ -3,6 +3,7 @@ package com.jtelegram.api.inline.result.framework;
 import com.jtelegram.api.inline.input.InputMessageContent;
 import com.jtelegram.api.inline.keyboard.InlineKeyboardMarkup;
 import com.jtelegram.api.message.input.file.IdInputFile;
+import com.jtelegram.api.requests.message.framework.ParseMode;
 import lombok.Getter;
 import lombok.ToString;
 
@@ -26,6 +27,7 @@ public abstract class InlineResult {
 
     public interface Captioned {
         String getCaption();
+        ParseMode getCaptionParseMode();
     }
 
     public interface Describeable {

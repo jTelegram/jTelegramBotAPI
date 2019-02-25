@@ -5,6 +5,7 @@ import com.jtelegram.api.inline.input.InputMessageContent;
 import com.jtelegram.api.inline.keyboard.InlineKeyboardMarkup;
 import com.jtelegram.api.inline.result.framework.DimensionalThumbableInlineResult;
 import com.jtelegram.api.inline.result.framework.InlineResult;
+import com.jtelegram.api.requests.message.framework.ParseMode;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
@@ -15,6 +16,7 @@ public class InlineResultDocument extends DimensionalThumbableInlineResult imple
         InlineResult.Captioned, InlineResult.Describeable, InlineResult.Urlable {
     private String title;
     private String caption;
+    private ParseMode captionParseMode;
     private String description;
     private String mimeType;
     @SerializedName("document_url")
@@ -22,7 +24,8 @@ public class InlineResultDocument extends DimensionalThumbableInlineResult imple
 
     @Builder
     private InlineResultDocument(String id, InlineKeyboardMarkup replyMarkup, InputMessageContent inputMessageContent, String thumbUrl,
-                                 Integer thumbWidth, Integer thumbHeight, String title, String caption, String description, String mimeType, String url) {
+                                 Integer thumbWidth, Integer thumbHeight, String title, String caption, ParseMode captionParseMode,
+                                 String description, String mimeType, String url) {
         super(id, replyMarkup, inputMessageContent, thumbUrl, thumbWidth, thumbHeight);
         this.title = title;
         this.caption = caption;

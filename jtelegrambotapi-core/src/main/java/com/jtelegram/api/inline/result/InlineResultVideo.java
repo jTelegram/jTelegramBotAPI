@@ -5,6 +5,7 @@ import com.jtelegram.api.inline.keyboard.InlineKeyboardMarkup;
 import com.jtelegram.api.inline.result.framework.InlineResult;
 import com.jtelegram.api.inline.result.framework.ThumbableInlineResult;
 import com.jtelegram.api.inline.input.InputMessageContent;
+import com.jtelegram.api.requests.message.framework.ParseMode;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
@@ -16,6 +17,7 @@ public class InlineResultVideo extends ThumbableInlineResult implements InlineRe
     private String description;
     private String title;
     private String caption;
+    private ParseMode captionParseMode;
     private String mimeType;
     @SerializedName("video_url")
     private String url;

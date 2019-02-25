@@ -5,6 +5,7 @@ import com.jtelegram.api.inline.keyboard.InlineKeyboardMarkup;
 import com.jtelegram.api.inline.result.framework.InlineResult;
 import com.jtelegram.api.inline.input.InputMessageContent;
 import com.jtelegram.api.inline.result.framework.ThumbableInlineResult;
+import com.jtelegram.api.requests.message.framework.ParseMode;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
@@ -15,6 +16,7 @@ public class InlineResultGif extends ThumbableInlineResult implements InlineResu
         InlineResult.Titled, InlineResult.Captioned, InlineResult.Duratable {
     private String title;
     private String caption;
+    private ParseMode captionParseMode;
     @SerializedName("gif_url")
     private String url;
     @SerializedName("gif_width")
@@ -25,10 +27,11 @@ public class InlineResultGif extends ThumbableInlineResult implements InlineResu
     private Integer duration;
 
     @Builder
-    private InlineResultGif(String id, InlineKeyboardMarkup replyMarkup, InputMessageContent inputMessageContent, String thumbUrl, String title, String caption, String url, Integer width, Integer height, Integer duration) {
+    private InlineResultGif(String id, InlineKeyboardMarkup replyMarkup, InputMessageContent inputMessageContent, String thumbUrl, String title, String caption, ParseMode captionParseMode, String url, Integer width, Integer height, Integer duration) {
         super(id, replyMarkup, inputMessageContent, thumbUrl);
         this.title = title;
         this.caption = caption;
+        this.captionParseMode = captionParseMode;
         this.url = url;
         this.width = width;
         this.height = height;

@@ -4,11 +4,12 @@ import com.google.gson.annotations.SerializedName;
 import com.jtelegram.api.message.input.file.InputFile;
 import com.jtelegram.api.message.input.file.LocalInputFile;
 import com.jtelegram.api.requests.message.framework.ParseMode;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
 import lombok.Getter;
 import lombok.ToString;
-
-import java.util.Arrays;
-import java.util.List;
 
 @Getter
 @ToString(callSuper = true)
@@ -24,6 +25,10 @@ public abstract class ThumbableInputMedia extends InputMedia {
 
     @Override
     public List<InputFile> getAllMedia() {
-        return Arrays.asList(getMedia(), thumbnail);
+        List<InputFile> media = new ArrayList<>();
+        media.add(getMedia());
+        media.add(thumbnail);
+        media.removeIf(Objects::isNull);
+        return Collections.unmodifiableList(media);
     }
 }

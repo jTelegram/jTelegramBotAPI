@@ -179,14 +179,8 @@ public class TelegrafBot {
             // e.g. "@abc @def" would be grouped into a List<"abc", "def"> under the type of MessageEntityType.MENTION
             Map<MessageEntityType, List<MessageEntity>> entities = new HashMap<>();
             event.getMessage().getEntities().forEach(e ->
-                    entities.compute(e.getType(), (k, v) -> {
-                        if (v == null) {
-                            v = new ArrayList<>();
-                        }
-                        v.add(e);
-                        return v;
-                    }
-            ));
+                entities.computeIfAbsent(e.getType(), $ -> new ArrayList<>()).add(e)
+            );
             // for each (Type, List<Entity>) tuple, get all listeners for each type
             // and call them with all the entities of that type
             entities.forEach((type, entity) -> {
@@ -215,22 +209,14 @@ public class TelegrafBot {
      *
      * @param <U> the update content type
      * @param <T> the update type
+     * @param <UpdateContext> the update context type
      */
     public <U extends UpdateContents, T extends Update<U>, UpdateContext extends TelegrafUpdateContext<UpdateContext, T, U>>
     void on(UpdateType<T> updateType, TelegrafUpdateListener<UpdateContext, T, U> listener) {
         Class<? extends Update> updateClass = updateType.getUpdateClass();
 
         //noinspection Duplicates
-        updateListeners.compute(
-                updateClass,
-                (k, v) -> {
-                    if (v == null) {
-                        v = new ArrayList<>();
-                    }
-                    v.add(listener);
-                    return v;
-                }
-        );
+        updateListeners.computeIfAbsent(updateClass, $ -> new ArrayList<>()).add(listener);
     }
 
     /**
@@ -242,27 +228,19 @@ public class TelegrafBot {
      * @param <C> the message content type
      * @param <T> the message type, which must contain contents of type {@code <C>}
      * @param <E> the event type, which must contain a message of type {@code <T>}
+     * @param <MessageContext> the message context type
      */
     public <C, T extends Message<C>, E extends MessageEvent<T>, MessageContext extends TelegrafMessageContext<MessageContext, T, C>>
     void on(MessageType<C, T, E> messageType, TelegrafMessageListener<MessageContext, T, C> listener) {
         Class<? extends Message> messageClass = messageType.getMessageClass();
 
         //noinspection Duplicates
-        messageListeners.compute(
-                messageClass,
-                (k, v) -> {
-                    if (v == null) {
-                        v = new ArrayList<>();
-                    }
-                    v.add(listener);
-                    return v;
-                }
-        );
+        messageListeners.computeIfAbsent(messageClass, $ -> new ArrayList<>()).add(listener);
     }
 
     /**
      * Registers a hear-listener.
-     * This listener will be called once for every message that contains the given text. <br/>
+     * This listener will be called once for every message that contains the given text. <br>
      *
      * @param text the text the message must contain
      * @param listener a listener to be called every time a message contains the given text
@@ -270,21 +248,12 @@ public class TelegrafBot {
     @SuppressWarnings("unchecked")
     public void hears(String text, TelegrafMessageListener<? extends TelegrafMessageContext<?, TextMessage, String>, TextMessage, String> listener) {
         //noinspection Duplicates
-        hearsTextListeners.compute(
-                text,
-                (k, v) -> {
-                    if (v == null) {
-                        v = new ArrayList<>();
-                    }
-                    v.add(listener);
-                    return v;
-                }
-        );
+        hearsTextListeners.computeIfAbsent(text, $ -> new ArrayList<>()).add(listener);
     }
 
     /**
      * Registers a hear-listener.
-     * This listener will be called once for every message for which the predicate returns true. <br/>
+     * This listener will be called once for every message for which the predicate returns true. <br>
      *
      * @param predicate the predicate to use to determine if the listener should be called
      * @param listener a listener to be called every time the predicate returns true on a message
@@ -292,26 +261,17 @@ public class TelegrafBot {
     @SuppressWarnings("unchecked")
     public void hears(Predicate<String> predicate, TelegrafMessageListener<? extends TelegrafMessageContext<?, TextMessage, String>, TextMessage, String> listener) {
         //noinspection Duplicates
-        hearsPredicateListeners.compute(
-                predicate,
-                (k, v) -> {
-                    if (v == null) {
-                        v = new ArrayList<>();
-                    }
-                    v.add(listener);
-                    return v;
-                }
-        );
+        hearsPredicateListeners.computeIfAbsent(predicate, $ -> new ArrayList<>()).add(listener);
     }
 
     /**
      * Registers a hear-listener.
      * This listener will be called once for every message that contains the given pattern.
-     * The pattern does not need to match the entire message text, only part of it. <br/>
-     * <br/>
+     * The pattern does not need to match the entire message text, only part of it. <br>
+     * <br>
      * Multiple matches inside the same message will only result in the message being called once.
-     * That is, for a message of {@code "hi hi"} and a pattern of {@code "hi"}, the listener will be called only once. <br/>
-     * <br/>
+     * That is, for a message of {@code "hi hi"} and a pattern of {@code "hi"}, the listener will be called only once. <br>
+     * <br>
      * To circumnavigate this, you can use the context's matcher in a do-while loop,
      * with the condition as {@code context.getMatcher().find()}.
      *
@@ -319,17 +279,7 @@ public class TelegrafBot {
      * @param listener a listener to be called every time the pattern matches a message
      */
     public void hears(Pattern pattern, TelegrafHeardMessageListener listener) {
-        //noinspection Duplicates
-        hearsPatternListeners.compute(
-                pattern,
-                (k, v) -> {
-                    if (v == null) {
-                        v = new ArrayList<>();
-                    }
-                    v.add(listener);
-                    return v;
-                }
-        );
+        hearsPatternListeners.computeIfAbsent(pattern, $ -> new ArrayList<>()).add(listener);
     }
 
     /**
@@ -428,17 +378,7 @@ public class TelegrafBot {
      */
     public <E extends MessageEntity<E>>
     void entity(MessageEntityType<E> entityType, TelegrafMessageEntityListener<MessageEntityType<E>, E> listener) {
-        //noinspection Duplicates
-        messageEntityListeners.compute(
-                entityType,
-                (k, v) -> {
-                    if (v == null) {
-                        v = new ArrayList<>();
-                    }
-                    v.add(listener);
-                    return v;
-                }
-        );
+        messageEntityListeners.computeIfAbsent(entityType, $ -> new ArrayList<>()).add(listener);
     }
 
     /**

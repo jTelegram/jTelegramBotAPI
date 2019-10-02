@@ -17,6 +17,8 @@ public class TelegrafCommandContext extends TelegrafMessageContext<TelegrafComma
 
     /**
      * The command object corresponding to the command received from a user.
+     *
+     * @return the command
      */
     @Nonnull
     private final Command command;

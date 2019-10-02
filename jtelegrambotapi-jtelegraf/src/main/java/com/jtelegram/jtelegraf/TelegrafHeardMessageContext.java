@@ -19,8 +19,8 @@ import lombok.Getter;
 public class TelegrafHeardMessageContext extends TelegrafMessageContext<TelegrafHeardMessageContext, TextMessage, String> {
 
     /**
-     * The matcher instance containing matches for the pattern. <br/>
-     * <i>Note</i>: <b>The matcher ALREADY contains the first match.</b> <br/>
+     * The matcher instance containing matches for the pattern. <br>
+     * <i>Note</i>: <b>The matcher ALREADY contains the first match.</b> <br>
      * Use a {@code do-while} loop if you need to get all matches.
      */
     @Nonnull

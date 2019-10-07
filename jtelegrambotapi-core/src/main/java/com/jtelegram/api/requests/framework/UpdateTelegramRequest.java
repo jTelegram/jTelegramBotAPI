@@ -1,9 +1,9 @@
 package com.jtelegram.api.requests.framework;
 
 import com.jtelegram.api.ex.TelegramException;
-import okhttp3.Response;
 
 import java.io.IOException;
+import java.net.http.HttpResponse;
 import java.util.function.Consumer;
 
 /**
@@ -13,7 +13,7 @@ import java.util.function.Consumer;
  * the request was successful or there was an error.
  *
  */
-public abstract class UpdateTelegramRequest extends AbstractTelegramRequest {
+public abstract class UpdateTelegramRequest extends AbstractTelegramRequest<String> {
     protected transient Runnable callback;
 
     protected UpdateTelegramRequest(String endPoint, Consumer<TelegramException> errorHandler, Runnable callback) {
@@ -22,7 +22,7 @@ public abstract class UpdateTelegramRequest extends AbstractTelegramRequest {
     }
 
     @Override
-    public void handleResponse(Response response) throws IOException {
+    public void handleResponse(HttpResponse<String> response) throws IOException {
         String body = getBody(response);
 
         if (body != null && validate(body) != null) {

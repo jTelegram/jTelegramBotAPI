@@ -4,7 +4,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
-import okhttp3.MultipartBody;
+import com.jtelegram.api.util.MultipartBodyPublisher;
 
 import java.lang.reflect.Type;
 
@@ -23,7 +23,7 @@ public interface InputFile<T> {
         return getIdentifier() != null;
     }
 
-    default void attachTo(MultipartBody.Builder builder) {}
+    default void attachTo(MultipartBodyPublisher.Builder builder) {}
 
     class Serializer implements JsonSerializer<InputFile> {
         @Override

@@ -9,11 +9,12 @@ import com.jtelegram.api.user.User;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
-import okhttp3.Request;
-import okhttp3.ResponseBody;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 
 @Getter
 @EqualsAndHashCode(of = {"apiKey", "botInfo"})
@@ -45,13 +46,17 @@ public class TelegramBot {
     }
 
     public InputStream downloadFile(String filePath) throws IOException {
-        ResponseBody body = registry.getClient().newCall(
-                new Request.Builder()
-                        .url(registry.getFileApiUrl() + apiKey + "/" + filePath)
-                        .get()
-                        .build()
-        ).execute().body();
+        URI uri = URI.create(registry.getFileApiUrl() + apiKey + "/" + filePath);
+        HttpResponse<InputStream> body;
+        try {
+            body = registry.getClient().send(
+                    HttpRequest.newBuilder()
+                            .uri(uri)
+                            .GET().build(), HttpResponse.BodyHandlers.ofInputStream());
+        } catch (InterruptedException ex) {
+            throw new RuntimeException(ex);
+        }
 
-        return body == null ? null : body.byteStream();
+        return body == null ? null : body.body();
     }
 }

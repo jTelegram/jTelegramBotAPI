@@ -1,19 +1,19 @@
 package com.jtelegram.api.requests.webhooks;
 
+import com.jtelegram.api.TelegramBot;
 import com.jtelegram.api.ex.TelegramException;
 import com.jtelegram.api.message.input.file.InputFileRequest;
 import com.jtelegram.api.message.input.file.LocalInputFile;
 import com.jtelegram.api.requests.framework.UpdateTelegramRequest;
 import com.jtelegram.api.update.UpdateType;
-import com.jtelegram.api.TelegramBot;
+import com.jtelegram.api.util.MultipartBodyPublisher;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
-import okhttp3.MultipartBody;
-import okhttp3.Request;
-import okhttp3.RequestBody;
 
+import java.io.FileNotFoundException;
 import java.net.URL;
+import java.net.http.HttpRequest;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
@@ -37,25 +37,37 @@ public class SetWebhook extends UpdateTelegramRequest {
     }
 
     @Override
-    public Request.Builder build(TelegramBot bot) {
-        MultipartBody.Builder bodyBuilder = new MultipartBody.Builder()
-                .setType(MultipartBody.FORM);
+    public HttpRequest.Builder build(TelegramBot bot) {
+        MultipartBodyPublisher.Builder bodyBuilder = new MultipartBodyPublisher.Builder();
 
-        bodyBuilder.addFormDataPart("url", url.toString());
+        bodyBuilder.addPart(MultipartBodyPublisher.Part.forFormData("url", url.toString()));
 
         if (certificate != null) {
-            bodyBuilder.addFormDataPart("certificate", certificate.getData().getName(), RequestBody.create(InputFileRequest.OCTET_STREAM_TYPE, certificate.getData()));
+            HttpRequest.BodyPublisher certificatePublisher;
+            try {
+                certificatePublisher = HttpRequest.BodyPublishers.ofFile(certificate.getData().toPath());
+            } catch (FileNotFoundException ex) {
+                throw new IllegalArgumentException("Certificate not found", ex);
+            }
+            bodyBuilder.addPart(
+                    MultipartBodyPublisher.Part.forBodyPublisher(
+                            "certificate",
+                            certificate.getData().getName(),
+                            InputFileRequest.OCTET_STREAM_TYPE,
+                            certificatePublisher));
         }
 
         if (maxConnections != null) {
-            bodyBuilder.addFormDataPart("max_connections", String.valueOf(maxConnections));
+            bodyBuilder.addPart(
+                    MultipartBodyPublisher.Part.forFormData("max_connections", String.valueOf(maxConnections))
+            );
         }
 
         if (allowedTypes != null) {
-            bodyBuilder.addFormDataPart("allowedTypes", gson.toJson(allowedTypes));
+            bodyBuilder.addPart(MultipartBodyPublisher.Part.forFormData("allowedTypes", gson.toJson(allowedTypes)));
         }
 
-        return super.build(bot).post(bodyBuilder.build());
+        return super.build(bot).header("Content-Type", "multipart/form-data").POST(bodyBuilder.build());
     }
 
     @Override

@@ -3,9 +3,9 @@ package com.jtelegram.api.requests.framework;
 import com.google.gson.JsonElement;
 import com.jtelegram.api.ex.TelegramException;
 import lombok.EqualsAndHashCode;
-import okhttp3.Response;
 
 import java.io.IOException;
+import java.net.http.HttpResponse;
 import java.util.function.Consumer;
 
 /**
@@ -13,7 +13,7 @@ import java.util.function.Consumer;
  * has a response beyond "OK"
  */
 @EqualsAndHashCode(callSuper = true)
-public abstract class QueryTelegramRequest<T> extends AbstractTelegramRequest {
+public abstract class QueryTelegramRequest<T> extends AbstractTelegramRequest<String> {
     private transient final Consumer<T> callback;
     private transient final Class<T> callbackType;
 
@@ -24,8 +24,9 @@ public abstract class QueryTelegramRequest<T> extends AbstractTelegramRequest {
     }
 
     @Override
-    public void handleResponse(Response response) throws IOException {
+    public void handleResponse(HttpResponse<String> response) throws IOException {
         String body = getBody(response);
+        response.body();
         JsonElement result;
 
         if (body != null && (result = validate(body)) != null) {

@@ -1,14 +1,17 @@
 package com.jtelegram.api.ex;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-
-import java.io.IOException;
 import lombok.ToString;
 
-@AllArgsConstructor
+import java.io.IOException;
+
 @Getter
 @ToString(callSuper = true)
-public class NetworkException extends TelegramException {
+public class NetworkException extends MessageBasedException {
     private final IOException underlyingException;
+
+    public NetworkException(IOException underlyingException) {
+        super(underlyingException.getMessage());
+        this.underlyingException = underlyingException;
+    }
 }

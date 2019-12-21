@@ -1,14 +1,12 @@
 package com.jtelegram.api.message.entity;
 
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonDeserializer;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParseException;
-import java.lang.reflect.Type;
+import com.google.gson.*;
+import com.jtelegram.api.ex.InvalidResponseException;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
+
+import java.lang.reflect.Type;
 
 @Getter
 @ToString
@@ -28,18 +26,24 @@ public class MessageEntity {
 
         @Override
         public MessageEntity deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-            JsonObject object = json.getAsJsonObject();
-            MessageEntityType type = context.deserialize(object.get("type"), MessageEntityType.class);
-            Class<? extends MessageEntity> implementationClass;
-
-            if (type != null) {
-                implementationClass = type.getImplementationClass();
-            } else {
-                implementationClass = UnsupportedMessageEntity.class;
-                System.err.println("UnsupportedMessageEntity found (type = '" + object.get("type").getAsString() + "'). Please report this to the jTelegram developers!");
+            if (!json.isJsonObject()) {
+                throw new InvalidResponseException (
+                        "Message Entity is not a JSON object",
+                        json.toString()
+                );
             }
 
-            return context.deserialize(object, implementationClass);
+            JsonObject object = json.getAsJsonObject();
+            MessageEntityType type = context.deserialize(object.get("type"), MessageEntityType.class);
+
+            if (type == null) {
+                throw new InvalidResponseException (
+                        "Invalid Message Entity Type. Update the API?",
+                        object.toString()
+                );
+            }
+
+            return context.deserialize(object, type.getImplementationClass());
         }
 
     }

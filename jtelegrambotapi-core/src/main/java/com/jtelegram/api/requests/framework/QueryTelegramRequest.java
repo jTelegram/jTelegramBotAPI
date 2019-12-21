@@ -29,8 +29,13 @@ public abstract class QueryTelegramRequest<T> extends AbstractTelegramRequest {
         JsonElement result;
 
         if (body != null && (result = validate(body)) != null) {
-            if (callback != null)
-                callback.accept(gson.fromJson(result.toString(), callbackType));
+            if (callback != null) {
+                try {
+                    callback.accept(gson.fromJson(result.toString(), callbackType));
+                } catch (TelegramException ex) {
+                    handleError(ex);
+                }
+            }
         }
     }
 

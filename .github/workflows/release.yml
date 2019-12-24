@@ -1,11 +1,9 @@
 name: Java CI
 
-# on:
-#   push:
-#     branches:
-#       - master
-
-on: 'push'
+on:
+  push:
+    tags:
+    - '*'
 
 jobs:
   build:

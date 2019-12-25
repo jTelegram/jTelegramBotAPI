@@ -42,5 +42,4 @@ Temporary Items
 infer-out/
 
 # Ignore travis
-!.travis.yml
-!.travis/
+!.github/

@@ -6,7 +6,7 @@
 
     <groupId>com.jtelegram</groupId>
     <artifactId>jtelegrambotapi</artifactId>
-    <version>4.0.1-SNAPSHOT</version>
+    <version>4.0.2-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <properties>
@@ -28,14 +28,10 @@
     </issueManagement>
 
     <distributionManagement>
-        <snapshotRepository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-        </snapshotRepository>
         <repository>
-            <id>ossrh</id>
-            <name>Nexus Release Repository</name>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+          <id>github</id>
+          <name>GitHub jTelegram Apache Maven Packages</name>
+          <url>https://maven.pkg.github.com/jTelegram/jTelegramBotAPI</url>
         </repository>
     </distributionManagement>
 
@@ -46,6 +42,7 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
+
     <scm>
         <url>git@github.com:jTelegram/jTelegramBotAPI.git</url>
         <connection>scm:git:git@github.com:jTelegram/jTelegramBotAPI.git</connection>
@@ -61,7 +58,7 @@
                 <role>owner</role>
                 <role>developer</role>
             </roles>
-            <timezone>EST</timezone>
+            <timezone>PST</timezone>
         </developer>
 
         <developer>
@@ -214,20 +211,6 @@
                             <encoding>UTF-8</encoding>
                             <verbose>true</verbose>
                         </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-gpg-plugin</artifactId>
-                <version>1.5</version>
-                <executions>
-                    <execution>
-                        <id>sign-artifacts</id>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>sign</goal>
-                        </goals>
                     </execution>
                 </executions>
             </plugin>

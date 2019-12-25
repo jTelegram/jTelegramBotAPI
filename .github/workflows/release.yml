@@ -32,6 +32,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         tag_name: ${{ steps.pkg_version.outputs.PKGV }}
+        release_name: ${{ steps.pkg_version.outputs.PKGV }}
     
     - name: Publish jTelegram
       run: mvn -B -e --settings .github/settings.xml -Dmaven.wagon.http.pool=false -Dgithub.user=${{ secrets.github_user }} -Dgithub.password=${{ secrets.github_pat }} clean deploy

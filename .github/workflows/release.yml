@@ -25,7 +25,7 @@ jobs:
     - name: Publish jTelegram
       run: mvn -B -e --settings .github/settings.xml -Dmaven.wagon.http.pool=false -Dgithub.user=${{ secrets.github_user }} -Dgithub.password=${{ secrets.github_pat }} org.codehaus.mojo:versions-maven-plugin:2.3:set -DnewVersion=$VERSION clean deploy
       env:
-        VERSION: ${{ steps.get_version.VERSION }}
+        VERSION: ${{ steps.get_version.outputs.VERSION }}
     
     - name: Publish javadocs
       uses: JamesIves/github-pages-deploy-action@releases/v3

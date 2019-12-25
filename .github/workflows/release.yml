@@ -26,3 +26,10 @@ jobs:
       run: mvn -B -e --settings .github/settings.xml -Dmaven.wagon.http.pool=false -Dgithub.user=${{ secrets.github_user }} -Dgithub.password=${{ secrets.github_pat }} org.codehaus.mojo:versions-maven-plugin:2.3:set -DnewVersion=$VERSION clean deploy
       env:
         VERSION: ${{ steps.get_version.VERSION }}
+    
+    - name: Publish javadocs
+      uses: JamesIves/github-pages-deploy-action@releases/v3
+      with:
+        ACCESS_TOKEN: ${{ secrets.github_pat }}
+        BRANCH: gh-pages
+        FOLDER: jtelegrambotapi-core/target/apidocs

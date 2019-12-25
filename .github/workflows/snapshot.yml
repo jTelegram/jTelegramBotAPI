@@ -16,7 +16,7 @@ jobs:
         java-version: 11.0.5
 
     - name: Publish jTelegram
-      run: mvn -B -e -Dmaven.wagon.http.pool=false --settings .github/settings.xml clean deploy
+      run: mvn -B -e --settings .github/settings.xml clean deploy
       env:
         GITHUB_USERNAME: ${{ github.actor }}
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

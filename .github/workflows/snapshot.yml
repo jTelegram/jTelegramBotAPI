@@ -19,7 +19,7 @@ jobs:
       run: mvn -B clean install
 
     - name: Publish jTelegram
-      run: mvn -B -e --settings .github/settings.xml -Dmaven.wagon.http.pool=false -Dgithub.user=${{ secrets.github_user }} -Dgithub.password=${{ secrets.github_pat }} deploy
+      run: mvn -B -e --settings .github/settings.xml -Dmaven.wagon.http.pool=false -Dgithub.user=${{ secrets.github_user }} -Dgithub.password=${{ secrets.github_pat }} clean deploy
       env:
         GITHUB_USERNAME: ${{ github.actor }}
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

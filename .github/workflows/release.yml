@@ -25,7 +25,14 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 11.0.5
-
+    
+    - name: Create Release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ steps.pkg_version.outputs.PKGV }}
+    
     - name: Publish jTelegram
       run: mvn -B -e --settings .github/settings.xml -Dmaven.wagon.http.pool=false -Dgithub.user=${{ secrets.github_user }} -Dgithub.password=${{ secrets.github_pat }} clean deploy
       # env:
@@ -38,9 +45,4 @@ jobs:
         BRANCH: gh-pages
         FOLDER: jtelegrambotapi-core/target/apidocs
 
-    - name: Create Release
-      uses: actions/create-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        tag_name: ${{ steps.pkg_version.outputs.PKGV }}
+

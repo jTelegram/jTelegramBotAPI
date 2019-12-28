@@ -4,22 +4,19 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.jtelegram.api.TelegramBot;
 import com.jtelegram.api.TelegramBotRegistry;
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.Request;
-import okhttp3.RequestBody;
+import com.jtelegram.api.util.MultipartBodyPublisher;
 
-import java.io.File;
+import java.net.http.HttpRequest;
 import java.util.List;
 
 public interface InputFileRequest {
-    MediaType OCTET_STREAM_TYPE = MediaType.parse("application/octet-stream");
+    String OCTET_STREAM_TYPE = "application/octet-stream";
 
     List<InputFile> getInputFiles();
 
-    Request.Builder superBuild(TelegramBot bot);
+    HttpRequest.Builder superBuild(TelegramBot bot);
 
-    default Request.Builder getBuilder(TelegramBot bot) {
+    default HttpRequest.Builder getBuilder(TelegramBot bot) {
         List<InputFile> inputFiles = getInputFiles();
 
         if (inputFiles.stream().noneMatch(InputFile::isAttachable)) {
@@ -27,8 +24,7 @@ public interface InputFileRequest {
         }
 
         JsonObject obj = TelegramBotRegistry.GSON.toJsonTree(this).getAsJsonObject();
-        MultipartBody.Builder bodyBuilder = new MultipartBody.Builder()
-                .setType(MultipartBody.FORM);
+        MultipartBodyPublisher.Builder bodyBuilder = new MultipartBodyPublisher.Builder();
 
         obj.keySet().forEach((key) -> {
             JsonElement e = obj.get(key);
@@ -40,10 +36,10 @@ public interface InputFileRequest {
                 val = e.toString();
             }
 
-            bodyBuilder.addFormDataPart(key, val);
+            bodyBuilder.addPart(MultipartBodyPublisher.Part.forFormData(key, val));
         });
 
         inputFiles.stream().filter(InputFile::isAttachable).forEach((inputFile) -> inputFile.attachTo(bodyBuilder));
-        return superBuild(bot).post(bodyBuilder.build());
+        return superBuild(bot).header("Content-Type", "multipart/form-data").POST(bodyBuilder.build());
     }
 }

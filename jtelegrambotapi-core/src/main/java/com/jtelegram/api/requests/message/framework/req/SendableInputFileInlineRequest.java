@@ -4,8 +4,8 @@ import com.jtelegram.api.TelegramBot;
 import com.jtelegram.api.chat.id.ChatId;
 import com.jtelegram.api.ex.TelegramException;
 import com.jtelegram.api.message.input.file.InputFileRequest;
-import okhttp3.Request;
 
+import java.net.http.HttpRequest;
 import java.util.function.Consumer;
 
 public abstract class SendableInputFileInlineRequest<T> extends SendableInlineRequest<T> implements InputFileRequest {
@@ -15,7 +15,7 @@ public abstract class SendableInputFileInlineRequest<T> extends SendableInlineRe
     }
 
     @Override
-    public Request.Builder superBuild(TelegramBot bot) {
+    public HttpRequest.Builder superBuild(TelegramBot bot) {
         return super.build(bot);
     }
 }

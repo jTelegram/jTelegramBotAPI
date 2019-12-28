@@ -24,9 +24,9 @@ import com.jtelegram.api.message.sticker.MaskPoint;
 import com.jtelegram.api.requests.GetMe;
 import lombok.Builder;
 import lombok.Getter;
-import okhttp3.OkHttpClient;
 
 import java.lang.reflect.Modifier;
+import java.net.http.HttpClient;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.function.BiConsumer;
@@ -55,7 +55,7 @@ public class TelegramBotRegistry {
     private final UpdateProvider updateProvider;
     private String apiUrl = "https://api.telegram.org/bot";
     private String fileApiUrl = "https://api.telegram.org/file/bot";
-    private OkHttpClient client = new OkHttpClient();
+    private HttpClient client = HttpClient.newHttpClient();
     // <1 is a dynamic thread pool
     // 1 is a single thread pool
     // >1 is a multi thread pool
@@ -63,7 +63,7 @@ public class TelegramBotRegistry {
     private final Set<TelegramBot> bots = new HashSet<>();
 
     @Builder
-    private TelegramBotRegistry(UpdateProvider updateProvider, String apiUrl, OkHttpClient client, Integer eventThreadCount) {
+    private TelegramBotRegistry(UpdateProvider updateProvider, String apiUrl, HttpClient client, Integer eventThreadCount) {
         this.updateProvider = updateProvider;
 
         if (apiUrl != null) {
@@ -79,7 +79,7 @@ public class TelegramBotRegistry {
         }
     }
 
-    public void setHttpClient(OkHttpClient client) {
+    public void setHttpClient(HttpClient client) {
         this.client = client;
         bots.forEach((bot) -> bot.getRequestQueue().setClient(client));
     }

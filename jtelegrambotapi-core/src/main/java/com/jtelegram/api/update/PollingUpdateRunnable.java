@@ -4,9 +4,10 @@ import com.jtelegram.api.TelegramBot;
 import com.jtelegram.api.requests.GetUpdates;
 import com.jtelegram.api.requests.framework.TelegramRequest;
 import lombok.RequiredArgsConstructor;
-import okhttp3.Response;
 
 import java.io.IOException;
+import java.net.http.HttpResponse;
+import java.nio.charset.StandardCharsets;
 import java.util.stream.Stream;
 
 @RequiredArgsConstructor
@@ -26,11 +27,17 @@ public class PollingUpdateRunnable implements Runnable {
                     .build();
 
             try {
-                Response response = bot.getRegistry().getClient().newCall(request.build(bot).build()).execute();
+                HttpResponse<String>
+                        response = bot.getRegistry().getClient().send(request.build(bot).build(),
+                                                                      HttpResponse.BodyHandlers.ofString(
+                                                                              StandardCharsets.UTF_8));
 
                 request.handleResponse(response);
             } catch (IOException e) {
                 request.handleException(e);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+                return;
             }
 
             try {

@@ -8,21 +8,21 @@ import com.jtelegram.api.ex.TelegramException;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
-import okhttp3.Response;
 
 import java.io.IOException;
+import java.net.http.HttpResponse;
 import java.util.function.Consumer;
 
 @EqualsAndHashCode
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
-public abstract class AbstractTelegramRequest implements TelegramRequest {
+public abstract class AbstractTelegramRequest<T> implements TelegramRequest<T> {
     // utility field
     protected transient static Gson gson = TelegramBotRegistry.GSON;
     private transient final String endPoint;
     protected transient final Consumer<TelegramException> errorHandler;
 
-    protected String getBody(Response response) throws IOException {
-        return response == null ? null : response.body().string();
+    protected T getBody(HttpResponse<T> response) throws IOException {
+        return response == null ? null : response.body();
     }
 
     protected JsonElement validate(String response) throws IOException {

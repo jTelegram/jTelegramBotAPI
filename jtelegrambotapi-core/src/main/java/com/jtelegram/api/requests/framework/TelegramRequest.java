@@ -1,16 +1,15 @@
 package com.jtelegram.api.requests.framework;
 
+import com.google.gson.JsonElement;
 import com.jtelegram.api.TelegramBot;
-import okhttp3.MediaType;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
 
 import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.nio.charset.StandardCharsets;
 
-public interface TelegramRequest {
-    MediaType JSON_MEDIA_TYPE = MediaType.parse("application/json; charset=utf-8");
-
+public interface TelegramRequest<T> {
     /**
      * Use GSON to properly serialize the request
      * to send to Telegram's servers. This method
@@ -21,10 +20,12 @@ public interface TelegramRequest {
      */
     String serialize();
 
-    default Request.Builder build(TelegramBot bot) {
-        return new Request.Builder()
-                .url(bot.getRegistry().getApiUrl() + bot.getApiKey() + "/" + getEndPoint())
-                .post(RequestBody.create(JSON_MEDIA_TYPE, serialize()));
+    default HttpRequest.Builder build(TelegramBot bot) {
+
+        return HttpRequest.newBuilder()
+                .uri(URI.create(bot.getRegistry().getApiUrl() + bot.getApiKey() + "/" + getEndPoint()))
+                .header("Content-Type", "application/json; charset=utf-8")
+                .POST(HttpRequest.BodyPublishers.ofString(serialize(), StandardCharsets.UTF_8));
     }
 
     /**
@@ -42,7 +43,7 @@ public interface TelegramRequest {
      *
      * @throws IOException If any I/O error occurred
      */
-    void handleResponse(Response response) throws IOException;
+    void handleResponse(HttpResponse<String> response) throws IOException;
 
     /**
      * Handle an exception in the case that an I/O error occured

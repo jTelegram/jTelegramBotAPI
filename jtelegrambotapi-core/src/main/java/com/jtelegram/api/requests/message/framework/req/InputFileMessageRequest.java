@@ -5,8 +5,8 @@ import com.jtelegram.api.TelegramBot;
 import com.jtelegram.api.ex.TelegramException;
 import com.jtelegram.api.message.input.file.InputFileRequest;
 import com.jtelegram.api.requests.message.framework.ReplyMarkup;
-import okhttp3.Request;
 
+import java.net.http.HttpRequest;
 import java.util.function.Consumer;
 
 public abstract class InputFileMessageRequest<T> extends SendableMessageRequest<T> implements InputFileRequest {
@@ -15,12 +15,12 @@ public abstract class InputFileMessageRequest<T> extends SendableMessageRequest<
     }
 
     @Override
-    public Request.Builder build(TelegramBot bot) {
+    public HttpRequest.Builder build(TelegramBot bot) {
         return getBuilder(bot);
     }
 
     @Override
-    public Request.Builder superBuild(TelegramBot bot) {
+    public HttpRequest.Builder superBuild(TelegramBot bot) {
         return super.build(bot);
     }
 }

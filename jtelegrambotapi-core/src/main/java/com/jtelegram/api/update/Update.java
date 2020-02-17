@@ -1,6 +1,7 @@
 package com.jtelegram.api.update;
 
 import com.google.gson.*;
+import com.jtelegram.api.ex.InvalidResponseException;
 import com.jtelegram.api.inline.CallbackQuery;
 import com.jtelegram.api.inline.InlineQuery;
 import com.jtelegram.api.inline.result.ChosenInlineResult;
@@ -8,11 +9,11 @@ import com.jtelegram.api.message.Message;
 import com.jtelegram.api.message.payments.PreCheckoutQuery;
 import com.jtelegram.api.message.payments.ShippingQuery;
 import lombok.Getter;
+import lombok.ToString;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
-import lombok.ToString;
 
 @Getter
 @ToString
@@ -82,14 +83,25 @@ public class Update {
 
         @Override
         public Update deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext context) throws JsonParseException {
+            if (!jsonElement.isJsonObject()) {
+                throw new InvalidResponseException (
+                        "Update is not a JSON Object",
+                        jsonElement.toString()
+                );
+            }
+
             JsonObject object = jsonElement.getAsJsonObject();
+
             for (String key : object.keySet()) {
                 if (CLASS_MAP.containsKey(key)) {
                     return context.deserialize(object, CLASS_MAP.get(key));
                 }
             }
 
-            return null;
+            throw new InvalidResponseException (
+                    "Unfamiliar update object, update the bot API?",
+                    object.toString()
+            );
         }
     }
 }

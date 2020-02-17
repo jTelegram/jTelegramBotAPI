@@ -21,20 +21,30 @@ public abstract class AbstractTelegramRequest implements TelegramRequest {
     private transient final String endPoint;
     protected transient final Consumer<TelegramException> errorHandler;
 
+    protected void handleError(TelegramException ex) {
+        if (errorHandler == null) {
+            System.out.println("Uncaught exception for " + getClass().getSimpleName() + "...");
+            return;
+        }
+
+        errorHandler.accept(ex);
+    }
+
     protected String getBody(Response response) throws IOException {
         return response == null ? null : response.body().string();
     }
 
-    protected JsonElement validate(String response) throws IOException {
+    protected JsonElement validate(String response) {
         JsonParser parser = new JsonParser();
         JsonElement jsonResponse;
 
         try {
             jsonResponse = parser.parse(response);
         } catch (JsonSyntaxException ex) {
-            if (errorHandler != null) {
-                errorHandler.accept(new InvalidResponseException());
-            }
+            handleError(new InvalidResponseException(
+                    "JSON Syntax Error: " + ex.getMessage(),
+                    response
+            ));
 
             return null;
         }
@@ -44,9 +54,7 @@ public abstract class AbstractTelegramRequest implements TelegramRequest {
 
             if (!object.get("ok").getAsBoolean()) {
                 // todo convert to good exceptions
-                if (errorHandler != null) {
-                    errorHandler.accept(gson.fromJson(response, TelegramException.class));
-                }
+                handleError(gson.fromJson(response, TelegramException.class));
                 return null;
             }
 
@@ -68,8 +76,6 @@ public abstract class AbstractTelegramRequest implements TelegramRequest {
 
     @Override
     public void handleException(IOException ex) {
-        if (errorHandler != null) {
-            errorHandler.accept(new NetworkException(ex));
-        }
+        handleError(new NetworkException(ex));
     }
 }

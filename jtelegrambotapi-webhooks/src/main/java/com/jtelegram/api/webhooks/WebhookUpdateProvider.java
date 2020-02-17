@@ -2,9 +2,11 @@ package com.jtelegram.api.webhooks;
 
 import com.jtelegram.api.TelegramBot;
 import com.jtelegram.api.TelegramBotRegistry;
+import com.jtelegram.api.ex.TelegramException;
+import com.jtelegram.api.ex.handler.ErrorLogger;
 import com.jtelegram.api.message.input.file.LocalInputFile;
-import com.jtelegram.api.requests.webhooks.SetWebhook;
 import com.jtelegram.api.requests.webhooks.DeleteWebhook;
+import com.jtelegram.api.requests.webhooks.SetWebhook;
 import com.jtelegram.api.update.PollingUpdateRunnable;
 import com.jtelegram.api.update.Update;
 import com.jtelegram.api.update.UpdateProvider;
@@ -26,6 +28,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CountDownLatch;
+import java.util.function.Consumer;
 
 @Getter
 public class WebhookUpdateProvider implements UpdateProvider {
@@ -40,16 +43,24 @@ public class WebhookUpdateProvider implements UpdateProvider {
     private List<UpdateType> updateTypes;
     private Integer maxConnections;
     private Integer retryAfter;
+    private Consumer<TelegramException> errorHandler = ErrorLogger.builder()
+            .identifier("Webhook Update Provider")
+            .build();
 
     @Builder
     public WebhookUpdateProvider(HttpServerOptions serverOptions, File selfSignedCertificate,
-                                 List<UpdateType> updateTypes, Integer maxConnections, Integer retryAfter) throws InterruptedException, FailBindingException {
+                                 List<UpdateType> updateTypes, Integer maxConnections, Integer retryAfter,
+                                 Consumer<TelegramException> errorHandler) throws InterruptedException, FailBindingException {
         if (!serverOptions.isSsl()) {
             throw new IllegalArgumentException("Http Server must be SSL!");
         }
 
         if (selfSignedCertificate != null) {
             this.selfSignedCertificate = new LocalInputFile(selfSignedCertificate);
+        }
+
+        if (errorHandler != null) {
+            this.errorHandler = errorHandler;
         }
 
         this.updateTypes = updateTypes;
@@ -65,8 +76,12 @@ public class WebhookUpdateProvider implements UpdateProvider {
                 TelegramBot bot = requestPaths.get(path);
 
                 request.bodyHandler((buffer) -> {
-                    Update update = TelegramBotRegistry.GSON.fromJson(buffer.toString(), Update.class);
-                    PollingUpdateRunnable.handleUpdate(bot, UpdateType.from(update.getClass()), update);
+                    try {
+                        Update update = TelegramBotRegistry.GSON.fromJson(buffer.toString(), Update.class);
+                        PollingUpdateRunnable.handleUpdate(bot, UpdateType.from(update.getClass()), update);
+                    } catch (TelegramException ex) {
+                        this.errorHandler.accept(ex);
+                    }
                 });
 
                 request.response().setStatusCode(200).end("OK");

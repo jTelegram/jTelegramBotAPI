@@ -23,6 +23,7 @@ public class PollingUpdateRunnable implements Runnable {
                     .offset(offset)
                     .timeout(owner.getTimeout())
                     .callback(this::handleUpdates)
+                    .errorHandler(owner.getUpdateErrorHandler())
                     .build();
 
             try {

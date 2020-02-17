@@ -1,11 +1,15 @@
 package com.jtelegram.api.update;
 
 import com.jtelegram.api.TelegramBot;
+import com.jtelegram.api.ex.TelegramException;
+import com.jtelegram.api.ex.handler.ErrorLogger;
 import com.jtelegram.api.requests.webhooks.DeleteWebhook;
 import lombok.*;
 
-import java.util.*;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Consumer;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -21,6 +25,10 @@ public class PollingUpdateProvider implements UpdateProvider {
     private int timeout = 10;
     @Singular
     private List<UpdateType> allowedUpdates;
+    @Builder.Default
+    private Consumer<TelegramException> updateErrorHandler = ErrorLogger.builder()
+            .identifier("Polling Update Provider")
+            .build();
 
     @Override
     public void listenFor(TelegramBot bot) {

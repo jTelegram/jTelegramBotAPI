@@ -1,18 +1,16 @@
 package com.jtelegram.api.message;
 
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonDeserializer;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParseException;
+import com.google.gson.*;
 import com.jtelegram.api.chat.Chat;
+import com.jtelegram.api.ex.InvalidResponseException;
 import com.jtelegram.api.requests.message.DeleteMessage;
 import com.jtelegram.api.requests.message.ForwardMessage;
 import com.jtelegram.api.requests.message.edit.EditMessageReplyMarkup;
 import com.jtelegram.api.user.User;
-import java.lang.reflect.Type;
 import lombok.Getter;
 import lombok.ToString;
+
+import java.lang.reflect.Type;
 
 @Getter
 @ToString
@@ -68,6 +66,13 @@ public abstract class Message<T> {
     public static class Deserializer implements JsonDeserializer<Message> {
         @Override
         public Message deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext context) throws JsonParseException {
+            if (!jsonElement.isJsonObject()) {
+                throw new InvalidResponseException (
+                        "Message is not JSON Object",
+                        jsonElement.toString()
+                );
+            }
+
             JsonObject object = jsonElement.getAsJsonObject();
 
             for (MessageType messageType : MessageType.values()) {
@@ -76,7 +81,10 @@ public abstract class Message<T> {
                 }
             }
 
-            return null;
+            throw new InvalidResponseException (
+                    "Unfamiliar Message object, update the bot API?",
+                    object.toString()
+            );
         }
     }
 }

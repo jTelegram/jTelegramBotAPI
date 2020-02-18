@@ -56,7 +56,7 @@ public class Chat {
             ChatType chatType;
 
             try {
-                chatType = ChatType.valueOf(chatTypeName);
+                chatType = ChatType.valueOf(chatTypeName.toUpperCase());
             } catch (IllegalArgumentException ex) {
                 throw new InvalidResponseException (
                         "There is no chat type by the name " + chatTypeName,

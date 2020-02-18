@@ -7,7 +7,7 @@
     <parent>
         <groupId>com.jtelegram</groupId>
         <artifactId>jtelegrambotapi</artifactId>
-        <version>4.0.7</version>
+        <version>4.0.8</version>
     </parent>
 
     <artifactId>jtelegrambotapi-menus</artifactId>

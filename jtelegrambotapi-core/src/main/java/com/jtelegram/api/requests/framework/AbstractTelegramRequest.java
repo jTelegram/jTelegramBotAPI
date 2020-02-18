@@ -4,6 +4,7 @@ import com.google.gson.*;
 import com.jtelegram.api.TelegramBotRegistry;
 import com.jtelegram.api.ex.InvalidResponseException;
 import com.jtelegram.api.ex.NetworkException;
+import com.jtelegram.api.ex.TelegramApiException;
 import com.jtelegram.api.ex.TelegramException;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -54,7 +55,7 @@ public abstract class AbstractTelegramRequest implements TelegramRequest {
 
             if (!object.get("ok").getAsBoolean()) {
                 // todo convert to good exceptions
-                handleError(gson.fromJson(response, TelegramException.class));
+                handleError(gson.fromJson(response, TelegramApiException.class));
                 return null;
             }
 

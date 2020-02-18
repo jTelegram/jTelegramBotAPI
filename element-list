@@ -14,6 +14,7 @@ com.jtelegram.api.events.message
 com.jtelegram.api.events.message.edit
 com.jtelegram.api.events.payment
 com.jtelegram.api.ex
+com.jtelegram.api.ex.handler
 com.jtelegram.api.inline
 com.jtelegram.api.inline.input
 com.jtelegram.api.inline.keyboard

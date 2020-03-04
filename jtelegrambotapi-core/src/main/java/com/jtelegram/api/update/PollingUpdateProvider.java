@@ -23,6 +23,18 @@ public class PollingUpdateProvider implements UpdateProvider {
     private int sleepInterval = 50;
     @Builder.Default
     private int timeout = 10;
+    /**
+     * The max age (in seconds) that an update can be.
+     *
+     * If the data is available and the update is older
+     * than maxUpdateAge seconds, then it is silently ignored.
+     *
+     * By default, this feature is disabled.
+     *
+     * @see com.jtelegram.api.update.Update.TimeSensitiveUpdate
+     */
+    @Builder.Default
+    private long maxUpdateAge = -1;
     @Singular
     private List<UpdateType> allowedUpdates;
     @Builder.Default

@@ -21,10 +21,27 @@ import java.util.Map;
 public class Update {
     private int updateId;
 
+    public static abstract class TimeSensitiveUpdate extends Update {
+        /**
+         * @return The relevant unix time when the update
+         * should be compared to.
+         */
+        public abstract long getEventTime();
+
+        protected long getDateFromMessage(Message message) {
+            return message.getForwardSignature() != null ? message.getForwardDate() : message.getDate();
+        }
+    }
+
     @Getter
     @ToString(callSuper = true)
-    public static class ChannelPostUpdate extends Update {
+    public static class ChannelPostUpdate extends TimeSensitiveUpdate {
         private Message channelPost;
+
+        @Override
+        public long getEventTime() {
+            return getDateFromMessage(channelPost);
+        }
     }
 
     @Getter
@@ -35,14 +52,24 @@ public class Update {
 
     @Getter
     @ToString(callSuper = true)
-    public static class EditedChannelPostUpdate extends Update {
+    public static class EditedChannelPostUpdate extends TimeSensitiveUpdate {
         private Message editedChannelPost;
+
+        @Override
+        public long getEventTime() {
+            return editedChannelPost.getEditDate();
+        }
     }
 
     @Getter
     @ToString(callSuper = true)
-    public static class EditedMessageUpdate extends Update {
+    public static class EditedMessageUpdate extends TimeSensitiveUpdate {
         private Message editedMessage;
+
+        @Override
+        public long getEventTime() {
+            return editedMessage.getEditDate();
+        }
     }
 
     @Getter
@@ -59,8 +86,13 @@ public class Update {
 
     @Getter
     @ToString(callSuper = true)
-    public static class MessageUpdate extends Update {
+    public static class MessageUpdate extends TimeSensitiveUpdate {
         private Message message;
+
+        @Override
+        public long getEventTime() {
+            return getDateFromMessage(message);
+        }
     }
 
     @Getter

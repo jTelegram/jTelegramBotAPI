@@ -1,12 +1,15 @@
 package com.jtelegram.api.update;
 
 import com.jtelegram.api.TelegramBot;
+import com.jtelegram.api.ex.NetworkException;
 import com.jtelegram.api.requests.GetUpdates;
 import com.jtelegram.api.requests.framework.TelegramRequest;
 import lombok.RequiredArgsConstructor;
 import okhttp3.Response;
 
 import java.io.IOException;
+import java.net.SocketTimeoutException;
+import java.util.Objects;
 import java.util.stream.Stream;
 
 @RequiredArgsConstructor
@@ -23,7 +26,16 @@ public class PollingUpdateRunnable implements Runnable {
                     .offset(offset)
                     .timeout(owner.getTimeout())
                     .callback(this::handleUpdates)
-                    .errorHandler(owner.getUpdateErrorHandler())
+                    .errorHandler((error) -> {
+                        if (error instanceof NetworkException) {
+                            // this exception is expected for polling
+                            if (((NetworkException) error).getUnderlyingException() instanceof SocketTimeoutException) {
+                                return;
+                            }
+                        }
+
+                        owner.getUpdateErrorHandler().accept(error);
+                    })
                     .build();
 
             try {
@@ -44,10 +56,12 @@ public class PollingUpdateRunnable implements Runnable {
 
     public void handleUpdates(Update[] updates) {
         for (Update update : updates) {
-            handleUpdate(bot, UpdateType.from(update.getClass()), update);
+            if (update != null) {
+                handleUpdate(bot, UpdateType.from(update.getClass()), update);
+            }
         }
 
-        offset = Stream.of(updates).mapToInt(Update::getUpdateId).max().orElse(offset - 1) + 1;
+        offset = Stream.of(updates).filter(Objects::nonNull).mapToInt(Update::getUpdateId).max().orElse(offset - 1) + 1;
     }
 
     public static <T extends Update> void handleUpdate(TelegramBot bot, UpdateType<T> type, Update update) {

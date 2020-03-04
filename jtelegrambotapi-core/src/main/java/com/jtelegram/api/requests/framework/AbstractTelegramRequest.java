@@ -25,6 +25,7 @@ public abstract class AbstractTelegramRequest implements TelegramRequest {
     protected void handleError(TelegramException ex) {
         if (errorHandler == null) {
             System.out.println("Uncaught exception for " + getClass().getSimpleName() + "...");
+            ex.printStackTrace();
             return;
         }
 

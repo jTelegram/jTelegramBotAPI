@@ -1,6 +1,7 @@
 package com.jtelegram.api.message;
 
 import com.google.gson.*;
+import com.jtelegram.api.TelegramBotRegistry;
 import com.jtelegram.api.chat.Chat;
 import com.jtelegram.api.ex.InvalidResponseException;
 import com.jtelegram.api.requests.message.DeleteMessage;
@@ -81,10 +82,13 @@ public abstract class Message<T> {
                 }
             }
 
-            throw new InvalidResponseException (
-                    "Unfamiliar Message object, update the bot API?",
-                    object.toString()
+            TelegramBotRegistry.getMinorGsonErrorHandler().accept (
+                    new InvalidResponseException (
+                            "Unfamiliar Message object, update the bot API?",
+                            object.toString()
+                    )
             );
+            return null;
         }
     }
 }

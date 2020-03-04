@@ -3,33 +3,33 @@ package com.jtelegram.api.update;
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import com.jtelegram.api.events.Event;
-import com.jtelegram.api.events.location.LocationUpdateEvent;
-import com.jtelegram.api.events.payment.ShippingQueryEvent;
-import com.jtelegram.api.message.CaptionableMessage;
-import com.jtelegram.api.message.Message;
-import com.jtelegram.api.message.impl.LocationMessage;
 import com.jtelegram.api.TelegramBot;
+import com.jtelegram.api.events.Event;
 import com.jtelegram.api.events.channel.ChannelPostEditEvent;
 import com.jtelegram.api.events.channel.ChannelPostEvent;
 import com.jtelegram.api.events.inline.ChosenInlineResultEvent;
 import com.jtelegram.api.events.inline.InlineQueryEvent;
 import com.jtelegram.api.events.inline.keyboard.CallbackQueryEvent;
+import com.jtelegram.api.events.location.LocationUpdateEvent;
 import com.jtelegram.api.events.message.MessageEvent;
 import com.jtelegram.api.events.message.edit.CaptionEditEvent;
 import com.jtelegram.api.events.message.edit.TextMessageEditEvent;
 import com.jtelegram.api.events.payment.PreCheckoutQueryEvent;
+import com.jtelegram.api.events.payment.ShippingQueryEvent;
+import com.jtelegram.api.message.CaptionableMessage;
+import com.jtelegram.api.message.Message;
 import com.jtelegram.api.message.MessageType;
+import com.jtelegram.api.message.impl.LocationMessage;
 import com.jtelegram.api.message.impl.TextMessage;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.ToString;
 
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.function.BiFunction;
-import lombok.ToString;
 
 @Getter
 @ToString
@@ -38,13 +38,25 @@ public class UpdateType<T extends Update> {
     public static final UpdateType<Update.ChannelPostUpdate> CHANNEL_POST = new UpdateType<>(
             "CHANNEL_POST",
             Update.ChannelPostUpdate.class,
-            (bot, update) -> new ChannelPostEvent(bot, update.getChannelPost())
+            (bot, update) -> {
+                if (update.getChannelPost() == null) {
+                    return null;
+                }
+
+                return new ChannelPostEvent(bot, update.getChannelPost());
+            }
     );
 
     public static final UpdateType<Update.EditedChannelPostUpdate> EDITED_CHANNEL_POST = new UpdateType<>(
             "EDITED_CHANNEL_POST",
             Update.EditedChannelPostUpdate.class,
-            (bot, update) -> new ChannelPostEditEvent(bot, update.getEditedChannelPost())
+            (bot, update) -> {
+                if (update.getEditedChannelPost() == null) {
+                    return null;
+                }
+
+                return new ChannelPostEditEvent(bot, update.getEditedChannelPost());
+            }
     );
 
     public static final UpdateType<Update.InlineQueryUpdate> INLINE_QUERY = new UpdateType<>(
@@ -81,6 +93,10 @@ public class UpdateType<T extends Update> {
             "MESSAGE",
             Update.MessageUpdate.class,
             (bot, update) -> {
+                if (update.getMessage() == null) {
+                    return null;
+                }
+
                 MessageType type = MessageType.typeFrom(update.getMessage());
                 Class<? extends MessageEvent> eventClass = type.getReceiveEventClass();
                 Constructor<? extends MessageEvent> constructor;
@@ -111,6 +127,10 @@ public class UpdateType<T extends Update> {
             Update.EditedMessageUpdate.class,
             (bot, update) -> {
                 Message updatedMessage = update.getEditedMessage();
+
+                if (updatedMessage == null) {
+                    return null;
+                }
 
                 if (updatedMessage instanceof TextMessage) {
                     return new TextMessageEditEvent(bot, (TextMessage) updatedMessage);

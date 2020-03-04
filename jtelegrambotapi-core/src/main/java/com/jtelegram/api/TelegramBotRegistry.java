@@ -8,20 +8,20 @@ import com.jtelegram.api.chat.ChatAction;
 import com.jtelegram.api.chat.ChatMemberStatus;
 import com.jtelegram.api.chat.ChatType;
 import com.jtelegram.api.chat.id.ChatId;
+import com.jtelegram.api.ex.TelegramException;
 import com.jtelegram.api.inline.keyboard.InlineKeyboardRow;
 import com.jtelegram.api.inline.result.framework.InlineResultType;
-import com.jtelegram.api.message.entity.MessageEntity;
-import com.jtelegram.api.update.Update;
-import com.jtelegram.api.update.UpdateProvider;
-import com.jtelegram.api.update.UpdateType;
-import com.jtelegram.api.util.LowercaseEnumAdapter;
 import com.jtelegram.api.message.Message;
-import com.jtelegram.api.ex.TelegramException;
+import com.jtelegram.api.message.entity.MessageEntity;
 import com.jtelegram.api.message.input.file.InputFile;
 import com.jtelegram.api.message.input.media.InputMediaType;
 import com.jtelegram.api.message.keyboard.ReplyKeyboardRow;
 import com.jtelegram.api.message.sticker.MaskPoint;
 import com.jtelegram.api.requests.GetMe;
+import com.jtelegram.api.update.Update;
+import com.jtelegram.api.update.UpdateProvider;
+import com.jtelegram.api.update.UpdateType;
+import com.jtelegram.api.util.LowercaseEnumAdapter;
 import lombok.Builder;
 import lombok.Getter;
 import okhttp3.OkHttpClient;
@@ -30,6 +30,7 @@ import java.lang.reflect.Modifier;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 @Getter
 public class TelegramBotRegistry {
@@ -52,6 +53,7 @@ public class TelegramBotRegistry {
             .registerTypeHierarchyAdapter(InputFile.class, new InputFile.Serializer())
             .registerTypeHierarchyAdapter(ChatId.class, new ChatId.Serializer())
             .create();
+    private static Consumer<TelegramException> minorGsonErrorHandler = (a) -> {};
     private final UpdateProvider updateProvider;
     private String apiUrl = "https://api.telegram.org/bot";
     private String fileApiUrl = "https://api.telegram.org/file/bot";
@@ -77,6 +79,14 @@ public class TelegramBotRegistry {
         if (eventThreadCount != null) {
             this.eventThreadCount = eventThreadCount;
         }
+    }
+
+    public static void setMinorGsonErrorHandler(Consumer<TelegramException> minorGsonErrorHandler) {
+        TelegramBotRegistry.minorGsonErrorHandler = minorGsonErrorHandler;
+    }
+
+    public static Consumer<TelegramException> getMinorGsonErrorHandler() {
+        return minorGsonErrorHandler;
     }
 
     public void setHttpClient(OkHttpClient client) {

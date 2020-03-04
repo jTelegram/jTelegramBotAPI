@@ -83,7 +83,10 @@ public class WebhookUpdateProvider implements UpdateProvider {
                 request.bodyHandler((buffer) -> {
                     try {
                         Update update = TelegramBotRegistry.GSON.fromJson(buffer.toString(), Update.class);
-                        PollingUpdateRunnable.handleUpdate(bot, maxUpdateAge, UpdateType.from(update.getClass()), update);
+
+                        if (update != null) {
+                            PollingUpdateRunnable.handleUpdate(bot, maxUpdateAge, UpdateType.from(update.getClass()), update);
+                        }
                     } catch (TelegramException ex) {
                         this.errorHandler.accept(ex);
                     }

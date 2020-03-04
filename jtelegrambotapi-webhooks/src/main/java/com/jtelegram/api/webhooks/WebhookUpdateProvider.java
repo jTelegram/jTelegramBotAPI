@@ -7,10 +7,7 @@ import com.jtelegram.api.ex.handler.ErrorLogger;
 import com.jtelegram.api.message.input.file.LocalInputFile;
 import com.jtelegram.api.requests.webhooks.DeleteWebhook;
 import com.jtelegram.api.requests.webhooks.SetWebhook;
-import com.jtelegram.api.update.PollingUpdateRunnable;
-import com.jtelegram.api.update.Update;
-import com.jtelegram.api.update.UpdateProvider;
-import com.jtelegram.api.update.UpdateType;
+import com.jtelegram.api.update.*;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Vertx;
 import io.vertx.core.http.HttpServer;
@@ -43,6 +40,10 @@ public class WebhookUpdateProvider implements UpdateProvider {
     private List<UpdateType> updateTypes;
     private Integer maxConnections;
     private Integer retryAfter;
+    /**
+     * @see PollingUpdateProvider#getMaxUpdateAge()
+     */
+    private long maxUpdateAge = -1;
     private Consumer<TelegramException> errorHandler = ErrorLogger.builder()
             .identifier("Webhook Update Provider")
             .build();
@@ -50,7 +51,7 @@ public class WebhookUpdateProvider implements UpdateProvider {
     @Builder
     public WebhookUpdateProvider(HttpServerOptions serverOptions, File selfSignedCertificate,
                                  List<UpdateType> updateTypes, Integer maxConnections, Integer retryAfter,
-                                 Consumer<TelegramException> errorHandler) throws InterruptedException, FailBindingException {
+                                 Long maxUpdateAge, Consumer<TelegramException> errorHandler) throws InterruptedException, FailBindingException {
         if (!serverOptions.isSsl()) {
             throw new IllegalArgumentException("Http Server must be SSL!");
         }
@@ -61,6 +62,10 @@ public class WebhookUpdateProvider implements UpdateProvider {
 
         if (errorHandler != null) {
             this.errorHandler = errorHandler;
+        }
+
+        if (maxUpdateAge != null) {
+            this.maxUpdateAge = maxUpdateAge;
         }
 
         this.updateTypes = updateTypes;
@@ -78,7 +83,7 @@ public class WebhookUpdateProvider implements UpdateProvider {
                 request.bodyHandler((buffer) -> {
                     try {
                         Update update = TelegramBotRegistry.GSON.fromJson(buffer.toString(), Update.class);
-                        PollingUpdateRunnable.handleUpdate(bot, UpdateType.from(update.getClass()), update);
+                        PollingUpdateRunnable.handleUpdate(bot, maxUpdateAge, UpdateType.from(update.getClass()), update);
                     } catch (TelegramException ex) {
                         this.errorHandler.accept(ex);
                     }

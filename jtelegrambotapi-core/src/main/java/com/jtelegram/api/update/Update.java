@@ -1,6 +1,7 @@
 package com.jtelegram.api.update;
 
 import com.google.gson.*;
+import com.jtelegram.api.TelegramBotRegistry;
 import com.jtelegram.api.ex.InvalidResponseException;
 import com.jtelegram.api.inline.CallbackQuery;
 import com.jtelegram.api.inline.InlineQuery;
@@ -98,10 +99,13 @@ public class Update {
                 }
             }
 
-            throw new InvalidResponseException (
-                    "Unfamiliar update object, update the bot API?",
-                    object.toString()
+            TelegramBotRegistry.getMinorGsonErrorHandler().accept (
+                    new InvalidResponseException (
+                            "Unfamiliar update object, update the bot API?",
+                            object.toString()
+                    )
             );
+            return null;
         }
     }
 }

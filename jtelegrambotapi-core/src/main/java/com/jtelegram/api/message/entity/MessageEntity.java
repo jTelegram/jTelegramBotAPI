@@ -1,6 +1,7 @@
 package com.jtelegram.api.message.entity;
 
 import com.google.gson.*;
+import com.jtelegram.api.TelegramBotRegistry;
 import com.jtelegram.api.ex.InvalidResponseException;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -37,10 +38,14 @@ public class MessageEntity {
             MessageEntityType type = context.deserialize(object.get("type"), MessageEntityType.class);
 
             if (type == null) {
-                throw new InvalidResponseException (
-                        "Invalid Message Entity Type. Update the API?",
-                        object.toString()
+                TelegramBotRegistry.getMinorGsonErrorHandler().accept (
+                        new InvalidResponseException (
+                                "Invalid Message Entity Type. Update the API?",
+                                object.toString()
+                        )
                 );
+
+                return null;
             }
 
             return context.deserialize(object, type.getImplementationClass());

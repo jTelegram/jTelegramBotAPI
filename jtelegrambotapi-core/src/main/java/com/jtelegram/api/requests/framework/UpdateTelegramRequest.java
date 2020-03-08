@@ -27,7 +27,13 @@ public abstract class UpdateTelegramRequest extends AbstractTelegramRequest {
 
         if (body != null && validate(body) != null) {
             if (callback != null) {
-                callback.run();
+                try {
+                    callback.run();
+                } catch (TelegramException ex) {
+                    handleError(ex);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
             }
         }
     }

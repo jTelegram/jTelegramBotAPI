@@ -29,6 +29,10 @@ public class Update {
         public abstract long getEventTime();
 
         protected long getDateFromMessage(Message message) {
+            if (message == null) {
+                return -1;
+            }
+
             return message.getForwardSignature() != null ? message.getForwardDate() : message.getDate();
         }
     }

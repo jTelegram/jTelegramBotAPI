@@ -34,6 +34,8 @@ public abstract class QueryTelegramRequest<T> extends AbstractTelegramRequest {
                     callback.accept(gson.fromJson(result.toString(), callbackType));
                 } catch (TelegramException ex) {
                     handleError(ex);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
                 }
             }
         }

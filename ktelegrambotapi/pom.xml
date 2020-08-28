@@ -15,23 +15,26 @@
     </properties>
 
     <artifactId>ktelegrambotapi</artifactId>
-    <name>jTelegramBotAPI Kotlin Extensions</name>
+    <name>jTelegramBotAPI as Kotlin (AKA kTelegramBotAPI)</name>
 
     <dependencies>
         <dependency>
             <groupId>com.jtelegram</groupId>
             <artifactId>jtelegrambotapi-core</artifactId>
             <version>${project.version}</version>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.jetbrains.kotlin</groupId>
             <artifactId>kotlin-stdlib</artifactId>
             <version>${kotlin.version}</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.jetbrains.kotlinx</groupId>
             <artifactId>kotlinx-coroutines-core</artifactId>
             <version>1.3.7</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 

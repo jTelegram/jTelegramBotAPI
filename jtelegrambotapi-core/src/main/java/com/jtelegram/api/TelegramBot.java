@@ -27,7 +27,7 @@ public class TelegramBot {
     @Setter
     private User botInfo;
 
-    TelegramBot(TelegramBotRegistry registry, String apiKey) {
+    protected TelegramBot(TelegramBotRegistry registry, String apiKey) {
         this.registry = registry;
         this.apiKey = apiKey;
         this.eventRegistry = new EventRegistry(this);

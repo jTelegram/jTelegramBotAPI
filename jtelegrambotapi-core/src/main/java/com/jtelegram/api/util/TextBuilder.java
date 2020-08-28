@@ -28,7 +28,7 @@ public class TextBuilder {
         return new TextBuilder();
     }
 
-    private TextBuilder() {
+    protected TextBuilder() {
     }
 
     private String htmlEscaped(String text) {
@@ -82,6 +82,14 @@ public class TextBuilder {
 
     public TextBuilder newLine() {
         message.append("\n");
+        return this;
+    }
+
+    public TextBuilder newLines(int n) {
+        for (int i = 0; i < n; i++) {
+            newLine();
+        }
+
         return this;
     }
 

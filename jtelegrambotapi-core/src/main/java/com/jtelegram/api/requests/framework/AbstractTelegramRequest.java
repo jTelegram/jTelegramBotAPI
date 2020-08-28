@@ -9,6 +9,7 @@ import com.jtelegram.api.ex.TelegramException;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
+import lombok.Setter;
 import okhttp3.Response;
 
 import java.io.IOException;
@@ -20,7 +21,8 @@ public abstract class AbstractTelegramRequest implements TelegramRequest {
     // utility field
     protected transient static Gson gson = TelegramBotRegistry.GSON;
     private transient final String endPoint;
-    protected transient final Consumer<TelegramException> errorHandler;
+    @Setter
+    protected transient Consumer<TelegramException> errorHandler;
 
     protected void handleError(TelegramException ex) {
         if (errorHandler == null) {

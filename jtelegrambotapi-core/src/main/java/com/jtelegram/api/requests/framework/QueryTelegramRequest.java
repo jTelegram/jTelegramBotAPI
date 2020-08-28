@@ -3,6 +3,7 @@ package com.jtelegram.api.requests.framework;
 import com.google.gson.JsonElement;
 import com.jtelegram.api.ex.TelegramException;
 import lombok.EqualsAndHashCode;
+import lombok.Setter;
 import okhttp3.Response;
 
 import java.io.IOException;
@@ -14,7 +15,8 @@ import java.util.function.Consumer;
  */
 @EqualsAndHashCode(callSuper = true)
 public abstract class QueryTelegramRequest<T> extends AbstractTelegramRequest {
-    private transient final Consumer<T> callback;
+    @Setter
+    private Consumer<T> callback;
     private transient final Class<T> callbackType;
 
     protected QueryTelegramRequest(String endPoint, Class<T> callbackType, Consumer<T> callback, Consumer<TelegramException> errorHandler) {

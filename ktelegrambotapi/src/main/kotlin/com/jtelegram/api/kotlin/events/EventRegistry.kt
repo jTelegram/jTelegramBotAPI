@@ -7,7 +7,9 @@ import com.jtelegram.api.kotlin.KTelegramBot
 import kotlinx.coroutines.launch
 import kotlin.reflect.KClass
 
-fun <E : Event> EventRegistry.on(eventType: KClass<E>, listener: suspend BotContext.(E) -> Unit) {
+typealias KEventListener<E> = suspend BotContext.(E) -> Unit
+
+fun <E : Event> EventRegistry.on(eventType: KClass<E>, listener: KEventListener<E>) {
     val bot = this.bot
 
     if (bot !is KTelegramBot) {

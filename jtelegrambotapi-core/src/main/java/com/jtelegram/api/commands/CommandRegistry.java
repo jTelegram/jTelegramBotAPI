@@ -9,11 +9,13 @@ import com.jtelegram.api.events.message.TextMessageEvent;
 import com.jtelegram.api.message.entity.MessageEntity;
 import com.jtelegram.api.message.entity.MessageEntityType;
 import com.jtelegram.api.message.impl.TextMessage;
+import lombok.Getter;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class CommandRegistry implements EventHandler<TextMessageEvent> {
+    @Getter
     private final TelegramBot bot;
     private final List<CommandFilter> listeners = new ArrayList<>();
 
@@ -61,9 +63,7 @@ public class CommandRegistry implements EventHandler<TextMessageEvent> {
         );
 
         Command command = new Command(baseCommand, mentioned, argsList, message);
-        long handled = listeners.stream()
-                .filter(e -> e.test(event, command))
-                .count();
+        listeners.forEach(e -> e.test(event, command));
         // Log number of handlers that used the command?
     }
 }

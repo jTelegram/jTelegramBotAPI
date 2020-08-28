@@ -4,6 +4,7 @@ import com.jtelegram.api.TelegramBot;
 import com.jtelegram.api.events.inline.ChosenInlineResultEvent;
 import com.jtelegram.api.requests.inline.AnswerInlineQuery;
 import com.jtelegram.api.util.ExceptionThreadFactory;
+import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +21,9 @@ import java.util.concurrent.ThreadFactory;
  */
 public class EventRegistry {
     private final ThreadFactory factory = new ExceptionThreadFactory();
+    @Getter
     private final TelegramBot bot;
+    @Getter
     private final ExecutorService threadPool;
 
     private Map<Class<? extends Event>, List<EventHandler<? extends Event>>> handlers = new ConcurrentHashMap<>();

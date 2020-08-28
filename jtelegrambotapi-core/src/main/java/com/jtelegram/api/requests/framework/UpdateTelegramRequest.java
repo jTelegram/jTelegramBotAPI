@@ -1,6 +1,7 @@
 package com.jtelegram.api.requests.framework;
 
 import com.jtelegram.api.ex.TelegramException;
+import lombok.Setter;
 import okhttp3.Response;
 
 import java.io.IOException;
@@ -14,6 +15,7 @@ import java.util.function.Consumer;
  *
  */
 public abstract class UpdateTelegramRequest extends AbstractTelegramRequest {
+    @Setter
     protected transient Runnable callback;
 
     protected UpdateTelegramRequest(String endPoint, Consumer<TelegramException> errorHandler, Runnable callback) {

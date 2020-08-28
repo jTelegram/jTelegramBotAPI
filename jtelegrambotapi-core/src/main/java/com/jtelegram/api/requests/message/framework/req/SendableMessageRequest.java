@@ -4,12 +4,14 @@ import com.jtelegram.api.chat.id.ChatId;
 import com.jtelegram.api.ex.TelegramException;
 import com.jtelegram.api.requests.message.framework.ReplyMarkup;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.function.Consumer;
 
 @Getter
 public abstract class SendableMessageRequest<T> extends SendableChatRequest<T> {
-    private final Integer replyToMessageId;
+    @Setter
+    private Integer replyToMessageId;
     private final Boolean disableNotification;
     private final ReplyMarkup replyMarkup;
 
@@ -19,7 +21,6 @@ public abstract class SendableMessageRequest<T> extends SendableChatRequest<T> {
         this.disableNotification = disableNotification;
         this.replyMarkup = replyMarkup;
     }
-
 
     @Override
     protected boolean isValid() {

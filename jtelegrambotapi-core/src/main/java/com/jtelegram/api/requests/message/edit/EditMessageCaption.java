@@ -4,15 +4,15 @@ import com.jtelegram.api.chat.id.ChatId;
 import com.jtelegram.api.ex.TelegramException;
 import com.jtelegram.api.message.CaptionableMessage;
 import com.jtelegram.api.message.Message;
-import com.jtelegram.api.message.impl.GameMessage;
-import com.jtelegram.api.requests.message.framework.req.EditMessageRequest;
+import com.jtelegram.api.requests.message.framework.ParseMode;
 import com.jtelegram.api.requests.message.framework.ReplyMarkup;
-import java.util.Objects;
+import com.jtelegram.api.requests.message.framework.req.EditMessageRequest;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 
+import java.util.Objects;
 import java.util.function.Consumer;
 
 @Getter
@@ -20,11 +20,13 @@ import java.util.function.Consumer;
 @EqualsAndHashCode(callSuper = true)
 public class EditMessageCaption extends EditMessageRequest<Message> {
     private String caption;
+    private ParseMode parseMode;
 
     @Builder
-    public EditMessageCaption(Consumer<Message> callback, Consumer<TelegramException> errorHandler, ChatId chatId, int messageId, String inlineMessageId, ReplyMarkup replyMarkup, String caption) {
+    public EditMessageCaption(Consumer<Message> callback, Consumer<TelegramException> errorHandler, ChatId chatId, int messageId, String inlineMessageId, ReplyMarkup replyMarkup, String caption, ParseMode parseMode) {
         super("editMessageCaption", Message.class, callback, errorHandler, chatId, messageId, inlineMessageId, replyMarkup);
         this.caption = caption;
+        this.parseMode = parseMode;
     }
 
     /**

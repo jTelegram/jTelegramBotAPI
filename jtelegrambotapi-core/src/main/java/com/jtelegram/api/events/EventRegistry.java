@@ -71,4 +71,11 @@ public class EventRegistry {
             }
         });
     }
+
+    /**
+     * Shuts down the event thread pool gracefully
+     */
+    public void shutdown() {
+        threadPool.shutdown();
+    }
 }

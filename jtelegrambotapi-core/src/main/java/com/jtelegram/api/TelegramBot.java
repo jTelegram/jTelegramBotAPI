@@ -10,6 +10,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import okhttp3.Request;
+import okhttp3.Response;
 import okhttp3.ResponseBody;
 
 import java.io.IOException;
@@ -45,13 +46,28 @@ public class TelegramBot {
     }
 
     public InputStream downloadFile(String filePath) throws IOException {
-        ResponseBody body = registry.getClient().newCall(
+        Response response = registry.getClient().newCall(
                 new Request.Builder()
                         .url(registry.getFileApiUrl() + apiKey + "/" + filePath)
                         .get()
                         .build()
-        ).execute().body();
+        ).execute();
 
-        return body == null ? null : body.byteStream();
+        ResponseBody body = response.body();
+        if (body == null) {
+            response.close();
+            return null;
+        }
+
+        return body.byteStream();
+    }
+
+    /**
+     * Shuts down this bot, stopping all background threads and releasing resources.
+     * This should be called when the bot is no longer needed to prevent resource leaks.
+     */
+    public void shutdown() {
+        requestQueue.shutdown();
+        eventRegistry.shutdown();
     }
 }

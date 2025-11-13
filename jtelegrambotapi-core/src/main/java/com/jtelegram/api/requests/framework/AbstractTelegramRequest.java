@@ -39,11 +39,10 @@ public abstract class AbstractTelegramRequest implements TelegramRequest {
     }
 
     protected JsonElement validate(String response) {
-        JsonParser parser = new JsonParser();
         JsonElement jsonResponse;
 
         try {
-            jsonResponse = parser.parse(response);
+            jsonResponse = JsonParser.parseString(response);
         } catch (JsonSyntaxException ex) {
             handleError(new InvalidResponseException(
                     "JSON Syntax Error: " + ex.getMessage(),

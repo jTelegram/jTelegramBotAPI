@@ -40,9 +40,9 @@ public class PollingUpdateRunnable implements Runnable {
                     .build();
 
             try {
-                Response response = bot.getRegistry().getClient().newCall(request.build(bot).build()).execute();
-
-                request.handleResponse(response);
+                try (Response response = bot.getRegistry().getClient().newCall(request.build(bot).build()).execute()) {
+                    request.handleResponse(response);
+                }
             } catch (IOException e) {
                 request.handleException(e);
             }

@@ -45,9 +45,9 @@ public class BotRequestQueue extends Thread {
 
             try {
                 Request httpRequest = request.getRequest().build(request.getBot()).build();
-                Response response = client.newCall(httpRequest).execute();
-
-                request.getRequest().handleResponse(response);
+                try (Response response = client.newCall(httpRequest).execute()) {
+                    request.getRequest().handleResponse(response);
+                }
             } catch (IOException ex) {
                 request.getRequest().handleException(ex);
             }
@@ -58,5 +58,12 @@ public class BotRequestQueue extends Thread {
                 return;
             }
         }
+    }
+
+    /**
+     * Shuts down the request queue thread gracefully
+     */
+    public void shutdown() {
+        interrupt();
     }
 }
